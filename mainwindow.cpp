@@ -3,18 +3,22 @@
 #include <QPixmap>
 #include <QDebug>
 #include <QFileDialog>
+#include <QLabel>
+#include <QSpacerItem>
+#include <QStringList>
+#include <QPixmapCache>
+
+
+int spacing = 25;
+QLabel *ImgLabel[50];
+int ImageCount=0;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    ui->label_Picviewer->setScaledContents( true );
-    ui->label_Picviewer->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-
-
-
 }
 
 MainWindow::~MainWindow()
@@ -25,11 +29,85 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::on_actionImporter_triggered()
+//Importation des images dans le logiciel
+// label_PicViewer = label du viewer
+// Layout_Explorer = label généré par le nb d'image
+// LabelExpl_img = label modèle
 {
-   QString  fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)"));
+   on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
 
-   qDebug() << fileName;
-   QPixmap test(fileName);
-   ui->label_Picviewer->setPixmap(test);
+   QStringList  fileNames = QFileDialog::getOpenFileNames(this,
+        tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)")); // sélection des images
+
+   ImageCount = fileNames.count(); //On veut savoir le nombre d'images présentes
+   if(ImageCount <= 0) return;
+
+   QLabel *LPics[ImageCount]; // création du tableau contenant les labels pour les images de 0+1 à i
+
+   // chargement de l'image dans le Viewer
+   int w = ui->label_Picviewer->width();
+   int h = ui->label_Picviewer->height();
+   QPixmap Picviewer(fileNames.at(0));
+   QPixmap PicI;
+   ui->label_Picviewer->setPixmap(Picviewer.scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
+   ui->label_Picviewer->setAlignment(Qt::AlignCenter); // centre l'image dans le label
+
+   for(int i = 0; i<ImageCount ; i++){
+
+       if(i>0){ // si c'est la ième image, on la met dans un lael généré dans le tableau
+           //ième image
+
+           //Copie des paramètres du modèle
+           LPics[i] = new QLabel(this);
+           LPics[i]->setMaximumSize(ui->LabelExpl_img->maximumSize());
+           LPics[i]->setMinimumSize(ui->LabelExpl_img->minimumSize());
+           LPics[i]->setSizePolicy(ui->LabelExpl_img->sizePolicy());
+
+           // chargement de l'image dans un label de l'exploreur
+           int wi = LPics[i]->width();
+           int hi = LPics[i]->height();
+           PicI.load(fileNames.at(i));
+           LPics[i]->setPixmap(PicI.scaled(wi,hi, Qt::KeepAspectRatio));
+           LPics[i]->setAlignment(Qt::AlignCenter);
+
+           ui->Layout_Explorer->addSpacing(spacing); // séparateur
+
+           ImgLabel[i-1] = LPics[i]; // copie de l'adresse du label dans la variable globale
+                                     //(indispensable pour la suppression)
+           ui->Layout_Explorer->addWidget(LPics[i], Qt::AlignLeft);  // ajout du label dans le layout
+       }
+       else if (i==0){ //Si c'est la première image, on la met dans le laben "modèle" des autres
+           ui->Layout_Explorer->setAlignment(Qt::AlignLeft);
+           int wi = ui->LabelExpl_img->width();
+           int hi = ui->LabelExpl_img->height();
+           QPixmap PicI(fileNames.at(i));
+           ui->LabelExpl_img->setPixmap(PicI.scaled(wi,hi, Qt::KeepAspectRatio));
+           ui->LabelExpl_img->setAlignment(Qt::AlignCenter);
+       }
+   }
+
+}
+
+
+
+void MainWindow::on_actionTout_supprimer_triggered()
+// Suppression de toutes les images (viewer et explorateur)
+{
+    if(ImageCount < 1){
+        return;
+    }
+    int tailleImgLabel = sizeof(ImgLabel)/sizeof(ImgLabel[0]);
+    ui->LabelExpl_img->setPixmap(QPixmap());
+    ui->label_Picviewer->setPixmap(QPixmap());
+
+    for(int i=0; i<ImageCount-1;i++)
+        ImgLabel[i]->setPixmap(QPixmap());
+
+    while(ui->Layout_Explorer->count()>1)
+        ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
+
+    for(int i = 0; i<tailleImgLabel;i++)
+        ImgLabel[i] = 0;
+
+    ImageCount = 0;
 }
