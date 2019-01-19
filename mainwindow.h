@@ -2,24 +2,21 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ui_mainwindow.h"
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT
 
+private:
+    void enableIfPic(bool enable = true);
+
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
 
 private slots:
     void on_actionImporter_triggered();
-
-private:
-    Ui::MainWindow *ui;
+    void on_actionRedimensionner_triggered();
 };
 
 #endif // MAINWINDOW_H
