@@ -87,8 +87,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1108</width>
-         <height>108</height>
+         <width>1102</width>
+         <height>109</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -174,7 +174,7 @@
      <x>0</x>
      <y>0</y>
      <width>1220</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -189,6 +189,7 @@
      <string>Image</string>
     </property>
     <addaction name="actionRedimensionner"/>
+    <addaction name="actionRogner"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuImage"/>
@@ -214,7 +215,12 @@
   </action>
   <action name="actionRedimensionner">
    <property name="text">
-    <string>Redimensionner</string>
+    <string>Redimensionner...</string>
+   </property>
+  </action>
+  <action name="actionRogner">
+   <property name="text">
+    <string>Rogner...</string>
    </property>
   </action>
  </widget>

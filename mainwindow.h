@@ -20,6 +20,7 @@ private slots:
     void on_actionImporter_triggered();
     void on_actionTout_supprimer_triggered();
     void on_actionRedimensionner_triggered();
+    void on_actionRogner_triggered();
 
 private:
     void enableIfPic(bool enable = true);

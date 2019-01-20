@@ -35,7 +35,8 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui \
-    resize.ui
+    resize.ui \
+    clip.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

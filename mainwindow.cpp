@@ -47,6 +47,11 @@ void MainWindow::on_actionRedimensionner_triggered()
     qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
 }
 
+void MainWindow::on_actionRogner_triggered()
+{
+    qDebug() << __FUNCTION__ << "is ok ;)";
+}
+
 void MainWindow::enableIfPic(bool enable)
 {
     ui->actionRedimensionner->setEnabled(enable);
