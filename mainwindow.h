@@ -18,10 +18,11 @@ public:
 
 private slots:
     void on_actionImporter_triggered();
-
     void on_actionTout_supprimer_triggered();
+    void on_actionRedimensionner_triggered();
 
 private:
+    void enableIfPic(bool enable = true);
     Ui::MainWindow *ui;
 };
 

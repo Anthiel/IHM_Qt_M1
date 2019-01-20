@@ -184,7 +184,14 @@
     <addaction name="actionImporter"/>
     <addaction name="actionTout_supprimer"/>
    </widget>
+   <widget class="QMenu" name="menuImage">
+    <property name="title">
+     <string>Image</string>
+    </property>
+    <addaction name="actionRedimensionner"/>
+   </widget>
    <addaction name="menuFichier"/>
+   <addaction name="menuImage"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -203,6 +210,11 @@
   <action name="actionTout_supprimer">
    <property name="text">
     <string>Tout supprimer</string>
+   </property>
+  </action>
+  <action name="actionRedimensionner">
+   <property name="text">
+    <string>Redimensionner</string>
    </property>
   </action>
  </widget>

@@ -7,6 +7,7 @@
 #include <QSpacerItem>
 #include <QStringList>
 #include <QPixmapCache>
+#include "resize.h"
 
 
 int spacing = 25;
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    enableIfPic(false);
 }
 
 MainWindow::~MainWindow()
@@ -26,6 +28,29 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::on_actionRedimensionner_triggered()
+{
+    qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+    int largeur = ui->label_Picviewer->pixmap()->size().rwidth(),
+        hauteur = ui->label_Picviewer->pixmap()->size().rheight();
+    Resize w_resize;
+    w_resize.setLargeur(largeur);
+    w_resize.setHauteur(hauteur);
+    if (w_resize.exec())
+    {
+        largeur = w_resize.getLargeur();
+        hauteur = w_resize.getHauteur();
+        ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->scaled(largeur,hauteur));
+    }
+
+    qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+}
+
+void MainWindow::enableIfPic(bool enable)
+{
+    ui->actionRedimensionner->setEnabled(enable);
+}
 
 
 void MainWindow::on_actionImporter_triggered()
@@ -85,6 +110,7 @@ void MainWindow::on_actionImporter_triggered()
            ui->LabelExpl_img->setAlignment(Qt::AlignCenter);
        }
    }
+   enableIfPic();
 
 }
 
@@ -110,4 +136,5 @@ void MainWindow::on_actionTout_supprimer_triggered()
         ImgLabel[i] = 0;
 
     ImageCount = 0;
+    enableIfPic(false);
 }
