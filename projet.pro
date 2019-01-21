@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    resize.cpp
+    resize.cpp \
+    clip.cpp
 
 HEADERS += \
         mainwindow.h \
-    resize.h
+    resize.h \
+    clip.h
 
 FORMS += \
         mainwindow.ui \
