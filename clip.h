@@ -1,9 +1,9 @@
 #ifndef CLIP_H
 #define CLIP_H
-
+#include <QDebug>
 #include "ui_clip.h"
 
-class clip : public QDialog, private Ui::Resize
+class Clip : public QDialog, private Ui::Clip
 {
     Q_OBJECT
 
@@ -14,10 +14,11 @@ private:
     int yf;
     int largeur;
     int hauteur;
-    bool ratio = false;
+    int maxlargeur;
+    int maxhauteur;
 
 public:
-    explicit clip(QWidget *parent = nullptr);
+    explicit Clip(QWidget *parent = nullptr);
     inline int  getLargeur() const {return largeur;}
     inline int  getHauteur() const {return hauteur;}
     inline int  getX0() const {return x0;}
@@ -28,6 +29,10 @@ public:
 private slots:
     void changeLargeur(int l);
     void changeHauteur(int h);
+    void changeX0(int x0);
+    void changeY0(int y0);
+    void changeXf(int xf);
+    void changeYf(int yf);
 };
 
 #endif // CLIP_H

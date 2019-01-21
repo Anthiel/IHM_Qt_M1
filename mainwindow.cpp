@@ -8,7 +8,7 @@
 #include <QStringList>
 #include <QPixmapCache>
 #include "resize.h"
-
+#include "clip.h"
 
 int spacing = 25;
 QLabel *ImgLabel[50];
@@ -52,15 +52,25 @@ void MainWindow::on_actionRogner_triggered()
     qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
     int largeur = ui->label_Picviewer->pixmap()->size().rwidth(),
         hauteur = ui->label_Picviewer->pixmap()->size().rheight();
+    Clip w_clip;
+    w_clip.setLargeur(largeur);
+    w_clip.setHauteur(hauteur);
+    if (w_clip.exec()){
+        largeur = w_clip.getLargeur();
+        hauteur = w_clip.getHauteur();
+        int x0=w_clip.getX0();
+        int y0=w_clip.getY0();
+        qDebug() << __FUNCTION__ << "hello" <<x0 << y0<<largeur<<hauteur;
+        ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->copy(x0,y0,largeur,hauteur));
+    }
 
-
-    ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->copy(10,10,largeur-20,hauteur-20));
     qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
 }
 
 void MainWindow::enableIfPic(bool enable)
 {
     ui->actionRedimensionner->setEnabled(enable);
+    ui->actionRogner->setEnabled(enable);
 }
 
 
