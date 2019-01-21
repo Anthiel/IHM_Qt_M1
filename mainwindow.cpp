@@ -49,7 +49,13 @@ void MainWindow::on_actionRedimensionner_triggered()
 
 void MainWindow::on_actionRogner_triggered()
 {
-    qDebug() << __FUNCTION__ << "is ok ;)";
+    qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+    int largeur = ui->label_Picviewer->pixmap()->size().rwidth(),
+        hauteur = ui->label_Picviewer->pixmap()->size().rheight();
+
+
+    ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->copy(10,10,largeur-20,hauteur-20));
+    qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
 }
 
 void MainWindow::enableIfPic(bool enable)
