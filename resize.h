@@ -20,8 +20,8 @@ public:
     void setHauteur(int _hauteur);
 
 private slots:
-    void changeLargeur(int l);
-    void changeHauteur(int h);  
+    void changeLargeur();
+    void changeHauteur();
 };
 
 #endif // RESIZE_H
