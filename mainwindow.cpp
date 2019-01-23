@@ -44,6 +44,7 @@ void MainWindow::on_actionRedimensionner_triggered()
         ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->scaled(largeur,hauteur));
     }
 
+    ui->label_Picviewer->setFixedSize(largeur,hauteur);
     qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
 }
 
@@ -64,6 +65,7 @@ void MainWindow::on_actionRogner_triggered()
         ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->copy(x0,y0,largeur,hauteur));
     }
 
+    ui->label_Picviewer->setFixedSize(largeur,hauteur);
     qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
 }
 
