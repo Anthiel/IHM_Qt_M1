@@ -23,6 +23,8 @@ public:
     inline int  getHauteur() const {return hauteur;}
     inline int  getX0() const {return x0;}
     inline int  getY0() const {return y0;}
+    inline int  getXf() const {return xf;}
+    inline int  getYf() const {return yf;}
     void setLargeur(int _largeur);
     void setHauteur(int _hauteur);
 

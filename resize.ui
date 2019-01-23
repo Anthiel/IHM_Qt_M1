@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Redimensionner</string>
   </property>
   <widget class="QLabel" name="_tLabel">
    <property name="geometry">
@@ -114,6 +114,11 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>_ratio</tabstop>
+  <tabstop>_lInput</tabstop>
+  <tabstop>_hInput</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
