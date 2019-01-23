@@ -90,11 +90,13 @@ void MainWindow::on_actionImporter_triggered()
 
    QLabel *LPics[ImageCount]; // création du tableau contenant les labels pour les images de 0+1 à i
 
+
    // chargement de l'image dans le Viewer
-   int w = ui->label_Picviewer->width();
-   int h = ui->label_Picviewer->height();
    QPixmap Picviewer(fileNames.at(0));
-   QPixmap PicI;
+   QPixmap PicI(fileNames.at(0));
+   int w = PicI.width();
+   int h = PicI.height();
+   ui->label_Picviewer->setFixedSize(w,h);
    ui->label_Picviewer->setPixmap(Picviewer.scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
    ui->label_Picviewer->setAlignment(Qt::AlignCenter); // centre l'image dans le label
 
