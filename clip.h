@@ -29,12 +29,12 @@ public:
     void setHauteur(int _hauteur);
 
 private slots:
-    void changeLargeur(int l);
-    void changeHauteur(int h);
-    void changeX0(int x0);
-    void changeY0(int y0);
-    void changeXf(int xf);
-    void changeYf(int yf);
+    void changeLargeur();
+    void changeHauteur();
+    void changeX0();
+    void changeY0();
+    void changeXf();
+    void changeYf();
 };
 
 #endif // CLIP_H
