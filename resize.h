@@ -10,6 +10,8 @@ class Resize : public QDialog, private Ui::Resize
 private:
     int largeur;
     int hauteur;
+    int ratio_l;
+    int ratio_h;
     bool ratio = false;
 
 public:
@@ -22,6 +24,7 @@ public:
 private slots:
     void changeLargeur();
     void changeHauteur();
+    void calculRatio();
 };
 
 #endif // RESIZE_H
