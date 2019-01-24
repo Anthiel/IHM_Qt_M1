@@ -10,9 +10,10 @@
 #include "resize.h"
 #include "clip.h"
 
-int spacing = 25;
-QLabel *ImgLabel[50];
-int ImageCount=0;
+static int spacing = 25;
+static QLabelExplorer *ImgLabel[50];
+static int ImageCount=0;
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -75,6 +76,27 @@ void MainWindow::enableIfPic(bool enable)
     ui->actionRogner->setEnabled(enable);
 }
 
+void MainWindow::SetMainPicture(QString pic, QLabel *label){
+    int w = label->width();
+    int h = label->height();
+    QPixmap Picviewer(pic);
+    label->setPixmap(Picviewer.scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
+    label->setAlignment(Qt::AlignCenter); // centre l'image dans le label
+
+}
+
+void MainWindow::SetMainPicture(const QPixmap *pixmap, QLabel *label){
+    int w = label->width();
+    int h = label->height();
+    label->setPixmap(pixmap->scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
+    label->setAlignment(Qt::AlignCenter); // centre l'image dans le label
+}
+
+void MainWindow::GetLabelClick(){
+
+    QLabelExplorer *ctrl = qobject_cast<QLabelExplorer *>(sender());
+    SetMainPicture(ctrl->getUrlImage(),  ui->label_Picviewer);
+}
 
 void MainWindow::on_actionImporter_triggered()
 //Importation des images dans le logiciel
@@ -90,25 +112,25 @@ void MainWindow::on_actionImporter_triggered()
    ImageCount = fileNames.count(); //On veut savoir le nombre d'images présentes
    if(ImageCount <= 0) return;
 
-   QLabel *LPics[ImageCount]; // création du tableau contenant les labels pour les images de 0+1 à i
-
+   QLabelExplorer **LPics  = new QLabelExplorer*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
 
    // chargement de l'image dans le Viewer
-   QPixmap Picviewer(fileNames.at(0));
-   QPixmap PicI(fileNames.at(0));
-   int w = PicI.width();
-   int h = PicI.height();
-   ui->label_Picviewer->setFixedSize(w,h);
-   ui->label_Picviewer->setPixmap(Picviewer.scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
-   ui->label_Picviewer->setAlignment(Qt::AlignCenter); // centre l'image dans le label
+   SetMainPicture(fileNames.at(0),  ui->label_Picviewer);
+
+   QPixmap PicI;
+
 
    for(int i = 0; i<ImageCount ; i++){
 
-       if(i>0){ // si c'est la ième image, on la met dans un lael généré dans le tableau
+       if(i>0){ // si c'est la ième image, on la met dans un label généré dans le tableau
            //ième image
 
            //Copie des paramètres du modèle
-           LPics[i] = new QLabel(this);
+           LPics[i] = new QLabelExplorer(this);
+
+           connect(LPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
+
+           LPics[i]->setUrlImage(fileNames.at(i));
            LPics[i]->setMaximumSize(ui->LabelExpl_img->maximumSize());
            LPics[i]->setMinimumSize(ui->LabelExpl_img->minimumSize());
            LPics[i]->setSizePolicy(ui->LabelExpl_img->sizePolicy());
@@ -128,17 +150,20 @@ void MainWindow::on_actionImporter_triggered()
        }
        else if (i==0){ //Si c'est la première image, on la met dans le laben "modèle" des autres
            ui->Layout_Explorer->setAlignment(Qt::AlignLeft);
+           connect(ui->LabelExpl_img, SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
            int wi = ui->LabelExpl_img->width();
            int hi = ui->LabelExpl_img->height();
            QPixmap PicI(fileNames.at(i));
+           ui->LabelExpl_img->setUrlImage(fileNames.at(i));
            ui->LabelExpl_img->setPixmap(PicI.scaled(wi,hi, Qt::KeepAspectRatio));
            ui->LabelExpl_img->setAlignment(Qt::AlignCenter);
        }
    }
    enableIfPic();
 
+   delete [] LPics;
+   LPics = nullptr;
 }
-
 
 
 void MainWindow::on_actionTout_supprimer_triggered()
