@@ -87,15 +87,15 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1108</width>
-         <height>108</height>
+         <width>1102</width>
+         <height>109</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="Layout_Explorer">
           <item>
-           <widget class="QLabel" name="LabelExpl_img">
+           <widget class="QLabelExplorer" name="LabelExpl_img">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -174,7 +174,7 @@
      <x>0</x>
      <y>0</y>
      <width>1220</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -184,7 +184,15 @@
     <addaction name="actionImporter"/>
     <addaction name="actionTout_supprimer"/>
    </widget>
+   <widget class="QMenu" name="menuImage">
+    <property name="title">
+     <string>Image</string>
+    </property>
+    <addaction name="actionRedimensionner"/>
+    <addaction name="actionRogner"/>
+   </widget>
    <addaction name="menuFichier"/>
+   <addaction name="menuImage"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -205,8 +213,25 @@
     <string>Tout supprimer</string>
    </property>
   </action>
+  <action name="actionRedimensionner">
+   <property name="text">
+    <string>Redimensionner...</string>
+   </property>
+  </action>
+  <action name="actionRogner">
+   <property name="text">
+    <string>Rogner...</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QLabelExplorer</class>
+   <extends>QLabel</extends>
+   <header>qlabelexplorer.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

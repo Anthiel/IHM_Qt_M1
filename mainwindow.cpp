@@ -7,11 +7,14 @@
 #include <QSpacerItem>
 #include <QStringList>
 #include <QPixmapCache>
+#include "resize.h"
+#include "clip.h"
+#include <QMouseEvent>
 
+static int spacing = 25;
+static QLabelExplorer *ImgLabel[50];
+static int ImageCount=0;
 
-int spacing = 25;
-QLabel *ImgLabel[50];
-int ImageCount=0;
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -19,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    enableIfPic(false);
 }
 
 MainWindow::~MainWindow()
@@ -27,6 +31,71 @@ MainWindow::~MainWindow()
 }
 
 
+void MainWindow::on_actionRedimensionner_triggered()
+{
+    qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+    int largeur = ui->label_Picviewer->pixmap()->size().rwidth(),
+        hauteur = ui->label_Picviewer->pixmap()->size().rheight();
+    Resize w_resize;
+    w_resize.setLargeur(largeur);
+    w_resize.setHauteur(hauteur);
+    if (w_resize.exec())
+    {
+        largeur = w_resize.getLargeur();
+        hauteur = w_resize.getHauteur();
+        ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->scaled(largeur,hauteur));
+    }
+
+    qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+}
+
+void MainWindow::on_actionRogner_triggered()
+{
+    qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+    int largeur = ui->label_Picviewer->pixmap()->size().rwidth(),
+        hauteur = ui->label_Picviewer->pixmap()->size().rheight();
+    Clip w_clip;
+    w_clip.setLargeur(largeur);
+    w_clip.setHauteur(hauteur);
+    if (w_clip.exec()){
+        largeur = w_clip.getLargeur();
+        hauteur = w_clip.getHauteur();
+        int x0=w_clip.getX0();
+        int y0=w_clip.getY0();
+        qDebug() << __FUNCTION__ << "hello" <<x0 << y0<<largeur<<hauteur;
+        ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->copy(x0,y0,largeur,hauteur));
+    }
+
+    qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+}
+
+void MainWindow::enableIfPic(bool enable)
+{
+    ui->actionRedimensionner->setEnabled(enable);
+    ui->actionRogner->setEnabled(enable);
+}
+
+void MainWindow::SetMainPicture(QString pic, QLabel *label){
+    int w = label->width();
+    int h = label->height();
+    QPixmap Picviewer(pic);
+    label->setPixmap(Picviewer.scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
+    label->setAlignment(Qt::AlignCenter); // centre l'image dans le label
+
+}
+
+void MainWindow::SetMainPicture(const QPixmap *pixmap, QLabel *label){
+    int w = label->width();
+    int h = label->height();
+    label->setPixmap(pixmap->scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
+    label->setAlignment(Qt::AlignCenter); // centre l'image dans le label
+}
+
+void MainWindow::GetLabelClick(){
+
+    QLabelExplorer *ctrl = qobject_cast<QLabelExplorer *>(sender());
+    SetMainPicture(ctrl->getUrlImage(),  ui->label_Picviewer);
+}
 
 void MainWindow::on_actionImporter_triggered()
 //Importation des images dans le logiciel
@@ -42,23 +111,25 @@ void MainWindow::on_actionImporter_triggered()
    ImageCount = fileNames.count(); //On veut savoir le nombre d'images présentes
    if(ImageCount <= 0) return;
 
-   QLabel *LPics[ImageCount]; // création du tableau contenant les labels pour les images de 0+1 à i
+   QLabelExplorer **LPics  = new QLabelExplorer*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
 
    // chargement de l'image dans le Viewer
-   int w = ui->label_Picviewer->width();
-   int h = ui->label_Picviewer->height();
-   QPixmap Picviewer(fileNames.at(0));
+   SetMainPicture(fileNames.at(0),  ui->label_Picviewer);
+
    QPixmap PicI;
-   ui->label_Picviewer->setPixmap(Picviewer.scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
-   ui->label_Picviewer->setAlignment(Qt::AlignCenter); // centre l'image dans le label
+
 
    for(int i = 0; i<ImageCount ; i++){
 
-       if(i>0){ // si c'est la ième image, on la met dans un lael généré dans le tableau
+       if(i>0){ // si c'est la ième image, on la met dans un label généré dans le tableau
            //ième image
 
            //Copie des paramètres du modèle
-           LPics[i] = new QLabel(this);
+           LPics[i] = new QLabelExplorer(this);
+
+           connect(LPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
+
+           LPics[i]->setUrlImage(fileNames.at(i));
            LPics[i]->setMaximumSize(ui->LabelExpl_img->maximumSize());
            LPics[i]->setMinimumSize(ui->LabelExpl_img->minimumSize());
            LPics[i]->setSizePolicy(ui->LabelExpl_img->sizePolicy());
@@ -81,11 +152,15 @@ void MainWindow::on_actionImporter_triggered()
            int wi = ui->LabelExpl_img->width();
            int hi = ui->LabelExpl_img->height();
            QPixmap PicI(fileNames.at(i));
+           ui->LabelExpl_img->setUrlImage(fileNames.at(i));
            ui->LabelExpl_img->setPixmap(PicI.scaled(wi,hi, Qt::KeepAspectRatio));
            ui->LabelExpl_img->setAlignment(Qt::AlignCenter);
        }
    }
+   enableIfPic();
 
+   delete [] LPics;
+   LPics = nullptr;
 }
 
 
@@ -107,7 +182,8 @@ void MainWindow::on_actionTout_supprimer_triggered()
         ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
 
     for(int i = 0; i<tailleImgLabel;i++)
-        ImgLabel[i] = 0;
+        ImgLabel[i] = nullptr;
 
     ImageCount = 0;
+    enableIfPic(false);
 }

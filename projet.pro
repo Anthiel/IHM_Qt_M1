@@ -26,13 +26,21 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    resize.cpp \
+    clip.cpp \
+    qlabelexplorer.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    resize.h \
+    clip.h \
+    qlabelexplorer.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    resize.ui \
+    clip.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
