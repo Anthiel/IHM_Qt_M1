@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
+    ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 }
 
@@ -141,7 +143,7 @@ void MainWindow::on_actionImporter_triggered()
 // Layout_Explorer = label généré par le nb d'image
 // LabelExpl_img = label modèle
 {
-    on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
+    //on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
 
     QStringList  fileNames = QFileDialog::getOpenFileNames(this,
          tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)")); // sélection des images
@@ -169,6 +171,7 @@ void MainWindow::on_actionImporter_triggered()
 
     QGraphicsViewCustom **LPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
     // chargement de l'image dans le Viewer
+
     SetMainPicture(&sceneTab[0], ui->PixFrame);
 
     QPixmap PicI;
@@ -178,6 +181,7 @@ void MainWindow::on_actionImporter_triggered()
     for(int i = 0; i<ImageCount ; i++){
         if(i>0){ // si c'est la ième image, Copie des paramètres du modèle
              LPics[i] = new QGraphicsViewCustom(ui->GraphicModeleExplorer);
+             LPics[i]->setStyleSheet("background: transparent; border: 0px");
              LPics[i]->setMaximumSize(ui->GraphicModeleExplorer->maximumSize());
              LPics[i]->setMinimumSize(ui->GraphicModeleExplorer->minimumSize());
              LPics[i]->setSizePolicy(ui->GraphicModeleExplorer->sizePolicy());
@@ -190,15 +194,11 @@ void MainWindow::on_actionImporter_triggered()
         if(i>0) ui->Layout_Explorer->addWidget(LPics[i], Qt::AlignLeft);  // ajout du label dans le layout
         LPics[i]->setScene(&sceneTab[i]);
 
-    }
-
-    for(int i = 0; i<ImageCount ; i++){
         // chargement de l'image dans un label de l'exploreur
         LPics[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
         LPics[i]->setID(i);
         LPics[i]->setAlignment(Qt::AlignCenter);
     }
-
     enableIfPic();
     delete [] LPics;
     LPics = nullptr;
@@ -208,24 +208,24 @@ void MainWindow::on_actionImporter_triggered()
 
 void MainWindow::on_actionTout_supprimer_triggered()
 // Suppression de toutes les images (viewer et explorateur)
-{/*
-    if(ImageCount < 1){
-        return;
+{
+    qDebug() << ImageCount;
+    if(ImageCount < 1)
+        return;    
+
+    for(int i=0; i<ImageCount;i++){
+        sceneTab[i].clear();
+        PixmapTab[i] = QPixmap();
     }
-    int tailleImgLabel = sizeof(ImgLabel)/sizeof(ImgLabel[0]);
-    ui->LabelExpl_img->setPixmap(QPixmap());
-    //scene->addPixmap(QPixmap());
-     //PixFrame->setScene(QGraphicsScene());
 
-    for(int i=0; i<ImageCount-1;i++)
-        ImgLabel[i]->addPixmap(QPixmap());
-
-    while(ui->Layout_Explorer->count()>1)
+    while(ui->Layout_Explorer->count()>1){
+        qDebug() << ui->Layout_Explorer->itemAt(1)->widget();
         ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
-
-    for(int i = 0; i<tailleImgLabel;i++)
-        ImgLabel[i] = 0;
+    }
+    for(int i = 0; i<ImageCount;i++)
+        ImgLabel[i] = nullptr;
 
     ImageCount = 0;
-    enableIfPic(false);*/
+    sceneInit = 0;
+    enableIfPic(false);
 }

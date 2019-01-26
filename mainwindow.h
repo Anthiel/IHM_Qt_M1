@@ -24,6 +24,7 @@ public:
     int sceneInit = 0; // 0 non init / 1 init
     QGraphicsScene *sceneTab;
     QPixmap *PixmapTab;
+    QGraphicsProxyWidget *proxyPixmapTab;
     QGraphicsView* view;
 
 
