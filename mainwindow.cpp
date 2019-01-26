@@ -146,7 +146,7 @@ void MainWindow::on_actionImporter_triggered()
 // Layout_Explorer = label généré par le nb d'image
 // LabelExpl_img = label modèle
 {
-    //on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
+    on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
 
     QStringList  fileNames = QFileDialog::getOpenFileNames(this,
          tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)")); // sélection des images
