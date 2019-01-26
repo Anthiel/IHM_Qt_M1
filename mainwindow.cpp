@@ -38,10 +38,11 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::on_actionRedimensionner_triggered()
-{/*
-    qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
-    int largeur = ui->PixFrame->scene->size().rwidth(),
-        hauteur = ui->label_Picviewer->pixmap()->size().rheight();
+{
+    int IDpix = ui->PixFrame->getID();
+    qDebug() << __FUNCTION__ << "Old size" << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
+    int largeur = PixmapTab[IDpix].size().rwidth(),
+        hauteur = PixmapTab[IDpix].size().rheight();
     Resize w_resize;
     w_resize.setLargeur(largeur);
     w_resize.setHauteur(hauteur);
@@ -49,12 +50,15 @@ void MainWindow::on_actionRedimensionner_triggered()
     {
         largeur = w_resize.getLargeur();
         hauteur = w_resize.getHauteur();
-        ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->scaled(largeur,hauteur));
+        sceneTab[IDpix].clear();
+        sceneTab[IDpix].addPixmap(PixmapTab[IDpix].scaled(largeur,hauteur));
+        PixmapTab[IDpix] = PixmapTab[IDpix].scaled(largeur,hauteur);
     }
 
-    ui->label_Picviewer->setFixedSize(largeur,hauteur);
-    qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
-*/}
+    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
+}
 
 void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenetre change
 {
@@ -69,7 +73,6 @@ void MainWindow::showEvent(QShowEvent *) {}
 
 void MainWindow::on_actionRogner_triggered()
 {
-    qDebug() << ui->PixFrame->getID();
     int IDpix = ui->PixFrame->getID();
     qDebug() << __FUNCTION__ << "Old size"  << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
 
@@ -90,9 +93,7 @@ void MainWindow::on_actionRogner_triggered()
     }
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-    //ui->PixFrame->setFixedSize(largeur,hauteur);
     qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
-
 }
 
 void MainWindow::enableIfPic(bool enable)
