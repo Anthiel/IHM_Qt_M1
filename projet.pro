@@ -29,13 +29,15 @@ SOURCES += \
         mainwindow.cpp \
         resize.cpp \
         clip.cpp\
-        qlabelexplorer.cpp
+        qlabelexplorer.cpp \
+        qGraphicsViewCustom.cpp
 
 HEADERS += \
         mainwindow.h \
         resize.h \
         clip.h\
-        qlabelexplorer.h
+        qlabelexplorer.h \
+        qGraphicsViewCustom.h
 
 FORMS += \
         mainwindow.ui \
