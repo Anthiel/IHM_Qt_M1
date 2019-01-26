@@ -68,10 +68,13 @@ void MainWindow::showEvent(QShowEvent *) {}
 
 
 void MainWindow::on_actionRogner_triggered()
-{/*
-    qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
-    int largeur = ui->label_Picviewer->pixmap()->size().rwidth(),
-        hauteur = ui->label_Picviewer->pixmap()->size().rheight();
+{
+    qDebug() << ui->PixFrame->getID();
+    int IDpix = ui->PixFrame->getID();
+    qDebug() << __FUNCTION__ << "Old size"  << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
+
+    int largeur = PixmapTab[IDpix].size().rwidth(),
+        hauteur = PixmapTab[IDpix].size().rheight();
     Clip w_clip;
     w_clip.setLargeur(largeur);
     w_clip.setHauteur(hauteur);
@@ -81,12 +84,15 @@ void MainWindow::on_actionRogner_triggered()
         int x0=w_clip.getX0();
         int y0=w_clip.getY0();
         qDebug() << __FUNCTION__ << "hello" <<x0 << y0<<largeur<<hauteur;
-        ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->copy(x0,y0,largeur,hauteur));
+        sceneTab[IDpix].clear();
+        sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
+        PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
     }
+    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    //ui->PixFrame->setFixedSize(largeur,hauteur);
+    qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
 
-    ui->label_Picviewer->setFixedSize(largeur,hauteur);
-    qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
-*/
 }
 
 void MainWindow::enableIfPic(bool enable)
@@ -99,19 +105,15 @@ void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixF
 {
     PixFrame->setScene(scene);
     PixFrame->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    PixFrame->setID(activeScene);
 }
 
-/*void MainWindow::SetMainPicture(const QPixmap *pixmap, QLabel *label){
-    int w = label->width();
-    int h = label->height();
-    label->setPixmap(pixmap->scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
-    label->setAlignment(Qt::AlignCenter); // centre l'image dans le label
-}*/
 
 void MainWindow::GetLabelClick(){
 
     QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
     activeScene = src->getID();
+    qDebug() << "activeScene :" << activeScene;
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
 
 }
@@ -219,7 +221,6 @@ void MainWindow::on_actionTout_supprimer_triggered()
     }
 
     while(ui->Layout_Explorer->count()>1){
-        qDebug() << ui->Layout_Explorer->itemAt(1)->widget();
         ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
     }
     for(int i = 0; i<ImageCount;i++)
@@ -228,4 +229,6 @@ void MainWindow::on_actionTout_supprimer_triggered()
     ImageCount = 0;
     sceneInit = 0;
     enableIfPic(false);
+    sceneTab = nullptr;
+    PixmapTab = nullptr;
 }
