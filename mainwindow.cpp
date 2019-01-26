@@ -9,10 +9,14 @@
 #include <QPixmapCache>
 #include "resize.h"
 #include "clip.h"
-#include <QMouseEvent>
+#include <QGraphicsPixmapItem>
+#include <QPainter>
+#include "qGraphicsViewCustom.h"
+#include <QResizeEvent>
+
 
 static int spacing = 25;
-static QLabelExplorer *ImgLabel[50];
+static QGraphicsViewCustom *ImgLabel[50];
 static int ImageCount=0;
 
 
@@ -32,9 +36,9 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::on_actionRedimensionner_triggered()
-{
+{/*
     qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
-    int largeur = ui->label_Picviewer->pixmap()->size().rwidth(),
+    int largeur = ui->PixFrame->scene->size().rwidth(),
         hauteur = ui->label_Picviewer->pixmap()->size().rheight();
     Resize w_resize;
     w_resize.setLargeur(largeur);
@@ -46,11 +50,23 @@ void MainWindow::on_actionRedimensionner_triggered()
         ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->scaled(largeur,hauteur));
     }
 
+    ui->label_Picviewer->setFixedSize(largeur,hauteur);
     qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+*/}
+
+void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenetre change
+{
+    if(sceneInit){
+        QMainWindow::resizeEvent(event);
+        ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
+    }
 }
 
+void MainWindow::showEvent(QShowEvent *) {}
+
+
 void MainWindow::on_actionRogner_triggered()
-{
+{/*
     qDebug() << __FUNCTION__ << "Old size"  << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
     int largeur = ui->label_Picviewer->pixmap()->size().rwidth(),
         hauteur = ui->label_Picviewer->pixmap()->size().rheight();
@@ -66,7 +82,9 @@ void MainWindow::on_actionRogner_triggered()
         ui->label_Picviewer->setPixmap(ui->label_Picviewer->pixmap()->copy(x0,y0,largeur,hauteur));
     }
 
+    ui->label_Picviewer->setFixedSize(largeur,hauteur);
     qDebug() << __FUNCTION__ << "New size" << ui->label_Picviewer->pixmap()->size().rwidth() << ui->label_Picviewer->pixmap()->size().rheight();
+*/
 }
 
 void MainWindow::enableIfPic(bool enable)
@@ -75,26 +93,46 @@ void MainWindow::enableIfPic(bool enable)
     ui->actionRogner->setEnabled(enable);
 }
 
-void MainWindow::SetMainPicture(QString pic, QLabel *label){
-    int w = label->width();
-    int h = label->height();
-    QPixmap Picviewer(pic);
-    label->setPixmap(Picviewer.scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
-    label->setAlignment(Qt::AlignCenter); // centre l'image dans le label
-
+void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixFrame)
+{
+    PixFrame->setScene(scene);
+    PixFrame->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
 }
 
-void MainWindow::SetMainPicture(const QPixmap *pixmap, QLabel *label){
+/*void MainWindow::SetMainPicture(const QPixmap *pixmap, QLabel *label){
     int w = label->width();
     int h = label->height();
     label->setPixmap(pixmap->scaled(w,h, Qt::KeepAspectRatio)); // charge l'image
     label->setAlignment(Qt::AlignCenter); // centre l'image dans le label
-}
+}*/
 
 void MainWindow::GetLabelClick(){
 
-    QLabelExplorer *ctrl = qobject_cast<QLabelExplorer *>(sender());
-    SetMainPicture(ctrl->getUrlImage(),  ui->label_Picviewer);
+    QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
+    activeScene = src->getID();
+    SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
+
+}
+
+void MainWindow::showTest(QGraphicsViewCustom ** t){
+
+}
+
+bool MainWindow::event(QEvent *event)
+{
+    if(event->type() == QEvent::Paint)
+        if(sceneInit == 1)
+            for(int i = 0; i<ImageCount ; i++)
+                 ImgLabel[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+    return QWidget::event(event);
+}
+
+void MainWindow::changeEvent(QEvent *e){
+    if(sceneInit){
+       /* for(int i = 0; i<ImageCount ; i++){
+            ImgLabel[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+        }*/
+    }
 }
 
 void MainWindow::on_actionImporter_triggered()
@@ -103,87 +141,91 @@ void MainWindow::on_actionImporter_triggered()
 // Layout_Explorer = label généré par le nb d'image
 // LabelExpl_img = label modèle
 {
-   on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
+    on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
 
-   QStringList  fileNames = QFileDialog::getOpenFileNames(this,
-        tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)")); // sélection des images
+    QStringList  fileNames = QFileDialog::getOpenFileNames(this,
+         tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)")); // sélection des images
 
-   ImageCount = fileNames.count(); //On veut savoir le nombre d'images présentes
-   if(ImageCount <= 0) return;
-
-   QLabelExplorer **LPics  = new QLabelExplorer*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
-
-   // chargement de l'image dans le Viewer
-   SetMainPicture(fileNames.at(0),  ui->label_Picviewer);
-
-   QPixmap PicI;
+    ImageCount = fileNames.count(); //On veut savoir le nombre d'images présentes
+    if(ImageCount <= 0) return;
 
 
-   for(int i = 0; i<ImageCount ; i++){
+    //initialisation des scènes
 
-       if(i>0){ // si c'est la ième image, on la met dans un label généré dans le tableau
-           //ième image
+    sceneTab = new QGraphicsScene[uint(ImageCount)];
+    PixmapTab = new QPixmap[uint(ImageCount)];
+    activeScene = 0;
 
-           //Copie des paramètres du modèle
-           LPics[i] = new QLabelExplorer(this);
+    QImage *imageObject = new QImage();
+    QPixmap image;
 
-           connect(LPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
+    for(int i=0; i<ImageCount; i++){
+        imageObject->load(fileNames.at(i));
+        image = QPixmap::fromImage(*imageObject);
+        sceneTab[i].addPixmap(image);
+        sceneTab[i].setSceneRect(image.rect());
+        PixmapTab[i] = image;
+     }
 
-           LPics[i]->setUrlImage(fileNames.at(i));
-           LPics[i]->setMaximumSize(ui->LabelExpl_img->maximumSize());
-           LPics[i]->setMinimumSize(ui->LabelExpl_img->minimumSize());
-           LPics[i]->setSizePolicy(ui->LabelExpl_img->sizePolicy());
+    QGraphicsViewCustom **LPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
+    // chargement de l'image dans le Viewer
+    SetMainPicture(&sceneTab[0], ui->PixFrame);
 
-           // chargement de l'image dans un label de l'exploreur
-           int wi = LPics[i]->width();
-           int hi = LPics[i]->height();
-           PicI.load(fileNames.at(i));
-           LPics[i]->setPixmap(PicI.scaled(wi,hi, Qt::KeepAspectRatio));
-           LPics[i]->setAlignment(Qt::AlignCenter);
+    QPixmap PicI;
+    LPics[0] = ui-> GraphicModeleExplorer;
+    ui->Layout_Explorer->setAlignment(Qt::AlignLeft);
 
-           ui->Layout_Explorer->addSpacing(spacing); // séparateur
+    for(int i = 0; i<ImageCount ; i++){
+        if(i>0){ // si c'est la ième image, Copie des paramètres du modèle
+             LPics[i] = new QGraphicsViewCustom(ui->GraphicModeleExplorer);
+             LPics[i]->setMaximumSize(ui->GraphicModeleExplorer->maximumSize());
+             LPics[i]->setMinimumSize(ui->GraphicModeleExplorer->minimumSize());
+             LPics[i]->setSizePolicy(ui->GraphicModeleExplorer->sizePolicy());
+        }
+        connect(LPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
 
-           ImgLabel[i-1] = LPics[i]; // copie de l'adresse du label dans la variable globale
-                                     //(indispensable pour la suppression)
-           ui->Layout_Explorer->addWidget(LPics[i], Qt::AlignLeft);  // ajout du label dans le layout
-       }
-       else if (i==0){ //Si c'est la première image, on la met dans le laben "modèle" des autres
-           ui->Layout_Explorer->setAlignment(Qt::AlignLeft);
-           int wi = ui->LabelExpl_img->width();
-           int hi = ui->LabelExpl_img->height();
-           QPixmap PicI(fileNames.at(i));
-           ui->LabelExpl_img->setUrlImage(fileNames.at(i));
-           ui->LabelExpl_img->setPixmap(PicI.scaled(wi,hi, Qt::KeepAspectRatio));
-           ui->LabelExpl_img->setAlignment(Qt::AlignCenter);
-       }
-   }
-   enableIfPic();
+        if(i>0)ui->Layout_Explorer->addSpacing(spacing); // séparateur
+        ImgLabel[i] = LPics[i]; // copie de l'adresse du label dans la variable globale
+                                      //(indispensable pour la suppression)
+        if(i>0) ui->Layout_Explorer->addWidget(LPics[i], Qt::AlignLeft);  // ajout du label dans le layout
+        LPics[i]->setScene(&sceneTab[i]);
 
-   delete [] LPics;
-   LPics = nullptr;
+    }
+
+    for(int i = 0; i<ImageCount ; i++){
+        // chargement de l'image dans un label de l'exploreur
+        LPics[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+        LPics[i]->setID(i);
+        LPics[i]->setAlignment(Qt::AlignCenter);
+    }
+
+    enableIfPic();
+    delete [] LPics;
+    LPics = nullptr;
+    sceneInit = 1;
 }
-
 
 
 void MainWindow::on_actionTout_supprimer_triggered()
 // Suppression de toutes les images (viewer et explorateur)
-{
+{/*
     if(ImageCount < 1){
         return;
     }
     int tailleImgLabel = sizeof(ImgLabel)/sizeof(ImgLabel[0]);
     ui->LabelExpl_img->setPixmap(QPixmap());
-    ui->label_Picviewer->setPixmap(QPixmap());
+    //scene->addPixmap(QPixmap());
+     //PixFrame->setScene(QGraphicsScene());
 
     for(int i=0; i<ImageCount-1;i++)
-        ImgLabel[i]->setPixmap(QPixmap());
+        ImgLabel[i]->addPixmap(QPixmap());
 
     while(ui->Layout_Explorer->count()>1)
         ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
 
     for(int i = 0; i<tailleImgLabel;i++)
-        ImgLabel[i] = nullptr;
+        ImgLabel[i] = 0;
 
     ImageCount = 0;
-    enableIfPic(false);
+    enableIfPic(false);*/
 }

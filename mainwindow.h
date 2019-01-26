@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QLabel>
 #include "qlabelexplorer.h"
+#include "QGraphicsViewCustom.h"
+#include <QResizeEvent>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +19,14 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public:
+    int activeScene = 0;
+    int sceneInit = 0; // 0 non init / 1 init
+    QGraphicsScene *sceneTab;
+    QPixmap *PixmapTab;
+    QGraphicsView* view;
+
+
 
 private slots:
     void on_actionImporter_triggered();
@@ -29,10 +39,13 @@ public slots :
 
 private:
     void enableIfPic(bool enable = true);
-    void SetMainPicture(QString pic, QLabel *label);
-    void SetMainPicture(const QPixmap *pixmap, QLabel *label);
-
-
+    //void SetMainPicture(const QPixmap *pixmap, QLabel *label);
+    void SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixFrame);
+    void resizeEvent(QResizeEvent* event);
+    void showEvent(QShowEvent *);
+    void changeEvent(QEvent *e);
+    bool event(QEvent *event);
+    void showTest(QGraphicsViewCustom ** t);
     Ui::MainWindow *ui;
 };
 

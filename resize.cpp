@@ -7,8 +7,9 @@ Resize::Resize(QWidget *parent) :
 {
     setupUi(this);
 
-    connect(_lInput, SIGNAL(editingFinished()), this, SLOT(changeLargeur()));
-    connect(_hInput, SIGNAL(editingFinished()), this, SLOT(changeHauteur()));
+    connect(_lInput, SIGNAL(valueChanged(int)), this, SLOT(changeLargeur()));
+    connect(_hInput, SIGNAL(valueChanged(int)), this, SLOT(changeHauteur()));
+    connect(_ratio, SIGNAL(stateChanged(int)), this, SLOT(calculRatio()));
 }
 
 void Resize::setLargeur(int _largeur)
@@ -25,25 +26,41 @@ void Resize::setHauteur(int _hauteur)
 void Resize::changeLargeur()
 {
     int l = _lInput->value();
-    if (_ratio->isChecked() && !ratio)
+    if (_ratio->isChecked() && ratio)
     {
-        ratio = true;
-        _hInput->setValue(l*_hInput->value()/largeur);
+        ratio=false;
+        _hInput->setValue((l*ratio_h)/ratio_l);
     }
-    else if (ratio)
-        ratio = false;
+    else if(!ratio)
+    {
+        ratio=true;
+    }
     largeur = l;
+    qDebug() << __FUNCTION__ << l;
 }
 
 void Resize::changeHauteur()
 {
     int h = _hInput->value();
-    if (_ratio->isChecked() && !ratio)
+    if (_ratio->isChecked() && ratio)
     {
-        ratio = true;
-        _lInput->setValue(h*_lInput->value()/hauteur);
+        ratio=false;
+        _lInput->setValue((h*ratio_l)/ratio_h);
     }
-    else if (ratio)
-        ratio = false;
+    else if(!ratio)
+    {
+        ratio=true;
+    }
     hauteur = h;
+    qDebug() << __FUNCTION__ << h;
+}
+
+void Resize::calculRatio()
+{
+    if (_ratio->isChecked())
+    {
+        ratio_h=hauteur;
+        ratio_l=largeur;
+        ratio=true;
+    }
 }

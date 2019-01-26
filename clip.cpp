@@ -6,12 +6,12 @@ Clip::Clip(QWidget *parent) :
 {
     setupUi(this);
 
-    connect(_lInput, SIGNAL(valueChanged(int)), this, SLOT(changeLargeur(int)));
-    connect(_hInput, SIGNAL(valueChanged(int)), this, SLOT(changeHauteur(int)));
-    connect(_x0Input, SIGNAL(valueChanged(int)), this, SLOT(changeX0(int)));
-    connect(_y0Input, SIGNAL(valueChanged(int)), this, SLOT(changeY0(int)));
-    connect(_xfInput, SIGNAL(valueChanged(int)), this, SLOT(changeXf(int)));
-    connect(_yfInput, SIGNAL(valueChanged(int)), this, SLOT(changeYf(int)));
+    connect(_lInput, SIGNAL(editingFinished()), this, SLOT(changeLargeur()));
+    connect(_hInput, SIGNAL(editingFinished()), this, SLOT(changeHauteur()));
+    connect(_x0Input, SIGNAL(editingFinished()), this, SLOT(changeX0()));
+    connect(_y0Input, SIGNAL(editingFinished()), this, SLOT(changeY0()));
+    connect(_xfInput, SIGNAL(editingFinished()), this, SLOT(changeXf()));
+    connect(_yfInput, SIGNAL(editingFinished()), this, SLOT(changeYf()));
 }
 
 void Clip::setLargeur(int _largeur)
@@ -23,7 +23,7 @@ void Clip::setLargeur(int _largeur)
     _lInput->setValue(largeur);
     xf=_largeur;
     _xfInput->setValue(xf);
-    qDebug() << __FUNCTION__ <<_largeur ;
+    //qDebug() << __FUNCTION__ <<_largeur ;
 }
 void Clip::setHauteur(int _hauteur)
 {
@@ -34,10 +34,11 @@ void Clip::setHauteur(int _hauteur)
     _hInput->setValue(hauteur);
     yf=_hauteur;
     _yfInput->setValue(yf);
-    qDebug() << __FUNCTION__ << _hauteur ;
+    //qDebug() << __FUNCTION__ << _hauteur ;
 }
 
-void Clip::changeLargeur(int l){
+void Clip::changeLargeur(){
+    int l=_lInput->value();
     if (l>maxlargeur-x0){
         l=maxlargeur-x0;
         _lInput->setValue(l);
@@ -49,10 +50,11 @@ void Clip::changeLargeur(int l){
     largeur=l;
     xf=x0+largeur;
     _xfInput->setValue(xf);
-    qDebug() << __FUNCTION__ << l;
+    //qDebug() << __FUNCTION__ << l;
 }
 
-void Clip::changeHauteur(int h){
+void Clip::changeHauteur(){
+    int h=_hInput->value();
     if (h>maxhauteur-y0){
         h=maxhauteur-y0;
         _hInput->setValue(h);
@@ -64,10 +66,11 @@ void Clip::changeHauteur(int h){
     hauteur=h;
     yf=y0+hauteur;
     _yfInput->setValue(yf);
-    qDebug() << __FUNCTION__ << h;
+    //qDebug() << __FUNCTION__ << h;
 }
 
-void Clip::changeX0(int x){
+void Clip::changeX0(){
+    int x=_x0Input->value();
     if(x>maxlargeur-1){
         x=maxlargeur-1;
         _x0Input->setValue(x);
@@ -83,10 +86,11 @@ void Clip::changeX0(int x){
     x0=x;
     largeur=xf-x0;
     _lInput->setValue(largeur);
-    qDebug() << __FUNCTION__ << x;
+    //qDebug() << __FUNCTION__ << x;
 }
 
-void Clip::changeY0(int y){
+void Clip::changeY0(){
+    int y=_y0Input->value();
     if(y>maxhauteur-1){
         y=maxhauteur-1;
         _y0Input->setValue(y);
@@ -102,10 +106,11 @@ void Clip::changeY0(int y){
     y0=y;
     hauteur=yf-y0;
     _hInput->setValue(hauteur);
-    qDebug() << __FUNCTION__ << y;
+    //qDebug() << __FUNCTION__ << y;
 }
 
-void Clip::changeXf(int x){
+void Clip::changeXf(){
+    int x=_xfInput->value();
     if(x>maxlargeur){
         x=maxlargeur;
         _xfInput->setValue(x);
@@ -121,10 +126,11 @@ void Clip::changeXf(int x){
     xf=x;
     largeur=xf-x0;
     _lInput->setValue(largeur);
-    qDebug() << __FUNCTION__ << x;
+    //qDebug() << __FUNCTION__ << x;
 }
 
-void Clip::changeYf(int y){
+void Clip::changeYf(){
+    int y=_yfInput->value();
     if(y>maxhauteur){
         y=maxhauteur;
         _yfInput->setValue(y);
@@ -140,5 +146,5 @@ void Clip::changeYf(int y){
     yf=y;
     hauteur=yf-y0;
     _hInput->setValue(hauteur);
-    qDebug() << __FUNCTION__ << y;
+    //qDebug() << __FUNCTION__ << y;
 }

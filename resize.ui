@@ -10,8 +10,11 @@
     <height>108</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Redimensionner</string>
   </property>
   <widget class="QLabel" name="_tLabel">
    <property name="geometry">
@@ -93,6 +96,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::TabFocus</enum>
+   </property>
    <property name="text">
     <string>Garder ratio</string>
    </property>
@@ -114,6 +120,11 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>_ratio</tabstop>
+  <tabstop>_lInput</tabstop>
+  <tabstop>_hInput</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

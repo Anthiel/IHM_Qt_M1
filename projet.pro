@@ -27,15 +27,17 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    resize.cpp \
-    clip.cpp \
-    qlabelexplorer.cpp
+        resize.cpp \
+        clip.cpp\
+        qlabelexplorer.cpp \
+        qGraphicsViewCustom.cpp
 
 HEADERS += \
         mainwindow.h \
-    resize.h \
-    clip.h \
-    qlabelexplorer.h
+        resize.h \
+        clip.h\
+        qlabelexplorer.h \
+        qGraphicsViewCustom.h
 
 FORMS += \
         mainwindow.ui \
