@@ -208,6 +208,14 @@ void MainWindow::on_actionImporter_triggered()
         ExplorerPics[i]->setID(i);
         ExplorerPics[i]->setAlignment(Qt::AlignCenter);
     }
+    /*
+    QGraphicsRectItem* item1 = new QGraphicsRectItem(0,0,400,400);
+    QPen pen(Qt::white, 10, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
+    item1->setBrush(Qt::NoBrush);
+    item1->setPen(pen);
+    sceneTab[0].addItem(item1);
+
+*/
     enableIfPic();
     delete [] ExplorerPics;
     ExplorerPics = nullptr;
@@ -258,12 +266,13 @@ void MainWindow::on_actionRotation_90_triggered()
 {
     int IDpix = ui->PixFrame->getID();
     QTransform transform;
-    transform.rotate(90);
+    transform.rotate(90+angleRotate);
     PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
     sceneTab[IDpix].clear();
     sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    angleRotate = 90 + angleRotate;
 }
 
 void MainWindow::on_actionRoation_90_triggered()
@@ -271,12 +280,13 @@ void MainWindow::on_actionRoation_90_triggered()
 {
     int IDpix = ui->PixFrame->getID();
     QTransform transform;
-    transform.rotate(-90);
+    transform.rotate(-90+angleRotate);
     PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
     sceneTab[IDpix].clear();
     sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    angleRotate = -90 + angleRotate;
 }
 
 void MainWindow::on_actionRotation_triggered()

@@ -1,5 +1,4 @@
 #include "qGraphicsViewCustom.h"
-#include <qlabel.h>
 #include <QMouseEvent>
 #include <QDebug>
 
@@ -13,6 +12,7 @@ void QGraphicsViewCustom::mousePressEvent( QMouseEvent* ev )
 {
     const QPoint p = ev->pos();
     qDebug() << "press !";
+    qDebug() << ev->x() << ev->y();
     emit mousePressed( p );
 }
 
