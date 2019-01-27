@@ -11,12 +11,18 @@ class QGraphicsViewCustom : public QGraphicsView
 private:
     int ID;
 
+public:
+    int Xbegin = 0, Ybegin = 0;
+    int Xend = 0, Yend = 0;
+
 signals:
     void mousePressed( const QPoint& );
 
 public:
     QGraphicsViewCustom(QWidget *parent);
     void mousePressEvent( QMouseEvent* ev );
+    void mouseMoveEvent( QMouseEvent* ev );
+    void mouseReleaseEvent( QMouseEvent* ev );
     void setID(int i);
     int getID();
 };

@@ -5,6 +5,7 @@
 #include <QLabel>
 #include "qGraphicsViewCustom.h"
 #include <QResizeEvent>
+#include "QGraphicsSceneCustom.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,7 +22,7 @@ public:
 public:
     int activeScene = 0;
     int sceneInit = 0; // 0 non init / 1 init
-    QGraphicsScene *sceneTab;
+    QGraphicsSceneCustom *sceneTab;
     QPixmap *PixmapTab;
     QGraphicsProxyWidget *proxyPixmapTab;
     QGraphicsView* view;
@@ -29,6 +30,8 @@ public:
     int spacing = 25;
     QGraphicsViewCustom *ExplorerGraphicsView[200];
     int ImageCount=0;
+    bool rognageWindowOpen = false;
+    QGraphicsRectItem* itemRognage;
 
 
 
@@ -48,12 +51,13 @@ private slots:
     void on_actionRotation_triggered();
 
 public slots :
-    void GetLabelClick();
+    void GetExplorerClick();
+    void RognageClick();
 
 private:
     void enableIfPic(bool enable = true);
     //void SetMainPicture(const QPixmap *pixmap, QLabel *label);
-    void SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixFrame);
+    void SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom *PixFrame);
     void resizeEvent(QResizeEvent* event);
     void showEvent(QShowEvent *);
     void changeEvent(QEvent *e);

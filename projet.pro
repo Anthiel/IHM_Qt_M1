@@ -30,14 +30,16 @@ SOURCES += \
         resize.cpp \
         clip.cpp\
         qGraphicsViewCustom.cpp \
-        rotate.cpp
+        rotate.cpp \
+        QGraphicsSceneCustom.cpp
 
 HEADERS += \
         mainwindow.h \
         resize.h \
         clip.h\
         qGraphicsViewCustom.h \
-        rotate.h
+        rotate.h \
+        QGraphicsSceneCustom.h
 
 FORMS += \
         mainwindow.ui \

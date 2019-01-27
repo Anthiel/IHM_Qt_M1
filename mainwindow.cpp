@@ -14,6 +14,7 @@
 #include "qGraphicsViewCustom.h"
 #include <QResizeEvent>
 #include "rotate.h"
+#include "QGraphicsSceneCustom.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
+    connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(RognageClick()));
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 }
@@ -74,6 +76,7 @@ void MainWindow::on_actionRogner_triggered()
     int largeur = PixmapTab[IDpix].size().rwidth(),
         hauteur = PixmapTab[IDpix].size().rheight();
     Clip w_clip;
+    rognageWindowOpen = true;
     w_clip.setLargeur(largeur);
     w_clip.setHauteur(hauteur);
     if (w_clip.exec()){
@@ -86,6 +89,7 @@ void MainWindow::on_actionRogner_triggered()
         sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
         PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
     }
+    rognageWindowOpen = false;
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
     qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
@@ -97,7 +101,7 @@ void MainWindow::enableIfPic(bool enable)
     ui->actionRogner->setEnabled(enable);
 }
 
-void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixFrame)
+void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom *PixFrame)
 {
     PixFrame->setScene(scene);
     PixFrame->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
@@ -105,10 +109,11 @@ void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixF
 }
 
 
-void MainWindow::GetLabelClick(){
+void MainWindow::GetExplorerClick(){
+    QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
+    if(activeScene == src->getID()) return;
 
     ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
-    QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
     activeScene = src->getID();
     ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 1px solid blue");
 
@@ -119,6 +124,25 @@ void MainWindow::GetLabelClick(){
 
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
 
+}
+
+void MainWindow::RognageClick(){
+    //if(rognageWindowOpen){
+        int xb, yb, xe, ye;
+        xb = ui->PixFrame->Xbegin;
+        yb = ui->PixFrame->Ybegin;
+        xe = ui->PixFrame->Xend;
+        ye = ui->PixFrame->Yend;
+        QGraphicsRectItem* itemRognage;
+        itemRognage = new QGraphicsRectItem(xb,yb,xe,xe);
+
+        QPen pen(Qt::white, 10, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
+        itemRognage->setBrush(Qt::NoBrush);
+        itemRognage->setPen(pen);
+        sceneTab[0].clear();
+        sceneTab[0].addPixmap(PixmapTab[0]);
+        sceneTab[0].addItem(itemRognage);
+    //}
 }
 
 void MainWindow::showTest(QGraphicsViewCustom ** t){
@@ -160,7 +184,7 @@ void MainWindow::on_actionImporter_triggered()
 
     //initialisation des scènes
 
-    sceneTab = new QGraphicsScene[uint(ImageCount)];
+    sceneTab = new QGraphicsSceneCustom[uint(ImageCount)];
     PixmapTab = new QPixmap[uint(ImageCount)];
     activeScene = 0;
 
@@ -195,7 +219,7 @@ void MainWindow::on_actionImporter_triggered()
         if(i == 0)
              ExplorerPics[i]->setStyleSheet("background: transparent; border: 1px solid blue");
 
-        connect(ExplorerPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
+        connect(ExplorerPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetExplorerClick()));
 
         if(i>0)ui->Layout_Explorer->addSpacing(spacing); // séparateur
         ExplorerGraphicsView[i] = ExplorerPics[i]; // copie de l'adresse du label dans la variable globale
