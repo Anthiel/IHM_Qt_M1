@@ -1,7 +1,7 @@
 #include <QDebug>
 #include "rotate.h"
 #include <QGraphicsScene>
-#include "QGraphicsViewCustom.h"
+#include "qGraphicsViewCustom.h"
 
 Rotate::Rotate(QWidget *parent) :
     QDialog(parent)

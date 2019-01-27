@@ -1,4 +1,4 @@
-#include "QGraphicsViewCustom.h"
+#include "qGraphicsViewCustom.h"
 #include <qlabel.h>
 #include <QMouseEvent>
 #include <QDebug>
