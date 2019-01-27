@@ -60,7 +60,7 @@
           <number>2</number>
          </property>
          <item>
-          <widget class="QSlider" name="horizontalSlider">
+          <widget class="QSlider" name="RotateSlider">
            <property name="minimum">
             <number>-180</number>
            </property>
@@ -188,7 +188,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>horizontalSlider</sender>
+   <sender>RotateSlider</sender>
    <signal>sliderMoved(int)</signal>
    <receiver>_hInput</receiver>
    <slot>setValue(int)</slot>

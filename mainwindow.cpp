@@ -16,12 +16,6 @@
 #include "rotate.h"
 
 
-static int spacing = 25;
-static QGraphicsViewCustom *ImgLabel[50];
-static int ImageCount=0;
-
-
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -113,14 +107,14 @@ void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixF
 
 void MainWindow::GetLabelClick(){
 
-    ImgLabel[activeScene]->setStyleSheet("background: transparent; border: 0px");
+    ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
     QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
     activeScene = src->getID();
-    ImgLabel[activeScene]->setStyleSheet("background: transparent; border: 1px solid blue");
+    ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 1px solid blue");
 
     //refresh de la taille des images dans l'explorer
     for(int i=0; i< ImageCount;i++){
-        ImgLabel[i]->fitInView(sceneTab[i].sceneRect(), Qt::KeepAspectRatio);
+        ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(), Qt::KeepAspectRatio);
     }
 
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
@@ -136,14 +130,14 @@ bool MainWindow::event(QEvent *event)
     if(event->type() == QEvent::Paint)
         if(sceneInit == 1)
             for(int i = 0; i<ImageCount ; i++)
-                 ImgLabel[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+                 ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
     return QWidget::event(event);
 }
 
 void MainWindow::changeEvent(QEvent *e){
     if(sceneInit){
        /* for(int i = 0; i<ImageCount ; i++){
-            ImgLabel[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+            ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
         }*/
     }
 }
@@ -181,42 +175,42 @@ void MainWindow::on_actionImporter_triggered()
         PixmapTab[i] = image;
      }
 
-    QGraphicsViewCustom **LPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
+    QGraphicsViewCustom **ExplorerPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
     // chargement de l'image dans le Viewer
 
     SetMainPicture(&sceneTab[0], ui->PixFrame);
 
     QPixmap PicI;
-    LPics[0] = ui-> GraphicModeleExplorer;
+    ExplorerPics[0] = ui-> GraphicModeleExplorer;
     ui->Layout_Explorer->setAlignment(Qt::AlignLeft);
 
     for(int i = 0; i<ImageCount ; i++){
         if(i>0){ // si c'est la ième image, Copie des paramètres du modèle
-             LPics[i] = new QGraphicsViewCustom(ui->GraphicModeleExplorer);
-             LPics[i]->setStyleSheet("background: transparent; border: 0px");
-             LPics[i]->setMaximumSize(ui->GraphicModeleExplorer->maximumSize());
-             LPics[i]->setMinimumSize(ui->GraphicModeleExplorer->minimumSize());
-             LPics[i]->setSizePolicy(ui->GraphicModeleExplorer->sizePolicy());
+             ExplorerPics[i] = new QGraphicsViewCustom(ui->GraphicModeleExplorer);
+             ExplorerPics[i]->setStyleSheet("background: transparent; border: 0px");
+             ExplorerPics[i]->setMaximumSize(ui->GraphicModeleExplorer->maximumSize());
+             ExplorerPics[i]->setMinimumSize(ui->GraphicModeleExplorer->minimumSize());
+             ExplorerPics[i]->setSizePolicy(ui->GraphicModeleExplorer->sizePolicy());
         }
         if(i == 0)
-             LPics[i]->setStyleSheet("background: transparent; border: 1px solid blue");
+             ExplorerPics[i]->setStyleSheet("background: transparent; border: 1px solid blue");
 
-        connect(LPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
+        connect(ExplorerPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
 
         if(i>0)ui->Layout_Explorer->addSpacing(spacing); // séparateur
-        ImgLabel[i] = LPics[i]; // copie de l'adresse du label dans la variable globale
+        ExplorerGraphicsView[i] = ExplorerPics[i]; // copie de l'adresse du label dans la variable globale
                                       //(indispensable pour la suppression)
-        if(i>0) ui->Layout_Explorer->addWidget(LPics[i], Qt::AlignLeft);  // ajout du label dans le layout
-        LPics[i]->setScene(&sceneTab[i]);
+        if(i>0) ui->Layout_Explorer->addWidget(ExplorerPics[i], Qt::AlignLeft);  // ajout du label dans le layout
+        ExplorerPics[i]->setScene(&sceneTab[i]);
 
         // chargement de l'image dans un label de l'exploreur
-        LPics[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
-        LPics[i]->setID(i);
-        LPics[i]->setAlignment(Qt::AlignCenter);
+        ExplorerPics[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+        ExplorerPics[i]->setID(i);
+        ExplorerPics[i]->setAlignment(Qt::AlignCenter);
     }
     enableIfPic();
-    delete [] LPics;
-    LPics = nullptr;
+    delete [] ExplorerPics;
+    ExplorerPics = nullptr;
     sceneInit = 1;
 }
 
@@ -232,12 +226,12 @@ void MainWindow::on_actionTout_supprimer_triggered()
         sceneTab[i].clear();
         PixmapTab[i] = QPixmap();
     }
-
+    ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
     while(ui->Layout_Explorer->count()>1){
         ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
     }
     for(int i = 0; i<ImageCount;i++)
-        ImgLabel[i] = nullptr;
+        ExplorerGraphicsView[i] = nullptr;
 
     ImageCount = 0;
     sceneInit = 0;
@@ -288,6 +282,13 @@ void MainWindow::on_actionRoation_90_triggered()
 void MainWindow::on_actionRotation_triggered()
 {
     Rotate rotateWindow;
+    qDebug() << "debut " << angleRotate;
+    rotateWindow.setInfo(&PixmapTab[activeScene], &sceneTab[activeScene], ui->PixFrame, angleRotate);
+
     if (rotateWindow.exec())
     {}
+    angleRotate = rotateWindow.getAngle();
+    qDebug() << "fin " << angleRotate;
+
+    ;
 }

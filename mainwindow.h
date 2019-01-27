@@ -25,6 +25,11 @@ public:
     QPixmap *PixmapTab;
     QGraphicsProxyWidget *proxyPixmapTab;
     QGraphicsView* view;
+    int angleRotate = 0;
+    int spacing = 25;
+    QGraphicsViewCustom *ExplorerGraphicsView[200];
+    int ImageCount=0;
+
 
 
 
