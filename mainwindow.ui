@@ -184,6 +184,9 @@
     </property>
     <addaction name="actionRedimensionner"/>
     <addaction name="actionRogner"/>
+    <addaction name="actionRotation_90"/>
+    <addaction name="actionRoation_90"/>
+    <addaction name="actionRotation"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuImage"/>
@@ -220,6 +223,21 @@
   <action name="actionExporter_l_image">
    <property name="text">
     <string>Exporter l'image ...</string>
+   </property>
+  </action>
+  <action name="actionRotation_90">
+   <property name="text">
+    <string>Rotation à 90°</string>
+   </property>
+  </action>
+  <action name="actionRoation_90">
+   <property name="text">
+    <string>Roation à -90°</string>
+   </property>
+  </action>
+  <action name="actionRotation">
+   <property name="text">
+    <string>Rotation ...</string>
    </property>
   </action>
  </widget>

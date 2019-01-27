@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
-#include "qlabelexplorer.h"
-#include "QGraphicsViewCustom.h"
+#include "qGraphicsViewCustom.h"
 #include <QResizeEvent>
 
 namespace Ui {
@@ -36,6 +35,12 @@ private slots:
     void on_actionRogner_triggered();
 
     void on_actionExporter_l_image_triggered();
+
+    void on_actionRotation_90_triggered();
+
+    void on_actionRoation_90_triggered();
+
+    void on_actionRotation_triggered();
 
 public slots :
     void GetLabelClick();

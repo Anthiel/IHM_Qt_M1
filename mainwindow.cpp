@@ -13,6 +13,7 @@
 #include <QPainter>
 #include "qGraphicsViewCustom.h"
 #include <QResizeEvent>
+#include "rotate.h"
 
 
 static int spacing = 25;
@@ -112,9 +113,16 @@ void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixF
 
 void MainWindow::GetLabelClick(){
 
+    ImgLabel[activeScene]->setStyleSheet("background: transparent; border: 0px");
     QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
     activeScene = src->getID();
-    qDebug() << "activeScene :" << activeScene;
+    ImgLabel[activeScene]->setStyleSheet("background: transparent; border: 1px solid blue");
+
+    //refresh de la taille des images dans l'explorer
+    for(int i=0; i< ImageCount;i++){
+        ImgLabel[i]->fitInView(sceneTab[i].sceneRect(), Qt::KeepAspectRatio);
+    }
+
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
 
 }
@@ -190,6 +198,9 @@ void MainWindow::on_actionImporter_triggered()
              LPics[i]->setMinimumSize(ui->GraphicModeleExplorer->minimumSize());
              LPics[i]->setSizePolicy(ui->GraphicModeleExplorer->sizePolicy());
         }
+        if(i == 0)
+             LPics[i]->setStyleSheet("background: transparent; border: 1px solid blue");
+
         connect(LPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
 
         if(i>0)ui->Layout_Explorer->addSpacing(spacing); // séparateur
@@ -246,4 +257,37 @@ void MainWindow::on_actionExporter_l_image_triggered()
     QFile file(fileName);
     file.open(QIODevice::WriteOnly);
     PixmapTab[activeScene].save(&file);
+}
+
+void MainWindow::on_actionRotation_90_triggered()
+// rotation à 90° du pixmap
+{
+    int IDpix = ui->PixFrame->getID();
+    QTransform transform;
+    transform.rotate(90);
+    PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
+    sceneTab[IDpix].clear();
+    sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
+    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+}
+
+void MainWindow::on_actionRoation_90_triggered()
+// rotation à -90° du pixmap
+{
+    int IDpix = ui->PixFrame->getID();
+    QTransform transform;
+    transform.rotate(-90);
+    PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
+    sceneTab[IDpix].clear();
+    sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
+    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+}
+
+void MainWindow::on_actionRotation_triggered()
+{
+    Rotate rotateWindow;
+    if (rotateWindow.exec())
+    {}
 }
