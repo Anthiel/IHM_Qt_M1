@@ -151,6 +151,7 @@ void MainWindow::on_actionImporter_triggered()
     QStringList  fileNames = QFileDialog::getOpenFileNames(this,
          tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)")); // sélection des images
 
+
     ImageCount = fileNames.count(); //On veut savoir le nombre d'images présentes
     if(ImageCount <= 0) return;
 
@@ -232,4 +233,17 @@ void MainWindow::on_actionTout_supprimer_triggered()
     enableIfPic(false);
     sceneTab = nullptr;
     PixmapTab = nullptr;
+}
+
+void MainWindow::on_actionExporter_l_image_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                               "/home/",
+                               tr("Images (*.png *.bmp *.jpg)", "Images(*.jpg)"));
+     //On veut savoir le nombre d'images présentes
+    if(fileName.count() <= 0) return;
+
+    QFile file(fileName);
+    file.open(QIODevice::WriteOnly);
+    PixmapTab[activeScene].save(&file);
 }

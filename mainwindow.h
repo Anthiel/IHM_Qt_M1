@@ -35,6 +35,8 @@ private slots:
     void on_actionRedimensionner_triggered();
     void on_actionRogner_triggered();
 
+    void on_actionExporter_l_image_triggered();
+
 public slots :
     void GetLabelClick();
 
