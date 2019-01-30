@@ -93,12 +93,12 @@ void MainWindow::on_actionNoir_et_Blanc_triggered()
     int largeur = PixmapTab[id_pix].size().rwidth(),
         hauteur = PixmapTab[id_pix].size().rheight();
     QImage im = PixmapTab[id_pix].toImage();
-    QImage al = im.alphaChannel();
+    QImage al = im.alphaChannel(); // Alpha à part
     for (int x = 0 ; x < largeur ; x++)
         for (int y = 0 ; y < hauteur ; y++)
         {
             int a = qAlpha(im.pixel(x,y));
-            if (a > 0)
+            if (a > 0) // Ne modifie que si non transparent
             {
                 int color = qGray(im.pixel(x,y));
                 im.setPixel(x,y, qRgb(color,color,color));
@@ -142,6 +142,12 @@ void MainWindow::enableIfPic(bool enable)
 {
     ui->actionRedimensionner->setEnabled(enable);
     ui->actionRogner->setEnabled(enable);
+    ui->actionExporter_l_image->setEnabled(enable);
+    ui->actionNoir_et_Blanc->setEnabled(enable);
+    ui->actionRotation->setEnabled(enable);
+    ui->actionTout_supprimer->setEnabled(enable);
+    ui->actionRoation_90->setEnabled(enable);
+    ui->actionRotation_90->setEnabled(enable);
 }
 
 void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixFrame)
