@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QPixmap>
 #include <QDebug>
@@ -65,6 +65,24 @@ void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenet
 
 void MainWindow::showEvent(QShowEvent *) {}
 
+void MainWindow::on_actionNoir_et_Blanc_triggered()
+{
+    int id_pix = ui->PixFrame->getID();
+    int largeur = PixmapTab[id_pix].size().rwidth(),
+        hauteur = PixmapTab[id_pix].size().rheight();
+    QImage im = PixmapTab[id_pix].toImage();
+    for (int x = 0 ; x < largeur ; x++)
+        for (int y = 0 ; y < hauteur ; y++)
+        {
+            int color = qGray(im.pixel(x,y));
+            im.setPixel(x,y, qRgb(color,color,color));
+        }
+
+    sceneTab[id_pix].clear();
+    sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
+    PixmapTab[id_pix] = QPixmap::fromImage(im);
+
+}
 
 void MainWindow::on_actionRogner_triggered()
 {

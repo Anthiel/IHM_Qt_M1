@@ -33,59 +33,6 @@
     <bool>true</bool>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Minimum</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="1">
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustIgnored</enum>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_3">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>1091</width>
-         <height>392</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0">
-         <widget class="QGraphicsViewCustom" name="PixFrame"/>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
     <item row="1" column="1">
      <widget class="QScrollArea" name="ExplScrollArea">
       <property name="sizePolicy">
@@ -108,7 +55,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1108</width>
+         <width>1200</width>
          <height>108</height>
         </rect>
        </property>
@@ -143,21 +90,74 @@
       </widget>
      </widget>
     </item>
-    <item row="0" column="3">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="0" column="1">
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
       </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Minimum</enum>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
       </property>
-     </spacer>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_3">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1186</width>
+         <height>387</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="0">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="1">
+         <widget class="QGraphicsViewCustom" name="PixFrame"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -167,7 +167,7 @@
      <x>0</x>
      <y>0</y>
      <width>1220</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -188,8 +188,15 @@
     <addaction name="actionRoation_90"/>
     <addaction name="actionRotation"/>
    </widget>
+   <widget class="QMenu" name="menuFiltres">
+    <property name="title">
+     <string>Filtres</string>
+    </property>
+    <addaction name="actionNoir_et_Blanc"/>
+   </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuImage"/>
+   <addaction name="menuFiltres"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -204,6 +211,9 @@
    <property name="text">
     <string>Importer ...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionTout_supprimer">
    <property name="text">
@@ -214,6 +224,9 @@
    <property name="text">
     <string>Redimensionner...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="actionRogner">
    <property name="text">
@@ -223,6 +236,9 @@
   <action name="actionExporter_l_image">
    <property name="text">
     <string>Exporter l'image ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionRotation_90">
@@ -238,6 +254,11 @@
   <action name="actionRotation">
    <property name="text">
     <string>Rotation ...</string>
+   </property>
+  </action>
+  <action name="actionNoir_et_Blanc">
+   <property name="text">
+    <string>Noir et Blanc</string>
    </property>
   </action>
  </widget>
