@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icones">
+        <file alias="kanna.png">icones/kanna.png</file>
+    </qresource>
+</RCC>
