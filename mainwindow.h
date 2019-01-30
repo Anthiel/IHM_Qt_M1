@@ -40,6 +40,7 @@ private slots:
     void on_actionRoation_90_triggered();
     void on_actionRotation_triggered();
     void on_actionNoir_et_Blanc_triggered();
+    void closeEvent(QCloseEvent *event);
 
 public slots :
     void GetLabelClick();

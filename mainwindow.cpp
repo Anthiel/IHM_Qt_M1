@@ -1,20 +1,22 @@
-﻿#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QPixmap>
+﻿#include <QPixmap>
 #include <QDebug>
 #include <QFileDialog>
 #include <QLabel>
 #include <QSpacerItem>
 #include <QStringList>
 #include <QPixmapCache>
-#include "resize.h"
-#include "clip.h"
 #include <QGraphicsPixmapItem>
 #include <QPainter>
 #include "qGraphicsViewCustom.h"
 #include <QResizeEvent>
-#include "rotate.h"
+#include <QCloseEvent>
+#include <QMessageBox>
 
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "resize.h"
+#include "clip.h"
+#include "rotate.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +33,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (ImageCount > 0)
+    {
+        switch (QMessageBox::question(this,
+                                      "Enregistrer les modifications ?",
+                                      "Vos modifications seront perdues si vous ne les enregistrez pas.",
+                                      QMessageBox::No | QMessageBox::Cancel | QMessageBox::Save))
+        {
+            case QMessageBox::No:
+                event->accept();
+                break;
+            case QMessageBox::Save:
+                on_actionExporter_l_image_triggered();
+                break;
+            default:
+                event->ignore();
+        }
+    }
+}
 
 void MainWindow::on_actionRedimensionner_triggered()
 {
