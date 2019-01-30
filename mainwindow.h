@@ -32,6 +32,7 @@ public:
     int ImageCount=0;
     bool rognageWindowOpen = false;
     QGraphicsRectItem* itemRognage;
+    QPainter *painter;
 
 
 
@@ -63,6 +64,8 @@ private:
     void changeEvent(QEvent *e);
     bool event(QEvent *event);
     void showTest(QGraphicsViewCustom ** t);
+    void keyPressEvent(QKeyEvent *event);
+    void rognageGraphique();
     Ui::MainWindow *ui;
 };
 

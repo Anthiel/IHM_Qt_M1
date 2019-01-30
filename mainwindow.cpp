@@ -67,6 +67,39 @@ void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenet
 
 void MainWindow::showEvent(QShowEvent *) {}
 
+void MainWindow::rognageGraphique(){
+    double xb, yb, xe, ye;
+    xb = ui->PixFrame->Xbegin;
+    yb = ui->PixFrame->Ybegin;
+    xe = ui->PixFrame->Xend;
+    ye = ui->PixFrame->Yend;
+    qDebug() << __FUNCTION__ << "hello" <<xb << yb << xe << ye;
+    sceneTab[activeScene].clear();
+    sceneTab[activeScene].addPixmap(PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb));
+    PixmapTab[activeScene] = PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb);
+    sceneTab[activeScene].setSceneRect(PixmapTab[activeScene].rect());
+    ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key()) {
+            case (Qt::Key_Enter) :
+                if(rognageWindowOpen){
+                    rognageGraphique();
+                    rognageWindowOpen = false;
+                }
+                break;
+            case (Qt::Key_Return) :
+                if(rognageWindowOpen){
+                    rognageGraphique();
+                    rognageWindowOpen = false;
+                }
+                break;
+    }
+
+}
 
 void MainWindow::on_actionRogner_triggered()
 {
@@ -89,9 +122,15 @@ void MainWindow::on_actionRogner_triggered()
         sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
         PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
     }
-    rognageWindowOpen = false;
+    qDebug() << "clip fermé, valeur openWindow" << w_clip.openWindow;
+    if(w_clip.openWindow == true){
+        rognageWindowOpen = true;
+        w_clip.openWindow = false;
+    }
+
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
     qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
 }
 
@@ -127,22 +166,29 @@ void MainWindow::GetExplorerClick(){
 }
 
 void MainWindow::RognageClick(){
-    //if(rognageWindowOpen){
-        int xb, yb, xe, ye;
+    if(rognageWindowOpen){
+        double xb, yb, xe, ye;
         xb = ui->PixFrame->Xbegin;
         yb = ui->PixFrame->Ybegin;
         xe = ui->PixFrame->Xend;
         ye = ui->PixFrame->Yend;
-        QGraphicsRectItem* itemRognage;
-        itemRognage = new QGraphicsRectItem(xb,yb,xe,xe);
+        //qDebug() << "position du rectangle : xb :" << xb << " yb :" << yb << "xe :" << xe << " ye :" << ye;
+        QPixmap tmp = PixmapTab[activeScene];
+        painter = new QPainter(&PixmapTab[activeScene]);
 
-        QPen pen(Qt::white, 10, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
-        itemRognage->setBrush(Qt::NoBrush);
-        itemRognage->setPen(pen);
-        sceneTab[0].clear();
-        sceneTab[0].addPixmap(PixmapTab[0]);
-        sceneTab[0].addItem(itemRognage);
-    //}
+        painter->setRenderHint(QPainter::Antialiasing);
+
+        QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
+        painter->setPen(pen);
+        painter->drawRect(xb,yb,xe-xb,ye-yb);
+
+        sceneTab[activeScene].clear();
+        sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
+
+        delete painter;
+        PixmapTab[activeScene] = tmp;
+
+    }
 }
 
 void MainWindow::showTest(QGraphicsViewCustom ** t){
@@ -198,7 +244,6 @@ void MainWindow::on_actionImporter_triggered()
         sceneTab[i].setSceneRect(image.rect());
         PixmapTab[i] = image;
      }
-
     QGraphicsViewCustom **ExplorerPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
     // chargement de l'image dans le Viewer
 

@@ -9,6 +9,9 @@ class QGraphicsSceneCustom : public QGraphicsScene
 
 public:
     QGraphicsSceneCustom();
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *ev);
+    void mousePressEvent(QGraphicsSceneMouseEvent *ev);
 
 };
 

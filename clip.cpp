@@ -148,3 +148,10 @@ void Clip::changeYf(){
     _hInput->setValue(hauteur);
     //qDebug() << __FUNCTION__ << y;
 }
+
+void Clip::on_modeGraphique_clicked()
+{
+    qDebug() << "OpenWindow";
+    openWindow = true;
+    close();
+}

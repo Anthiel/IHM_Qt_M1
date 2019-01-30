@@ -12,8 +12,8 @@ private:
     int ID;
 
 public:
-    int Xbegin = 0, Ybegin = 0;
-    int Xend = 0, Yend = 0;
+    double Xbegin = 0, Ybegin = 0;
+    double Xend = 0, Yend = 0;
 
 signals:
     void mousePressed( const QPoint& );
