@@ -93,13 +93,20 @@ void MainWindow::on_actionNoir_et_Blanc_triggered()
     int largeur = PixmapTab[id_pix].size().rwidth(),
         hauteur = PixmapTab[id_pix].size().rheight();
     QImage im = PixmapTab[id_pix].toImage();
+    QImage al = im.alphaChannel();
     for (int x = 0 ; x < largeur ; x++)
         for (int y = 0 ; y < hauteur ; y++)
         {
-            int color = qGray(im.pixel(x,y));
-            im.setPixel(x,y, qRgb(color,color,color));
+            int a = qAlpha(im.pixel(x,y));
+            if (a > 0)
+            {
+                int color = qGray(im.pixel(x,y));
+                im.setPixel(x,y, qRgb(color,color,color));
+                al.setPixel(x,y,a);
+            }
         }
 
+    im.setAlphaChannel(al);
     sceneTab[id_pix].clear();
     sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
     PixmapTab[id_pix] = QPixmap::fromImage(im);
