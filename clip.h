@@ -18,6 +18,9 @@ private:
     int maxhauteur;
 
 public:
+    bool openWindow = false;
+
+public:
     explicit Clip(QWidget *parent = nullptr);
     inline int  getLargeur() const {return largeur;}
     inline int  getHauteur() const {return hauteur;}
@@ -35,6 +38,7 @@ private slots:
     void changeY0();
     void changeXf();
     void changeYf();
+    void on_modeGraphique_clicked();
 };
 
 #endif // CLIP_H
