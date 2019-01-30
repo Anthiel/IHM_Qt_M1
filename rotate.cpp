@@ -45,4 +45,3 @@ void Rotate::on_RotateSlider_valueChanged(int value)
     angle = value;
     qDebug() << "changement de valeur" << angle;
 }
-

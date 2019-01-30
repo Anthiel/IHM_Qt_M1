@@ -1,12 +1,19 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QPixmap>
+﻿#include <QPixmap>
 #include <QDebug>
 #include <QFileDialog>
 #include <QLabel>
 #include <QSpacerItem>
 #include <QStringList>
 #include <QPixmapCache>
+#include <QGraphicsPixmapItem>
+#include <QPainter>
+#include "qGraphicsViewCustom.h"
+#include <QResizeEvent>
+#include <QCloseEvent>
+#include <QMessageBox>
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "resize.h"
 #include "clip.h"
 #include <QGraphicsPixmapItem>
@@ -33,6 +40,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (ImageCount > 0)
+    {
+        switch (QMessageBox::question(this,
+                                      "Enregistrer les modifications ?",
+                                      "Vos modifications seront perdues si vous ne les enregistrez pas.",
+                                      QMessageBox::No | QMessageBox::Cancel | QMessageBox::Save))
+        {
+            case QMessageBox::No:
+                event->accept();
+                break;
+            case QMessageBox::Save:
+                on_actionExporter_l_image_triggered();
+                break;
+            default:
+                event->ignore();
+        }
+    }
+}
 
 void MainWindow::on_actionRedimensionner_triggered()
 {
@@ -101,6 +128,33 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
+void MainWindow::on_actionNoir_et_Blanc_triggered()
+{
+    int id_pix = ui->PixFrame->getID();
+    int largeur = PixmapTab[id_pix].size().rwidth(),
+        hauteur = PixmapTab[id_pix].size().rheight();
+    QImage im = PixmapTab[id_pix].toImage();
+    QImage al = im.alphaChannel();
+    for (int x = 0 ; x < largeur ; x++)
+        for (int y = 0 ; y < hauteur ; y++)
+        {
+            int a = qAlpha(im.pixel(x,y));
+            if (a > 0)
+            {
+                int color = qGray(im.pixel(x,y));
+                im.setPixel(x,y, qRgb(color,color,color));
+                al.setPixel(x,y,a);
+            }
+        }
+
+    im.setAlphaChannel(al);
+    sceneTab[id_pix].clear();
+    sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
+    PixmapTab[id_pix] = QPixmap::fromImage(im);
+}
+
+
+
 void MainWindow::on_actionRogner_triggered()
 {
     int IDpix = ui->PixFrame->getID();
@@ -117,7 +171,7 @@ void MainWindow::on_actionRogner_triggered()
         hauteur = w_clip.getHauteur();
         int x0=w_clip.getX0();
         int y0=w_clip.getY0();
-        qDebug() << __FUNCTION__ << "hello" <<x0 << y0<<largeur<<hauteur;
+        qDebug() << __FUNCTION__ << "clip to" <<x0 << y0<<largeur<<hauteur;
         sceneTab[IDpix].clear();
         sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
         PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
@@ -138,6 +192,11 @@ void MainWindow::enableIfPic(bool enable)
 {
     ui->actionRedimensionner->setEnabled(enable);
     ui->actionRogner->setEnabled(enable);
+    ui->actionNoir_et_Blanc->setEnabled(enable);
+    ui->actionExporter_l_image->setEnabled(enable);
+    ui->actionRotation->setEnabled(enable);
+    ui->actionRotation_90->setEnabled(enable);
+    ui->actionRoation_90->setEnabled(enable);
 }
 
 void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom *PixFrame)

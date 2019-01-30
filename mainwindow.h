@@ -35,21 +35,17 @@ public:
     QPainter *painter;
 
 
-
-
 private slots:
     void on_actionImporter_triggered();
     void on_actionTout_supprimer_triggered();
     void on_actionRedimensionner_triggered();
     void on_actionRogner_triggered();
-
     void on_actionExporter_l_image_triggered();
-
     void on_actionRotation_90_triggered();
-
     void on_actionRoation_90_triggered();
-
     void on_actionRotation_triggered();
+    void on_actionNoir_et_Blanc_triggered();
+    void closeEvent(QCloseEvent *event);
 
 public slots :
     void GetExplorerClick();
