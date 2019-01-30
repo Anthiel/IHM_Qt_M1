@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1220</width>
-    <height>598</height>
+    <width>1140</width>
+    <height>658</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -34,130 +34,389 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Minimum</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="1">
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustIgnored</enum>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_3">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>1091</width>
-         <height>392</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0">
-         <widget class="QGraphicsViewCustom" name="PixFrame"/>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QScrollArea" name="leftpanel">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>250</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>248</width>
+             <height>461</height>
+            </rect>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="minimumSize">
+           <size>
+            <width>600</width>
+            <height>450</height>
+           </size>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustIgnored</enum>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_3">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>577</width>
+             <height>440</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="1" column="2">
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Ignored</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>5</width>
+                <height>2</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="0">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Ignored</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>5</width>
+                <height>2</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="1">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Ignored</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>2</width>
+                <height>5</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="1">
+             <widget class="QGraphicsViewCustom" name="PixFrame"/>
+            </item>
+            <item row="2" column="1">
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Ignored</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>2</width>
+                <height>5</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="rightpanel">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>250</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustIgnored</enum>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_4">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>248</width>
+             <height>461</height>
+            </rect>
+           </property>
+           <widget class="QToolBox" name="toolBox">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>211</width>
+              <height>491</height>
+             </rect>
+            </property>
+            <property name="currentIndex">
+             <number>3</number>
+            </property>
+            <property name="tabSpacing">
+             <number>7</number>
+            </property>
+            <widget class="QWidget" name="page">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>211</width>
+               <height>367</height>
+              </rect>
+             </property>
+             <attribute name="label">
+              <string>Page 1</string>
+             </attribute>
+             <widget class="QPushButton" name="pushButton">
+              <property name="geometry">
+               <rect>
+                <x>60</x>
+                <y>90</y>
+                <width>93</width>
+                <height>28</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="page_3">
+             <attribute name="label">
+              <string>Page</string>
+             </attribute>
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="geometry">
+               <rect>
+                <x>60</x>
+                <y>40</y>
+                <width>93</width>
+                <height>28</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_3">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>130</y>
+                <width>93</width>
+                <height>28</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="page_4">
+             <attribute name="label">
+              <string>Page</string>
+             </attribute>
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>93</width>
+                <height>28</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_5">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>260</y>
+                <width>93</width>
+                <height>28</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="page_2">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>211</width>
+               <height>367</height>
+              </rect>
+             </property>
+             <attribute name="label">
+              <string>Page 2</string>
+             </attribute>
+             <widget class="QPushButton" name="pushButton_6">
+              <property name="geometry">
+               <rect>
+                <x>100</x>
+                <y>20</y>
+                <width>93</width>
+                <height>28</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_7">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>230</y>
+                <width>93</width>
+                <height>28</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>PushButton</string>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </widget>
+         </widget>
         </item>
        </layout>
-      </widget>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QScrollArea" name="ExplScrollArea">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>110</height>
-       </size>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>1108</width>
-         <height>108</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="Layout_Explorer">
-          <item>
-           <widget class="QGraphicsViewCustom" name="GraphicModeleExplorer">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>85</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>130</width>
-              <height>85</height>
-             </size>
-            </property>
-           </widget>
+      </item>
+      <item>
+       <widget class="QScrollArea" name="ExplScrollArea">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>110</height>
+         </size>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1114</width>
+           <height>109</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="Layout_Explorer">
+            <item>
+             <widget class="QGraphicsViewCustom" name="GraphicModeleExplorer">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>130</width>
+                <height>85</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>130</width>
+                <height>85</height>
+               </size>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Minimum</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+        </widget>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -166,8 +425,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1220</width>
-     <height>21</height>
+     <width>1140</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -190,14 +449,6 @@
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuImage"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionImporter">

@@ -81,7 +81,7 @@ void MainWindow::on_actionRogner_triggered()
         hauteur = w_clip.getHauteur();
         int x0=w_clip.getX0();
         int y0=w_clip.getY0();
-        qDebug() << __FUNCTION__ << "hello" <<x0 << y0<<largeur<<hauteur;
+        qDebug() << __FUNCTION__ << "clip to" <<x0 << y0<<largeur<<hauteur;
         sceneTab[IDpix].clear();
         sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
         PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
@@ -182,7 +182,7 @@ void MainWindow::on_actionImporter_triggered()
 
     QPixmap PicI;
     ExplorerPics[0] = ui-> GraphicModeleExplorer;
-    ui->Layout_Explorer->setAlignment(Qt::AlignLeft);
+    ui->Layout_Explorer->setAlignment(Qt::AlignCenter);
 
     for(int i = 0; i<ImageCount ; i++){
         if(i>0){ // si c'est la ième image, Copie des paramètres du modèle
