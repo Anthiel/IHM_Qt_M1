@@ -1,12 +1,19 @@
-﻿#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QPixmap>
+﻿#include <QPixmap>
 #include <QDebug>
 #include <QFileDialog>
 #include <QLabel>
 #include <QSpacerItem>
 #include <QStringList>
 #include <QPixmapCache>
+#include <QGraphicsPixmapItem>
+#include <QPainter>
+#include "qGraphicsViewCustom.h"
+#include <QResizeEvent>
+#include <QCloseEvent>
+#include <QMessageBox>
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "resize.h"
 #include "clip.h"
 #include <QGraphicsPixmapItem>
@@ -14,6 +21,7 @@
 #include "qGraphicsViewCustom.h"
 #include <QResizeEvent>
 #include "rotate.h"
+#include "QGraphicsSceneCustom.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -22,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
+    connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(RognageClick()));
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 }
@@ -31,6 +40,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (ImageCount > 0)
+    {
+        switch (QMessageBox::question(this,
+                                      "Enregistrer les modifications ?",
+                                      "Vos modifications seront perdues si vous ne les enregistrez pas.",
+                                      QMessageBox::No | QMessageBox::Cancel | QMessageBox::Save))
+        {
+            case QMessageBox::No:
+                event->accept();
+                break;
+            case QMessageBox::Save:
+                on_actionExporter_l_image_triggered();
+                break;
+            default:
+                event->ignore();
+        }
+    }
+}
 
 void MainWindow::on_actionRedimensionner_triggered()
 {
@@ -65,24 +94,66 @@ void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenet
 
 void MainWindow::showEvent(QShowEvent *) {}
 
+void MainWindow::rognageGraphique(){
+    double xb, yb, xe, ye;
+    xb = ui->PixFrame->Xbegin;
+    yb = ui->PixFrame->Ybegin;
+    xe = ui->PixFrame->Xend;
+    ye = ui->PixFrame->Yend;
+    qDebug() << __FUNCTION__ << "hello" <<xb << yb << xe << ye;
+    sceneTab[activeScene].clear();
+    sceneTab[activeScene].addPixmap(PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb));
+    PixmapTab[activeScene] = PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb);
+    sceneTab[activeScene].setSceneRect(PixmapTab[activeScene].rect());
+    ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key()) {
+            case (Qt::Key_Enter) :
+                if(rognageWindowOpen){
+                    rognageGraphique();
+                    rognageWindowOpen = false;
+                }
+                break;
+            case (Qt::Key_Return) :
+                if(rognageWindowOpen){
+                    rognageGraphique();
+                    rognageWindowOpen = false;
+                }
+                break;
+    }
+
+}
+
 void MainWindow::on_actionNoir_et_Blanc_triggered()
 {
     int id_pix = ui->PixFrame->getID();
     int largeur = PixmapTab[id_pix].size().rwidth(),
         hauteur = PixmapTab[id_pix].size().rheight();
     QImage im = PixmapTab[id_pix].toImage();
+    QImage al = im.alphaChannel(); // Alpha à part
     for (int x = 0 ; x < largeur ; x++)
         for (int y = 0 ; y < hauteur ; y++)
         {
-            int color = qGray(im.pixel(x,y));
-            im.setPixel(x,y, qRgb(color,color,color));
+            int a = qAlpha(im.pixel(x,y));
+            if (a > 0) // Ne modifie que si non transparent
+            {
+                int color = qGray(im.pixel(x,y));
+                im.setPixel(x,y, qRgb(color,color,color));
+                al.setPixel(x,y,a);
+            }
         }
 
+    im.setAlphaChannel(al);
     sceneTab[id_pix].clear();
     sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
     PixmapTab[id_pix] = QPixmap::fromImage(im);
-
 }
+
+
 
 void MainWindow::on_actionRogner_triggered()
 {
@@ -92,6 +163,7 @@ void MainWindow::on_actionRogner_triggered()
     int largeur = PixmapTab[IDpix].size().rwidth(),
         hauteur = PixmapTab[IDpix].size().rheight();
     Clip w_clip;
+    rognageWindowOpen = true;
     w_clip.setLargeur(largeur);
     w_clip.setHauteur(hauteur);
     if (w_clip.exec()){
@@ -104,8 +176,15 @@ void MainWindow::on_actionRogner_triggered()
         sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
         PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
     }
+    qDebug() << "clip fermé, valeur openWindow" << w_clip.openWindow;
+    if(w_clip.openWindow == true){
+        rognageWindowOpen = true;
+        w_clip.openWindow = false;
+    }
+
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
     qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
 }
 
@@ -113,9 +192,15 @@ void MainWindow::enableIfPic(bool enable)
 {
     ui->actionRedimensionner->setEnabled(enable);
     ui->actionRogner->setEnabled(enable);
+    ui->actionTout_supprimer->setEnabled(enable);
+    ui->actionNoir_et_Blanc->setEnabled(enable);
+    ui->actionExporter_l_image->setEnabled(enable);
+    ui->actionRotation->setEnabled(enable);
+    ui->actionRotation_90->setEnabled(enable);
+    ui->actionRoation_90->setEnabled(enable);
 }
 
-void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixFrame)
+void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom *PixFrame)
 {
     PixFrame->setScene(scene);
     PixFrame->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
@@ -123,10 +208,11 @@ void MainWindow::SetMainPicture(QGraphicsScene *scene, QGraphicsViewCustom *PixF
 }
 
 
-void MainWindow::GetLabelClick(){
+void MainWindow::GetExplorerClick(){
+    QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
+    if(activeScene == src->getID()) return;
 
     ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
-    QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
     activeScene = src->getID();
     ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 1px solid blue");
 
@@ -137,6 +223,32 @@ void MainWindow::GetLabelClick(){
 
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
 
+}
+
+void MainWindow::RognageClick(){
+    if(rognageWindowOpen){
+        double xb, yb, xe, ye;
+        xb = ui->PixFrame->Xbegin;
+        yb = ui->PixFrame->Ybegin;
+        xe = ui->PixFrame->Xend;
+        ye = ui->PixFrame->Yend;
+        //qDebug() << "position du rectangle : xb :" << xb << " yb :" << yb << "xe :" << xe << " ye :" << ye;
+        QPixmap tmp = PixmapTab[activeScene];
+        painter = new QPainter(&PixmapTab[activeScene]);
+
+        painter->setRenderHint(QPainter::Antialiasing);
+
+        QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
+        painter->setPen(pen);
+        painter->drawRect(xb,yb,xe-xb,ye-yb);
+
+        sceneTab[activeScene].clear();
+        sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
+
+        delete painter;
+        PixmapTab[activeScene] = tmp;
+
+    }
 }
 
 void MainWindow::showTest(QGraphicsViewCustom ** t){
@@ -166,7 +278,7 @@ void MainWindow::on_actionImporter_triggered()
 // Layout_Explorer = label généré par le nb d'image
 // LabelExpl_img = label modèle
 {
-    //on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
+    on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
 
     QStringList  fileNames = QFileDialog::getOpenFileNames(this,
          tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)")); // sélection des images
@@ -178,7 +290,7 @@ void MainWindow::on_actionImporter_triggered()
 
     //initialisation des scènes
 
-    sceneTab = new QGraphicsScene[uint(ImageCount)];
+    sceneTab = new QGraphicsSceneCustom[uint(ImageCount)];
     PixmapTab = new QPixmap[uint(ImageCount)];
     activeScene = 0;
 
@@ -192,7 +304,6 @@ void MainWindow::on_actionImporter_triggered()
         sceneTab[i].setSceneRect(image.rect());
         PixmapTab[i] = image;
      }
-
     QGraphicsViewCustom **ExplorerPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
     // chargement de l'image dans le Viewer
 
@@ -200,7 +311,7 @@ void MainWindow::on_actionImporter_triggered()
 
     QPixmap PicI;
     ExplorerPics[0] = ui-> GraphicModeleExplorer;
-    ui->Layout_Explorer->setAlignment(Qt::AlignCenter);
+    ui->Layout_Explorer->setAlignment(Qt::AlignLeft);
 
     for(int i = 0; i<ImageCount ; i++){
         if(i>0){ // si c'est la ième image, Copie des paramètres du modèle
@@ -213,7 +324,7 @@ void MainWindow::on_actionImporter_triggered()
         if(i == 0)
              ExplorerPics[i]->setStyleSheet("background: transparent; border: 1px solid blue");
 
-        connect(ExplorerPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetLabelClick()));
+        connect(ExplorerPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetExplorerClick()));
 
         if(i>0)ui->Layout_Explorer->addSpacing(spacing); // séparateur
         ExplorerGraphicsView[i] = ExplorerPics[i]; // copie de l'adresse du label dans la variable globale

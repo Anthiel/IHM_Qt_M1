@@ -11,10 +11,32 @@ QGraphicsViewCustom::QGraphicsViewCustom(QWidget *parent):
 void QGraphicsViewCustom::mousePressEvent( QMouseEvent* ev )
 {
     const QPoint p = ev->pos();
-    qDebug() << "press !";
-    qDebug() << ev->x() << ev->y();
+    const QPointF f = mapToScene (p);
+    //qDebug() << "PRESS" << ev->x() << ev->y() << "mapToScene :" << f.x() << f.y();
+    Xbegin = f.x(), Ybegin = f.y();
+    Xend = f.x(), Yend = f.y();
+    emit mousePressed( p );    
+}
+
+void QGraphicsViewCustom::mouseMoveEvent( QMouseEvent* ev )
+{
+    const QPoint p = ev->pos();
+    const QPointF f = mapToScene (p);
+    //qDebug() << "MOVE" << ev->x() << ev->y()<< "mapToScene :" << f.x() << f.y();
+    Xend = f.x(), Yend = f.y();
+    emit mousePressed( p );
+
+}
+
+void QGraphicsViewCustom::mouseReleaseEvent( QMouseEvent* ev )
+{
+    const QPoint p = ev->pos();
+    const QPointF f = mapToScene (p);
+    //qDebug() << "RELEASE" << ev->x() << ev->y() << "mapToScene :" << f.x() << f.y();
+     Xend = f.x(), Yend = f.y();
     emit mousePressed( p );
 }
+
 
 void QGraphicsViewCustom::setID(int i){
     ID = i;
