@@ -74,35 +74,13 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1081</width>
-         <height>370</height>
+         <width>1091</width>
+         <height>392</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="1">
-         <widget class="QLabel" name="label_Picviewer">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>300</height>
-           </size>
-          </property>
-          <property name="sizeIncrement">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
+        <item row="1" column="0">
+         <widget class="QGraphicsViewCustom" name="PixFrame"/>
         </item>
        </layout>
       </widget>
@@ -130,15 +108,15 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1102</width>
-         <height>109</height>
+         <width>1108</width>
+         <height>108</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="Layout_Explorer">
           <item>
-           <widget class="QLabelExplorer" name="LabelExpl_img">
+           <widget class="QGraphicsViewCustom" name="GraphicModeleExplorer">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -156,9 +134,6 @@
               <width>130</width>
               <height>85</height>
              </size>
-            </property>
-            <property name="text">
-             <string/>
             </property>
            </widget>
           </item>
@@ -192,7 +167,7 @@
      <x>0</x>
      <y>0</y>
      <width>1220</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -201,6 +176,7 @@
     </property>
     <addaction name="actionImporter"/>
     <addaction name="actionTout_supprimer"/>
+    <addaction name="actionExporter_l_image"/>
    </widget>
    <widget class="QMenu" name="menuImage">
     <property name="title">
@@ -208,6 +184,9 @@
     </property>
     <addaction name="actionRedimensionner"/>
     <addaction name="actionRogner"/>
+    <addaction name="actionRotation_90"/>
+    <addaction name="actionRoation_90"/>
+    <addaction name="actionRotation"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuImage"/>
@@ -241,13 +220,33 @@
     <string>Rogner...</string>
    </property>
   </action>
+  <action name="actionExporter_l_image">
+   <property name="text">
+    <string>Exporter l'image ...</string>
+   </property>
+  </action>
+  <action name="actionRotation_90">
+   <property name="text">
+    <string>Rotation à 90°</string>
+   </property>
+  </action>
+  <action name="actionRoation_90">
+   <property name="text">
+    <string>Roation à -90°</string>
+   </property>
+  </action>
+  <action name="actionRotation">
+   <property name="text">
+    <string>Rotation ...</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QLabelExplorer</class>
-   <extends>QLabel</extends>
-   <header>qlabelexplorer.h</header>
+   <class>QGraphicsViewCustom</class>
+   <extends>QGraphicsView</extends>
+   <header>qGraphicsViewCustom.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

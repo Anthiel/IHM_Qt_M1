@@ -29,18 +29,23 @@ SOURCES += \
         mainwindow.cpp \
         resize.cpp \
         clip.cpp\
-        qlabelexplorer.cpp
+        qGraphicsViewCustom.cpp \
+        rotate.cpp \
+        QGraphicsSceneCustom.cpp
 
 HEADERS += \
         mainwindow.h \
         resize.h \
         clip.h\
-        qlabelexplorer.h
+        qGraphicsViewCustom.h \
+        rotate.h \
+        QGraphicsSceneCustom.h
 
 FORMS += \
         mainwindow.ui \
-    resize.ui \
-    clip.ui
+        resize.ui \
+        clip.ui \
+        rotate.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
