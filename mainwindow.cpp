@@ -238,9 +238,22 @@ void MainWindow::RognageClick(){
 
         painter->setRenderHint(QPainter::Antialiasing);
 
-        QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
+        //rectangle
+        QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
         painter->setPen(pen);
         painter->drawRect(xb,yb,xe-xb,ye-yb);
+
+        // Règle des tiers
+        QPen penTier(Qt::white, PixmapTab[activeScene].width()/100/2, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin);
+        painter->setPen(penTier);
+        double x1 = xb + (xe-xb)/3;
+        double x2 = xb + 2*((xe-xb)/3);
+        double y1 = yb + (ye-yb)/3;
+        double y2 = yb + 2*((ye-yb)/3);
+        painter->drawLine(x1,yb, x1 , ye);
+        painter->drawLine(x2,yb, x2 , ye);
+        painter->drawLine(xb,y1, xe , y1);
+        painter->drawLine(xb,y2, xe , y2);
 
         sceneTab[activeScene].clear();
         sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
@@ -337,14 +350,7 @@ void MainWindow::on_actionImporter_triggered()
         ExplorerPics[i]->setID(i);
         ExplorerPics[i]->setAlignment(Qt::AlignCenter);
     }
-    /*
-    QGraphicsRectItem* item1 = new QGraphicsRectItem(0,0,400,400);
-    QPen pen(Qt::white, 10, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
-    item1->setBrush(Qt::NoBrush);
-    item1->setPen(pen);
-    sceneTab[0].addItem(item1);
 
-*/
     enableIfPic();
     delete [] ExplorerPics;
     ExplorerPics = nullptr;
