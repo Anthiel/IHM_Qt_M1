@@ -103,7 +103,7 @@ private slots:
 
 public slots :
     void GetExplorerClick();
-    void RognageClick();
+    void ClickOnFrame();
 
 private:
     /*!
@@ -120,6 +120,9 @@ private:
     void showTest(QGraphicsViewCustom ** t);
     void keyPressEvent(QKeyEvent *event);
     void rognageGraphique();
+    void drawRectSelection(double xb, double yb,double xe, double ye);
+    void updateSelectionPoint(int xb, int yb, int xe, int ye);
+    void PoignetUpdate();
     Ui::MainWindow *ui;
 };
 

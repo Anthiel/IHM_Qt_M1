@@ -14,6 +14,8 @@ private:
 public:
     double Xbegin = 0, Ybegin = 0;
     double Xend = 0, Yend = 0;
+    bool SelectCreer = false;
+    double x1 = 0, y1 = 0; // coord de la souris
 
 
 signals:

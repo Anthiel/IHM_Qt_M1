@@ -14,8 +14,11 @@ void QGraphicsViewCustom::mousePressEvent( QMouseEvent* ev )
     const QPoint p = ev->pos();
     const QPointF f = mapToScene (p);
     //qDebug() << "PRESS" << ev->x() << ev->y() << "mapToScene :" << f.x() << f.y();
-    Xbegin = f.x(), Ybegin = f.y();
-    Xend = f.x(), Yend = f.y();
+    if(!SelectCreer){
+        Xbegin = f.x(), Ybegin = f.y();
+        Xend = f.x(), Yend = f.y();
+    }
+
     emit mousePressed( p );    
 }
 
@@ -24,7 +27,10 @@ void QGraphicsViewCustom::mouseMoveEvent( QMouseEvent* ev )
     const QPoint p = ev->pos();
     const QPointF f = mapToScene (p);
     //qDebug() << "MOVE" << ev->x() << ev->y()<< "mapToScene :" << f.x() << f.y();
-    Xend = f.x(), Yend = f.y();
+    x1 = f.x(), y1 = f.y();
+
+    if(!SelectCreer)
+        Xend = f.x(), Yend = f.y();
     emit mousePressed( p );
 
 }
@@ -34,7 +40,10 @@ void QGraphicsViewCustom::mouseReleaseEvent( QMouseEvent* ev )
     const QPoint p = ev->pos();
     const QPointF f = mapToScene (p);
     //qDebug() << "RELEASE" << ev->x() << ev->y() << "mapToScene :" << f.x() << f.y();
-     Xend = f.x(), Yend = f.y();
+    if(!SelectCreer)
+        Xend = f.x(), Yend = f.y();
+
+    SelectCreer = true;
     emit mousePressed( p );
 }
 

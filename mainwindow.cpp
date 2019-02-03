@@ -11,6 +11,7 @@
 #include <QResizeEvent>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <math.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -30,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
-    connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(RognageClick()));
+    connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(ClickOnFrame()));
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 }
@@ -164,6 +165,7 @@ void MainWindow::on_actionRogner_triggered()
         hauteur = PixmapTab[IDpix].size().rheight();
     Clip w_clip;
     rognageWindowOpen = true;
+    ui->PixFrame->SelectCreer = false;
     w_clip.setLargeur(largeur);
     w_clip.setHauteur(hauteur);
     if (w_clip.exec()){
@@ -225,42 +227,77 @@ void MainWindow::GetExplorerClick(){
 
 }
 
-void MainWindow::RognageClick(){
+void MainWindow::drawRectSelection(double xb, double yb, double xe, double ye){
+
+    QPixmap tmp = PixmapTab[activeScene];
+
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    //rectangle
+    QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(pen);
+    painter->drawRect(xb,yb,xe-xb,ye-yb);
+
+    // Règle des tiers
+    QPen penTier(Qt::white, PixmapTab[activeScene].width()/100/2, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(penTier);
+    double x1 = xb + (xe-xb)/3;
+    double x2 = xb + 2*((xe-xb)/3);
+    double y1 = yb + (ye-yb)/3;
+    double y2 = yb + 2*((ye-yb)/3);
+    painter->drawLine(x1,yb, x1 , ye);
+    painter->drawLine(x2,yb, x2 , ye);
+    painter->drawLine(xb,y1, xe , y1);
+    painter->drawLine(xb,y2, xe , y2);
+
+    int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
+    int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
+    QPen penPoignet(Qt::red, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(penPoignet);
+    int largeur = PixmapTab[activeScene].width()/50;
+    painter->drawEllipse(xE-largeur/2,yE-largeur/2,largeur,largeur );
+    painter->drawEllipse(xB-largeur/2,yB-largeur/2,largeur,largeur );
+
+}
+
+void MainWindow::updateSelectionPoint(int xb, int yb, int xe, int ye){
+    ui->PixFrame->Xbegin = xb,ui->PixFrame->Ybegin = yb, ui->PixFrame->Xend = xe, ui->PixFrame->Yend = ye;
+}
+
+void MainWindow::PoignetUpdate(){
+
+    int x = ui->PixFrame->x1;    int y = ui->PixFrame->y1;
+    int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
+    int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
+
+    double distanceBegin = sqrt(pow(xB-x, 2)+pow(yB-y, 2));
+    double distanceEnd = sqrt(pow(xE-x, 2)+pow(yE-y, 2));
+
+    if(distanceEnd<distanceBegin)
+        updateSelectionPoint(xB, yB, x, y);
+    else
+        updateSelectionPoint(x, y, xE, yE);
+
+}
+void MainWindow::ClickOnFrame(){
+
     if(rognageWindowOpen){
-        double xb, yb, xe, ye;
-        xb = ui->PixFrame->Xbegin;
-        yb = ui->PixFrame->Ybegin;
-        xe = ui->PixFrame->Xend;
-        ye = ui->PixFrame->Yend;
-        //qDebug() << "position du rectangle : xb :" << xb << " yb :" << yb << "xe :" << xe << " ye :" << ye;
+
         QPixmap tmp = PixmapTab[activeScene];
         painter = new QPainter(&PixmapTab[activeScene]);
 
-        painter->setRenderHint(QPainter::Antialiasing);
-
-        //rectangle
-        QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-        painter->setPen(pen);
-        painter->drawRect(xb,yb,xe-xb,ye-yb);
-
-        // Règle des tiers
-        QPen penTier(Qt::white, PixmapTab[activeScene].width()/100/2, Qt::DotLine, Qt::RoundCap, Qt::RoundJoin);
-        painter->setPen(penTier);
-        double x1 = xb + (xe-xb)/3;
-        double x2 = xb + 2*((xe-xb)/3);
-        double y1 = yb + (ye-yb)/3;
-        double y2 = yb + 2*((ye-yb)/3);
-        painter->drawLine(x1,yb, x1 , ye);
-        painter->drawLine(x2,yb, x2 , ye);
-        painter->drawLine(xb,y1, xe , y1);
-        painter->drawLine(xb,y2, xe , y2);
+        if(!ui->PixFrame->SelectCreer)
+            drawRectSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+        else if(ui->PixFrame->SelectCreer){
+            drawRectSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+            PoignetUpdate();
+        }
 
         sceneTab[activeScene].clear();
         sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
 
         delete painter;
         PixmapTab[activeScene] = tmp;
-
     }
 }
 
