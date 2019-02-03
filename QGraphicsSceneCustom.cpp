@@ -10,6 +10,17 @@ QGraphicsSceneCustom::QGraphicsSceneCustom()
     qDebug() << "création de la scène";
 }
 
+
+int QGraphicsSceneCustom::getAngle(){
+    return angle;
+}
+
+void QGraphicsSceneCustom::setAngle(int a){
+    angle = a;
+}
+
+
+
 void QGraphicsSceneCustom::mouseReleaseEvent(QGraphicsSceneMouseEvent *ev)
 {
     const QPointF p = ev->scenePos();

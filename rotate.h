@@ -4,6 +4,7 @@
 #include "ui_rotate.h"
 #include <QGraphicsScene>
 #include "qGraphicsViewCustom.h"
+#include "QGraphicsSceneCustom.h"
 
 class Rotate : public QDialog, private Ui::Rotate
 {
@@ -12,14 +13,16 @@ class Rotate : public QDialog, private Ui::Rotate
 public:
     QPixmap pix;
     QGraphicsViewCustom *Frame;
-    QGraphicsScene *scene;
+    QGraphicsSceneCustom *scene;
     QTransform transform;
-    int angle;
+    int angle = 0;
+    int nouveauAngle;
 
 public:
     explicit Rotate(QWidget *parent = nullptr);
-    void setInfo(QPixmap *p, QGraphicsScene *scene, QGraphicsViewCustom *Frame, int Angle);
+    void setInfo(QPixmap *p, QGraphicsSceneCustom *scene, QGraphicsViewCustom *Frame);
     int getAngle();
+
 
 private slots:
     void on_buttonBox_accepted();

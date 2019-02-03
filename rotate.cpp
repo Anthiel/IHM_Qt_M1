@@ -2,6 +2,7 @@
 #include "rotate.h"
 #include <QGraphicsScene>
 #include "qGraphicsViewCustom.h"
+#include "QGraphicsSceneCustom.h"
 
 Rotate::Rotate(QWidget *parent) :
     QDialog(parent)
@@ -9,21 +10,21 @@ Rotate::Rotate(QWidget *parent) :
     setupUi(this);
 }
 
-void Rotate::setInfo(QPixmap *p, QGraphicsScene *scene, QGraphicsViewCustom *Frame, int Angle){
+void Rotate::setInfo(QPixmap *p, QGraphicsSceneCustom *scene, QGraphicsViewCustom *Frame){
     pix = *p;
     this->Frame = Frame;
     this->scene = scene;
-    this->angle = Angle;
-    RotateSlider->setValue(angle);
-    _hInput->setValue(angle);
 }
 
 
 void Rotate::on_buttonBox_accepted()
 {
-    qDebug() << "accepted" << angle;
+    angle = RotateSlider->value();
+
     QTransform transform;
-    transform.rotate(angle);
+    nouveauAngle = (angle + scene->getAngle())%360;
+    transform.rotate(nouveauAngle);
+    scene->setAngle(nouveauAngle);
     pix = pix.transformed(transform);
     scene->clear();
     scene->addPixmap(pix);
@@ -31,8 +32,9 @@ void Rotate::on_buttonBox_accepted()
     Frame->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
 }
 
+
 int Rotate::getAngle(){
-    return angle;
+    return nouveauAngle;
 }
 
 void Rotate::on_buttonBox_rejected()

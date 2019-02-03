@@ -8,6 +8,7 @@ QGraphicsViewCustom::QGraphicsViewCustom(QWidget *parent):
 
 }
 
+
 void QGraphicsViewCustom::mousePressEvent( QMouseEvent* ev )
 {
     const QPoint p = ev->pos();

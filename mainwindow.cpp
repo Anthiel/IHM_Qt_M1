@@ -395,13 +395,14 @@ void MainWindow::on_actionRotation_90_triggered()
 {
     int IDpix = ui->PixFrame->getID();
     QTransform transform;
-    transform.rotate(90+angleRotate);
+
+    transform.rotate(90);
+
     PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
     sceneTab[IDpix].clear();
     sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-    angleRotate = 90 + angleRotate;
 }
 
 void MainWindow::on_actionRoation_90_triggered()
@@ -409,25 +410,22 @@ void MainWindow::on_actionRoation_90_triggered()
 {
     int IDpix = ui->PixFrame->getID();
     QTransform transform;
-    transform.rotate(-90+angleRotate);
+
+    transform.rotate(-90);
+
     PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
     sceneTab[IDpix].clear();
     sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
-    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-    angleRotate = -90 + angleRotate;
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);   
 }
 
 void MainWindow::on_actionRotation_triggered()
 {
-    Rotate rotateWindow;
-    qDebug() << "debut " << angleRotate;
-    rotateWindow.setInfo(&PixmapTab[activeScene], &sceneTab[activeScene], ui->PixFrame, angleRotate);
-
+    Rotate rotateWindow;    
+    rotateWindow.setInfo(&PixmapTab[activeScene], &sceneTab[activeScene], ui->PixFrame);
     if (rotateWindow.exec())
     {}
     angleRotate = rotateWindow.getAngle();
-    qDebug() << "fin " << angleRotate;
 
-    ;
 }
