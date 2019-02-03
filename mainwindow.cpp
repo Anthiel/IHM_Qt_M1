@@ -322,6 +322,31 @@ void MainWindow::changeEvent(QEvent *e){
     }
 }
 
+bool* MainWindow::selectByColor(QColor color, uint thr)
+{
+    int id_pix = ui->PixFrame->getID();
+    int largeur = PixmapTab[id_pix].size().rwidth(),
+        hauteur = PixmapTab[id_pix].size().rheight();
+
+    QImage im = PixmapTab[id_pix].toImage();
+    bool* selected = new bool[largeur*hauteur];
+
+    for (int x = 0 ; x < largeur ; x++)
+        for (int y = 0 ; y < hauteur ; y++)
+        {
+            QColor o_color = im.pixel(x,y);
+            int a = qAlpha(im.pixel(x,y));
+            /* Calcul de la différence de couleur à partir de la couleur passée */
+            uint diff = abs(o_color.red() - color.red()) +
+                        abs(o_color.green() - color.green()) +
+                        abs(o_color.blue() - color.blue()) +
+                        abs(a - color.alpha());
+            selected[x*hauteur+y] = (diff < thr);
+        }
+
+    return selected;
+}
+
 void MainWindow::on_actionImporter_triggered()
 //Importation des images dans le logiciel
 // label_PicViewer = label du viewer

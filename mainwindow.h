@@ -123,6 +123,14 @@ private:
     void drawRectSelection(double xb, double yb,double xe, double ye);
     void updateSelectionPoint(int xb, int yb, int xe, int ye);
     void PoignetUpdate();
+    /*!
+     * \brief Selectionne selon la couleur passée sur l'image
+     * \param color, couleur de référence
+     * \param thr, seuil de tolérance
+     * \return Un tableau de booléen de taille largeur*hauteur de l'image
+     *         avec en true les pixels selectionnés.
+     */
+    bool* selectByColor(QColor color, uint thr);
     Ui::MainWindow *ui;
 };
 
