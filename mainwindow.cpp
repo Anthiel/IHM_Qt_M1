@@ -34,6 +34,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(ClickOnFrame()));
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
+
+}
+
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
+    if (sceneInit)
+    {
+        QPoint num_pixels = event->angleDelta();
+        zoom(-num_pixels.y());
+    }
 }
 
 MainWindow::~MainWindow()
@@ -347,6 +357,22 @@ bool* MainWindow::selectByColor(QColor color, uint thr)
     return selected;
 }
 
+void MainWindow::zoom(double z_ratio)
+{
+    double old_ratio = zoom_value;
+
+    if ((z_ratio > 0 && zoom_value < 1000.0) || (z_ratio < 0 && zoom_value > 25.0))
+    {
+        zoom_value += z_ratio/60;
+        int id_pix = ui->PixFrame->getID();
+        QPixmap pix = PixmapTab[id_pix];
+//        PixmapTab[id_pix] = pix.scaled(pix.width()*zoom_value/old_ratio,pix.height()*zoom_value/old_ratio);
+//        sceneTab[id_pix].clear();
+//        sceneTab[id_pix].addPixmap(pix);
+//        ui->PixFrame->fitInView(sceneTab[id_pix].sceneRect(),Qt::KeepAspectRatio);
+    }
+}
+
 void MainWindow::on_actionImporter_triggered()
 //Importation des images dans le logiciel
 // label_PicViewer = label du viewer
@@ -417,6 +443,7 @@ void MainWindow::on_actionImporter_triggered()
     delete [] ExplorerPics;
     ExplorerPics = nullptr;
     sceneInit = 1;
+    zoom_value = 100.0;
 }
 
 

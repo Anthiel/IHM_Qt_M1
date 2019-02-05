@@ -24,11 +24,12 @@ public:
     ~MainWindow();
 
 private:
+    Ui::MainWindow *ui;
     int activeScene = 0;
 
     /*!
-     * Vrai si la scène est initialisée
-     * Faux sinon
+     * Vrai si la scène est initialisée.
+     * Faux sinon.
      */
     bool sceneInit = 0;
     QGraphicsSceneCustom *sceneTab;
@@ -46,6 +47,7 @@ private:
     bool rognageWindowOpen = false;
     QGraphicsRectItem* itemRognage;
     QPainter *painter;
+    double zoom_value;
 
 
 private slots:
@@ -101,9 +103,13 @@ private slots:
      */
     void closeEvent(QCloseEvent *event);
 
+
 public slots :
     void GetExplorerClick();
     void ClickOnFrame();
+
+protected:
+    void wheelEvent(QWheelEvent* e);
 
 private:
     /*!
@@ -123,6 +129,7 @@ private:
     void drawRectSelection(double xb, double yb,double xe, double ye);
     void updateSelectionPoint(int xb, int yb, int xe, int ye);
     void PoignetUpdate();
+
     /*!
      * \brief Selectionne selon la couleur passée sur l'image
      * \param color, couleur de référence
@@ -131,7 +138,12 @@ private:
      *         avec en true les pixels selectionnés.
      */
     bool* selectByColor(QColor color, uint thr);
-    Ui::MainWindow *ui;
+
+    /*!
+     * \brief Zoom sur l'image en cours.
+     * \param z_ratio Taille du zoom
+     */
+    void zoom(double z_ratio);
 };
 
 #endif // MAINWINDOW_H
