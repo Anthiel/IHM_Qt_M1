@@ -230,6 +230,51 @@ void MainWindow::GetExplorerClick(){
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
 
 }
+void MainWindow::drawTriangleSelection(double xb, double yb, double xe, double ye){
+    QPixmap tmp = PixmapTab[activeScene];
+
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    //ellipse
+    QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(pen);
+    int x1 = xb, x2 = xe;
+    int y1 = yb, y2 = ye;
+    painter->drawLine(x1+(x2-x1)/2,y1,x1,y2);
+    painter->drawLine(x1,y2,x2,y2);
+    painter->drawLine(x2,y2,x1+(x2-x1)/2,y1);
+
+    // poignets
+    int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
+    int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
+    QPen penPoignet(Qt::red, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(penPoignet);
+    int largeur = PixmapTab[activeScene].width()/50;
+    painter->drawEllipse(xE-largeur/2,yE-largeur/2,largeur,largeur );
+    painter->drawEllipse(xB-largeur/2,yB-largeur/2,largeur,largeur );
+
+}
+
+void MainWindow::drawEllipseSelection(double xb, double yb, double xe, double ye){
+    QPixmap tmp = PixmapTab[activeScene];
+
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    //ellipse
+    QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(pen);
+    painter->drawEllipse(xb,yb,xe-xb,ye-yb);
+
+    // poignets
+    int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
+    int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
+    QPen penPoignet(Qt::red, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(penPoignet);
+    int largeur = PixmapTab[activeScene].width()/50;
+    painter->drawEllipse(xE-largeur/2,yE-largeur/2,largeur,largeur );
+    painter->drawEllipse(xB-largeur/2,yB-largeur/2,largeur,largeur );
+
+}
 
 void MainWindow::drawRectSelection(double xb, double yb, double xe, double ye){
 
@@ -254,6 +299,7 @@ void MainWindow::drawRectSelection(double xb, double yb, double xe, double ye){
     painter->drawLine(xb,y1, xe , y1);
     painter->drawLine(xb,y2, xe , y2);
 
+    // poignets
     int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
     int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
     QPen penPoignet(Qt::red, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -305,6 +351,24 @@ void MainWindow::ClickOnFrame(){
         delete painter;
         PixmapTab[activeScene] = tmp;
     }
+
+    QPixmap tmp1 = PixmapTab[activeScene];
+    painter = new QPainter(&PixmapTab[activeScene]);
+    qDebug() << ui->PixFrame->SelectCreer <<  ui->PixFrame->Xbegin << ui->PixFrame->Ybegin << ui->PixFrame->Xend << ui->PixFrame->Yend;
+
+    if(!ui->PixFrame->SelectCreer)
+        drawTriangleSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+    else if(ui->PixFrame->SelectCreer){
+        drawTriangleSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+        PoignetUpdate();
+    }
+
+    sceneTab[activeScene].clear();
+    sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
+
+    delete painter;
+    PixmapTab[activeScene] = tmp1;
+
 }
 
 void MainWindow::showTest(QGraphicsViewCustom ** t){

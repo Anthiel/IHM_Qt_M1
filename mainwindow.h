@@ -121,6 +121,8 @@ private:
     void keyPressEvent(QKeyEvent *event);
     void rognageGraphique();
     void drawRectSelection(double xb, double yb,double xe, double ye);
+    void drawEllipseSelection(double xb, double yb, double xe, double ye);
+    void drawTriangleSelection(double xb, double yb, double xe, double ye);
     void updateSelectionPoint(int xb, int yb, int xe, int ye);
     void PoignetUpdate();
     /*!

@@ -14,7 +14,7 @@ void QGraphicsViewCustom::mousePressEvent( QMouseEvent* ev )
     const QPoint p = ev->pos();
     const QPointF f = mapToScene (p);
     //qDebug() << "PRESS" << ev->x() << ev->y() << "mapToScene :" << f.x() << f.y();
-    if(!SelectCreer){
+    if(!SelectCreer){   // si la selection n'a pas été créée
         Xbegin = f.x(), Ybegin = f.y();
         Xend = f.x(), Yend = f.y();
     }
