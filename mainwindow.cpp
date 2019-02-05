@@ -25,13 +25,15 @@
 #include "QGraphicsSceneCustom.h"
 
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
-    connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(ClickOnFrame()));
+    ui->carteMentale->setStyleSheet("background: transparent; border: 0px");
+    connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(ClickOnFrame()));    
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 
@@ -100,8 +102,10 @@ void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenet
     if(sceneInit){
         QMainWindow::resizeEvent(event);
         ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
+        ui->carteMentale->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
     }
 }
+
 
 void MainWindow::showEvent(QShowEvent *) {}
 
@@ -289,6 +293,8 @@ void MainWindow::PoignetUpdate(){
         updateSelectionPoint(x, y, xE, yE);
 
 }
+
+
 void MainWindow::ClickOnFrame(){
 
     if(rognageWindowOpen){
@@ -409,6 +415,7 @@ void MainWindow::on_actionImporter_triggered()
     // chargement de l'image dans le Viewer
 
     SetMainPicture(&sceneTab[0], ui->PixFrame);
+    SetMainPicture(&sceneTab[0], ui->carteMentale);
 
     QPixmap PicI;
     ExplorerPics[0] = ui-> GraphicModeleExplorer;
