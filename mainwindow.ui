@@ -59,7 +59,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1210</width>
+             <width>1185</width>
              <height>474</height>
             </rect>
            </property>
@@ -161,8 +161,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>737</width>
-                     <height>438</height>
+                     <width>701</width>
+                     <height>427</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_3">
@@ -280,8 +280,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1212</width>
-           <height>108</height>
+           <width>1208</width>
+           <height>109</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
@@ -341,7 +341,7 @@
      <x>0</x>
      <y>0</y>
      <width>1234</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -369,7 +369,15 @@
     <addaction name="actionNoir_et_Blanc"/>
     <addaction name="actionCouleurs"/>
    </widget>
+   <widget class="QMenu" name="menuEdition">
+    <property name="title">
+     <string>Édition</string>
+    </property>
+    <addaction name="actionAnnuler"/>
+    <addaction name="actionRetablir"/>
+   </widget>
    <addaction name="menuFichier"/>
+   <addaction name="menuEdition"/>
    <addaction name="menuImage"/>
    <addaction name="menuFiltres"/>
   </widget>
@@ -401,7 +409,7 @@
      <normaloff>:/icones/kanna.png</normaloff>:/icones/kanna.png</iconset>
    </property>
    <property name="text">
-    <string>Rogner...</string>
+    <string>Rogner ...</string>
    </property>
   </action>
   <action name="actionExporter_l_image">
@@ -434,10 +442,26 @@
   </action>
   <action name="actionCouleurs">
    <property name="text">
-    <string>Couleurs</string>
+    <string>Couleurs ...</string>
    </property>
    <property name="toolTip">
     <string>Filtre couleurs</string>
+   </property>
+  </action>
+  <action name="actionAnnuler">
+   <property name="text">
+    <string>Annuler</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionRetablir">
+   <property name="text">
+    <string>Rétablir</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
    </property>
   </action>
  </widget>
