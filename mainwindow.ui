@@ -60,7 +60,7 @@
              <x>0</x>
              <y>0</y>
              <width>1210</width>
-             <height>477</height>
+             <height>474</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -161,7 +161,7 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>901</width>
+                     <width>737</width>
                      <height>438</height>
                     </rect>
                    </property>
@@ -341,7 +341,7 @@
      <x>0</x>
      <y>0</y>
      <width>1234</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -367,6 +367,7 @@
      <string>Filtres</string>
     </property>
     <addaction name="actionNoir_et_Blanc"/>
+    <addaction name="actionCouleurs"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuImage"/>
@@ -429,6 +430,14 @@
   <action name="actionNoir_et_Blanc">
    <property name="text">
     <string>Noir et Blanc</string>
+   </property>
+  </action>
+  <action name="actionCouleurs">
+   <property name="text">
+    <string>Couleurs</string>
+   </property>
+   <property name="toolTip">
+    <string>Filtre couleurs</string>
    </property>
   </action>
  </widget>

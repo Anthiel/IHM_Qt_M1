@@ -23,7 +23,7 @@
 #include <QResizeEvent>
 #include "rotate.h"
 #include "QGraphicsSceneCustom.h"
-
+#include "colorfilter.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -73,6 +73,58 @@ void MainWindow::closeEvent(QCloseEvent *event)
         }
     }
 }
+
+void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
+{
+    bool* tab = selectByColor(to_select, thr);
+    int id_pix = ui->PixFrame->getID();
+    int largeur = PixmapTab[id_pix].size().rwidth(),
+        hauteur = PixmapTab[id_pix].size().rheight();
+    QImage im = PixmapTab[id_pix].toImage();
+    QImage al = im.alphaChannel(); // Alpha à part
+
+    int hue = colorize.hue();
+
+    for (int x = 0 ; x < largeur ; x++)
+        for (int y = 0 ; y < hauteur ; y++)
+        {
+            int a = qAlpha(im.pixel(x,y));
+            if (a > 0) // Ne modifie que si non transparent
+            {
+                QColor color = im.pixel(x,y);
+                color.setHsv(hue,color.saturation(), color.value());
+                im.setPixelColor(x,y,color);
+                al.setPixel(x,y,a);
+            }
+        }
+
+    im.setAlphaChannel(al);
+    sceneTab[id_pix].clear();
+    sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
+    PixmapTab[id_pix] = QPixmap::fromImage(im);
+    delete tab;
+}
+
+void MainWindow::on_actionCouleurs_triggered()
+{
+    ColorFilter cf;
+    if (cf.exec())
+    {
+        /*! @todo
+        // On récupère les couleurs de filtre et à filtrer + le seuillage de filtre
+        // selectByColor(QColor filtered, uint thr)
+        // On récupère la QImage pour faire les modifications
+        // On applique la modification aux pixels choisis sur la QImage
+        // On recharge la QPixmap
+        */
+    }
+
+    /*!
+      @todo Nouvelle fonction pour coloriser (à utiliser pour la prévisu aussi)
+            Récupération de l'image au début pour rétablir si pas validé
+      */
+}
+
 
 void MainWindow::on_actionRedimensionner_triggered()
 {
@@ -214,6 +266,7 @@ void MainWindow::enableIfPic(bool enable)
     ui->actionRotation->setEnabled(enable);
     ui->actionRotation_90->setEnabled(enable);
     ui->actionRoation_90->setEnabled(enable);
+    ui->actionCouleurs->setEnabled(enable);
 }
 
 void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom *PixFrame)
@@ -451,6 +504,8 @@ void MainWindow::on_actionImporter_triggered()
     ExplorerPics = nullptr;
     sceneInit = 1;
     zoom_value = 100.0;
+
+//    colorFilter(QColor(150,0,0),150*3,QColor(0,0,150));
 }
 
 

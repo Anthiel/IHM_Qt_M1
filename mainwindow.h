@@ -98,6 +98,11 @@ private slots:
     void on_actionNoir_et_Blanc_triggered();
 
     /*!
+     * \brief Fenêtre de filtres pour changer la couleur de l'image en cours.
+     */
+    void on_actionCouleurs_triggered();
+
+    /*!
      * \brief Fenêtre "remininder".
      * \param event
      */
@@ -130,6 +135,7 @@ private:
     void updateSelectionPoint(int xb, int yb, int xe, int ye);
     void PoignetUpdate();
 
+    void colorFilter(QColor to_select, int thr, QColor colorize);
     /*!
      * \brief Selectionne selon la couleur passée sur l'image
      * \param color, couleur de référence
