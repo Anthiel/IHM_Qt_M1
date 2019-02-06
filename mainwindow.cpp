@@ -77,7 +77,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
 {
-    bool* tab = selectByColor(to_select, thr);
+    bool* tab = selectByColor(to_select, thr*3);
     int id_pix = ui->PixFrame->getID();
     int largeur = PixmapTab[id_pix].size().rwidth(),
         hauteur = PixmapTab[id_pix].size().rheight();
@@ -90,7 +90,7 @@ void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
         for (int y = 0 ; y < hauteur ; y++)
         {
             int a = qAlpha(im.pixel(x,y));
-            if (a > 0) // Ne modifie que si non transparent
+            if (a > 0 && tab[x*hauteur+y]) // Ne modifie que si non transparent
             {
                 QColor color = im.pixel(x,y);
                 color.setHsv(hue,color.saturation(), color.value());
