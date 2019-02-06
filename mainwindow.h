@@ -6,6 +6,7 @@
 #include "qGraphicsViewCustom.h"
 #include <QResizeEvent>
 #include "QGraphicsSceneCustom.h"
+#include "historique.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +35,7 @@ private:
     bool sceneInit = 0;
     QGraphicsSceneCustom *sceneTab;
     QPixmap* PixmapTab;
+    Historique* historiqueTab;
     QGraphicsProxyWidget* proxyPixmapTab;
     QGraphicsView* view;
     int angleRotate = 0;
@@ -63,6 +65,25 @@ private slots:
     void on_actionTout_supprimer_triggered();
 
     /*!
+     * \brief Sauvegarde des modifications de l'image en cours.
+     */
+    void on_actionExporter_l_image_triggered();
+
+
+
+    /*!
+     * \brief Faire un retour en arrière (l'erreur est humaine)
+     */
+    void on_actionAnnuler_triggered();
+
+    /*!
+     * \brief Revenir à ce qu'on avait fait
+     */
+    void on_actionRetablir_triggered();
+
+
+
+    /*!
      * \brief Redimension de l'image en cours (fenêtre de réglages).
      */
     void on_actionRedimensionner_triggered();
@@ -72,10 +93,7 @@ private slots:
      */
     void on_actionRogner_triggered();
 
-    /*!
-     * \brief Sauvegarde des modifications de l'image en cours.
-     */
-    void on_actionExporter_l_image_triggered();
+
 
     /*!
      * \brief Rotation horaire à 90° de l'image en cours.
@@ -92,6 +110,9 @@ private slots:
      */
     void on_actionRotation_triggered();
 
+
+
+
     /*!
      * \brief Filtre noir et blanc sur l'image en cours.
      */
@@ -101,6 +122,8 @@ private slots:
      * \brief Fenêtre de filtres pour changer la couleur de l'image en cours.
      */
     void on_actionCouleurs_triggered();
+
+
 
     /*!
      * \brief Fenêtre "remininder".
@@ -134,6 +157,11 @@ private:
     void drawRectSelection(double xb, double yb,double xe, double ye);
     void updateSelectionPoint(int xb, int yb, int xe, int ye);
     void PoignetUpdate();
+
+    /*!
+     * \brief met a jour l'historique des modification
+     */
+    void update_historique(QPixmap *modification);
 
     void colorFilter(QColor to_select, int thr, QColor colorize);
     /*!

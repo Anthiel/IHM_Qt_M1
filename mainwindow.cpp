@@ -49,31 +49,6 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     }
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    if (ImageCount > 0)
-    {
-        switch (QMessageBox::question(this,
-                                      "Enregistrer les modifications ?",
-                                      "Vos modifications seront perdues si vous ne les enregistrez pas.",
-                                      QMessageBox::No | QMessageBox::Cancel | QMessageBox::Save))
-        {
-            case QMessageBox::No:
-                event->accept();
-                break;
-            case QMessageBox::Save:
-                on_actionExporter_l_image_triggered();
-                break;
-            default:
-                event->ignore();
-        }
-    }
-}
 
 void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
 {
@@ -106,53 +81,6 @@ void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
     delete tab;
 }
 
-void MainWindow::on_actionCouleurs_triggered()
-{
-    ColorFilter cf;
-    if (cf.exec())
-    {
-        QColor hue = cf.getHue();
-        QColor to_filter = cf.getFilterColor();
-        int thr = cf.getThreshold();
-        colorFilter(to_filter,thr,hue);
-        /*! @todo
-        // On récupère les couleurs de filtre et à filtrer + le seuillage de filtre
-        // selectByColor(QColor filtered, uint thr)
-        // On récupère la QImage pour faire les modifications
-        // On applique la modification aux pixels choisis sur la QImage
-        // On recharge la QPixmap
-        */
-    }
-
-    /*!
-      @todo Nouvelle fonction pour coloriser (à utiliser pour la prévisu aussi)
-            Récupération de l'image au début pour rétablir si pas validé
-      */
-}
-
-
-void MainWindow::on_actionRedimensionner_triggered()
-{
-    int IDpix = ui->PixFrame->getID();
-    qDebug() << __FUNCTION__ << "Old size" << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
-    int largeur = PixmapTab[IDpix].size().rwidth(),
-        hauteur = PixmapTab[IDpix].size().rheight();
-    Resize w_resize;
-    w_resize.setLargeur(largeur);
-    w_resize.setHauteur(hauteur);
-    if (w_resize.exec())
-    {
-        largeur = w_resize.getLargeur();
-        hauteur = w_resize.getHauteur();
-        sceneTab[IDpix].clear();
-        sceneTab[IDpix].addPixmap(PixmapTab[IDpix].scaled(largeur,hauteur));
-        PixmapTab[IDpix] = PixmapTab[IDpix].scaled(largeur,hauteur);
-    }
-
-    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
-    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-    qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
-}
 
 void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenetre change
 {
@@ -163,23 +91,7 @@ void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenet
     }
 }
 
-
 void MainWindow::showEvent(QShowEvent *) {}
-
-void MainWindow::rognageGraphique(){
-    double xb, yb, xe, ye;
-    xb = ui->PixFrame->Xbegin;
-    yb = ui->PixFrame->Ybegin;
-    xe = ui->PixFrame->Xend;
-    ye = ui->PixFrame->Yend;
-    qDebug() << __FUNCTION__ << "hello" <<xb << yb << xe << ye;
-    sceneTab[activeScene].clear();
-    sceneTab[activeScene].addPixmap(PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb));
-    PixmapTab[activeScene] = PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb);
-    sceneTab[activeScene].setSceneRect(PixmapTab[activeScene].rect());
-    ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
-    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
-}
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
@@ -200,66 +112,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
-void MainWindow::on_actionNoir_et_Blanc_triggered()
-{
-    int id_pix = ui->PixFrame->getID();
-    int largeur = PixmapTab[id_pix].size().rwidth(),
-        hauteur = PixmapTab[id_pix].size().rheight();
-    QImage im = PixmapTab[id_pix].toImage();
-    QImage al = im.alphaChannel(); // Alpha à part
-    for (int x = 0 ; x < largeur ; x++)
-        for (int y = 0 ; y < hauteur ; y++)
-        {
-            int a = qAlpha(im.pixel(x,y));
-            if (a > 0) // Ne modifie que si non transparent
-            {
-                int color = qGray(im.pixel(x,y));
-                im.setPixel(x,y, qRgb(color,color,color));
-                al.setPixel(x,y,a);
-            }
-        }
 
-    im.setAlphaChannel(al);
-    sceneTab[id_pix].clear();
-    sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
-    PixmapTab[id_pix] = QPixmap::fromImage(im);
-}
-
-
-
-void MainWindow::on_actionRogner_triggered()
-{
-    int IDpix = ui->PixFrame->getID();
-    qDebug() << __FUNCTION__ << "Old size"  << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
-
-    int largeur = PixmapTab[IDpix].size().rwidth(),
-        hauteur = PixmapTab[IDpix].size().rheight();
-    Clip w_clip;
-    rognageWindowOpen = true;
-    ui->PixFrame->SelectCreer = false;
-    w_clip.setLargeur(largeur);
-    w_clip.setHauteur(hauteur);
-    if (w_clip.exec()){
-        largeur = w_clip.getLargeur();
-        hauteur = w_clip.getHauteur();
-        int x0=w_clip.getX0();
-        int y0=w_clip.getY0();
-        qDebug() << __FUNCTION__ << "clip to" <<x0 << y0<<largeur<<hauteur;
-        sceneTab[IDpix].clear();
-        sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
-        PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
-    }
-    qDebug() << "clip fermé, valeur openWindow" << w_clip.openWindow;
-    if(w_clip.openWindow == true){
-        rognageWindowOpen = true;
-        w_clip.openWindow = false;
-    }
-
-    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
-    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
-    qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
-}
 
 void MainWindow::enableIfPic(bool enable)
 {
@@ -272,6 +125,9 @@ void MainWindow::enableIfPic(bool enable)
     ui->actionRotation_90->setEnabled(enable);
     ui->actionRoation_90->setEnabled(enable);
     ui->actionCouleurs->setEnabled(enable);
+
+    ui->actionAnnuler->setEnabled(false);
+    ui->actionRetablir->setEnabled(false);
 }
 
 void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom *PixFrame)
@@ -280,7 +136,6 @@ void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom
     PixFrame->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
     PixFrame->setID(activeScene);
 }
-
 
 void MainWindow::GetExplorerClick(){
     QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
@@ -457,6 +312,7 @@ void MainWindow::on_actionImporter_triggered()
 
     sceneTab = new QGraphicsSceneCustom[uint(ImageCount)];
     PixmapTab = new QPixmap[uint(ImageCount)];
+    historiqueTab = new Historique[uint(ImageCount)];
     activeScene = 0;
 
     QImage *imageObject = new QImage();
@@ -468,6 +324,7 @@ void MainWindow::on_actionImporter_triggered()
         sceneTab[i].addPixmap(image);
         sceneTab[i].setSceneRect(image.rect());
         PixmapTab[i] = image;
+        historiqueTab[i].on_image_added(&PixmapTab[i]);
      }
     QGraphicsViewCustom **ExplorerPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
     // chargement de l'image dans le Viewer
@@ -524,6 +381,7 @@ void MainWindow::on_actionTout_supprimer_triggered()
     for(int i=0; i<ImageCount;i++){
         sceneTab[i].clear();
         PixmapTab[i] = QPixmap();
+        historiqueTab[i].~Historique();
     }
     ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
     while(ui->Layout_Explorer->count()>1){
@@ -537,6 +395,7 @@ void MainWindow::on_actionTout_supprimer_triggered()
     enableIfPic(false);
     sceneTab = nullptr;
     PixmapTab = nullptr;
+    historiqueTab = nullptr;
 }
 
 void MainWindow::on_actionExporter_l_image_triggered()
@@ -552,6 +411,119 @@ void MainWindow::on_actionExporter_l_image_triggered()
     PixmapTab[activeScene].save(&file);
 }
 
+
+
+void MainWindow::on_actionAnnuler_triggered(){
+    int IDpix = ui->PixFrame->getID();
+    historiqueTab[IDpix].on_actionUndo_triggered();
+    PixmapTab[IDpix]=historiqueTab[ui->PixFrame->getID()].element;
+
+    sceneTab[IDpix].clear();
+    sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
+    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
+    ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
+}
+
+void MainWindow::on_actionRetablir_triggered(){
+    int IDpix = ui->PixFrame->getID();
+    historiqueTab[IDpix].on_actionRedo_triggered();
+    PixmapTab[IDpix]=historiqueTab[ui->PixFrame->getID()].element;
+
+    sceneTab[IDpix].clear();
+    sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
+    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
+    ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
+}
+
+void MainWindow::update_historique(QPixmap *modification){
+    historiqueTab[ui->PixFrame->getID()].on_newModification_added(modification);
+
+    ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
+    ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
+}
+
+
+
+void MainWindow::on_actionRedimensionner_triggered()
+{
+    int IDpix = ui->PixFrame->getID();
+    qDebug() << __FUNCTION__ << "Old size" << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
+    int largeur = PixmapTab[IDpix].size().rwidth(),
+        hauteur = PixmapTab[IDpix].size().rheight();
+    Resize w_resize;
+    w_resize.setLargeur(largeur);
+    w_resize.setHauteur(hauteur);
+    if (w_resize.exec())
+    {
+        largeur = w_resize.getLargeur();
+        hauteur = w_resize.getHauteur();
+        sceneTab[IDpix].clear();
+        sceneTab[IDpix].addPixmap(PixmapTab[IDpix].scaled(largeur,hauteur));
+        PixmapTab[IDpix] = PixmapTab[IDpix].scaled(largeur,hauteur);
+
+        update_historique(&PixmapTab[ui->PixFrame->getID()]);
+    }
+
+    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
+}
+
+void MainWindow::on_actionRogner_triggered()
+{
+    int IDpix = ui->PixFrame->getID();
+    qDebug() << __FUNCTION__ << "Old size"  << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
+
+    int largeur = PixmapTab[IDpix].size().rwidth(),
+        hauteur = PixmapTab[IDpix].size().rheight();
+    Clip w_clip;
+    rognageWindowOpen = true;
+    ui->PixFrame->SelectCreer = false;
+    w_clip.setLargeur(largeur);
+    w_clip.setHauteur(hauteur);
+    if (w_clip.exec()){
+        largeur = w_clip.getLargeur();
+        hauteur = w_clip.getHauteur();
+        int x0=w_clip.getX0();
+        int y0=w_clip.getY0();
+        qDebug() << __FUNCTION__ << "clip to" <<x0 << y0<<largeur<<hauteur;
+        sceneTab[IDpix].clear();
+        sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
+        PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
+
+        update_historique(&PixmapTab[ui->PixFrame->getID()]);
+    }
+    qDebug() << "clip fermé, valeur openWindow" << w_clip.openWindow;
+    if(w_clip.openWindow == true){
+        rognageWindowOpen = true;
+        w_clip.openWindow = false;
+    }
+
+    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
+    qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
+}
+
+void MainWindow::rognageGraphique(){
+    double xb, yb, xe, ye;
+    xb = ui->PixFrame->Xbegin;
+    yb = ui->PixFrame->Ybegin;
+    xe = ui->PixFrame->Xend;
+    ye = ui->PixFrame->Yend;
+    qDebug() << __FUNCTION__ << "clip to" <<xb << yb << xe << ye;
+    sceneTab[activeScene].clear();
+    sceneTab[activeScene].addPixmap(PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb));
+    PixmapTab[activeScene] = PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb);
+    sceneTab[activeScene].setSceneRect(PixmapTab[activeScene].rect());
+    ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
+
+    update_historique(&PixmapTab[ui->PixFrame->getID()]);
+}
+
 void MainWindow::on_actionRotation_90_triggered()
 // rotation à 90° du pixmap
 {
@@ -565,6 +537,8 @@ void MainWindow::on_actionRotation_90_triggered()
     sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+
+    update_historique(&PixmapTab[ui->PixFrame->getID()]);
 }
 
 void MainWindow::on_actionRoation_90_triggered()
@@ -579,7 +553,9 @@ void MainWindow::on_actionRoation_90_triggered()
     sceneTab[IDpix].clear();
     sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
-    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);   
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+
+    update_historique(&PixmapTab[ui->PixFrame->getID()]);
 }
 
 void MainWindow::on_actionRotation_triggered()
@@ -590,4 +566,89 @@ void MainWindow::on_actionRotation_triggered()
     {}
     angleRotate = rotateWindow.getAngle();
 
+    update_historique(&PixmapTab[ui->PixFrame->getID()]);
+}
+
+
+
+void MainWindow::on_actionNoir_et_Blanc_triggered()
+{
+    int id_pix = ui->PixFrame->getID();
+    int largeur = PixmapTab[id_pix].size().rwidth(),
+        hauteur = PixmapTab[id_pix].size().rheight();
+    QImage im = PixmapTab[id_pix].toImage();
+    QImage al = im.alphaChannel(); // Alpha à part
+    for (int x = 0 ; x < largeur ; x++)
+        for (int y = 0 ; y < hauteur ; y++)
+        {
+            int a = qAlpha(im.pixel(x,y));
+            if (a > 0) // Ne modifie que si non transparent
+            {
+                int color = qGray(im.pixel(x,y));
+                im.setPixel(x,y, qRgb(color,color,color));
+                al.setPixel(x,y,a);
+            }
+        }
+
+    im.setAlphaChannel(al);
+    sceneTab[id_pix].clear();
+    sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
+    PixmapTab[id_pix] = QPixmap::fromImage(im);
+
+    update_historique(&PixmapTab[ui->PixFrame->getID()]);
+}
+
+void MainWindow::on_actionCouleurs_triggered()
+{
+    ColorFilter cf;
+    if (cf.exec())
+    {
+        QColor hue = cf.getHue();
+        QColor to_filter = cf.getFilterColor();
+        int thr = cf.getThreshold();
+        colorFilter(to_filter,thr,hue);
+        /*! @todo
+        // On récupère les couleurs de filtre et à filtrer + le seuillage de filtre
+        // selectByColor(QColor filtered, uint thr)
+        // On récupère la QImage pour faire les modifications
+        // On applique la modification aux pixels choisis sur la QImage
+        // On recharge la QPixmap
+        */
+    }
+
+    /*!
+      @todo Nouvelle fonction pour coloriser (à utiliser pour la prévisu aussi)
+            Récupération de l'image au début pour rétablir si pas validé
+      */
+
+
+    update_historique(&PixmapTab[ui->PixFrame->getID()]);
+}
+
+
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (ImageCount > 0)
+    {
+        switch (QMessageBox::question(this,
+                                      "Enregistrer les modifications ?",
+                                      "Vos modifications seront perdues si vous ne les enregistrez pas.",
+                                      QMessageBox::No | QMessageBox::Cancel | QMessageBox::Save))
+        {
+            case QMessageBox::No:
+                event->accept();
+                break;
+            case QMessageBox::Save:
+                on_actionExporter_l_image_triggered();
+                break;
+            default:
+                event->ignore();
+        }
+    }
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
 }
