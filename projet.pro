@@ -32,7 +32,8 @@ SOURCES += \
         qGraphicsViewCustom.cpp \
         rotate.cpp \
         QGraphicsSceneCustom.cpp \
-    colorfilter.cpp
+        colorfilter.cpp \
+        historique.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,14 +42,15 @@ HEADERS += \
         qGraphicsViewCustom.h \
         rotate.h \
         QGraphicsSceneCustom.h \
-    colorfilter.h
+        colorfilter.h \
+        historique.h
 
 FORMS += \
         mainwindow.ui \
         resize.ui \
         clip.ui \
         rotate.ui \
-    colorfilter.ui
+        colorfilter.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

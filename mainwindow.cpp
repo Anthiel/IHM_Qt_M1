@@ -24,6 +24,7 @@
 #include "rotate.h"
 #include "QGraphicsSceneCustom.h"
 #include "colorfilter.h"
+#include "historique.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
