@@ -110,6 +110,10 @@ void MainWindow::on_actionCouleurs_triggered()
     ColorFilter cf;
     if (cf.exec())
     {
+        QColor hue = cf.getHue();
+        QColor to_filter = cf.getFilterColor();
+        int thr = cf.getThreshold();
+        colorFilter(to_filter,thr,hue);
         /*! @todo
         // On récupère les couleurs de filtre et à filtrer + le seuillage de filtre
         // selectByColor(QColor filtered, uint thr)
@@ -408,8 +412,8 @@ bool* MainWindow::selectByColor(QColor color, uint thr)
             /* Calcul de la différence de couleur à partir de la couleur passée */
             uint diff = abs(o_color.red() - color.red()) +
                         abs(o_color.green() - color.green()) +
-                        abs(o_color.blue() - color.blue()) +
-                        abs(a - color.alpha());
+                        abs(o_color.blue() - color.blue());
+            /* + abs(a - color.alpha()*/
             selected[x*hauteur+y] = (diff < thr);
         }
 
