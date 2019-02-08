@@ -151,6 +151,7 @@ void MainWindow::GetExplorerClick(){
     }
 
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
+    SetMainPicture(&sceneTab[activeScene],  ui->carteMentale);
 
 }
 
@@ -387,6 +388,7 @@ void MainWindow::on_actionTout_supprimer_triggered()
     while(ui->Layout_Explorer->count()>1){
         ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
     }
+   // ui->Layout_Explorer->addItem(new QSpacerItem(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding));
     for(int i = 0; i<ImageCount;i++)
         ExplorerGraphicsView[i] = nullptr;
 
