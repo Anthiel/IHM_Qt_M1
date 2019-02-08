@@ -155,6 +155,52 @@ void MainWindow::GetExplorerClick(){
 
 }
 
+void MainWindow::drawTriangleSelection(double xb, double yb, double xe, double ye){
+    QPixmap tmp = PixmapTab[activeScene];
+
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    //ellipse
+    QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(pen);
+    int x1 = xb, x2 = xe;
+    int y1 = yb, y2 = ye;
+    painter->drawLine(x1+(x2-x1)/2,y1,x1,y2);
+    painter->drawLine(x1,y2,x2,y2);
+    painter->drawLine(x2,y2,x1+(x2-x1)/2,y1);
+
+    // poignets
+    int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
+    int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
+    QPen penPoignet(Qt::red, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(penPoignet);
+    int largeur = PixmapTab[activeScene].width()/50;
+    painter->drawEllipse(xE-largeur/2,yE-largeur/2,largeur,largeur );
+    painter->drawEllipse(xB-largeur/2,yB-largeur/2,largeur,largeur );
+
+}
+
+void MainWindow::drawEllipseSelection(double xb, double yb, double xe, double ye){
+    QPixmap tmp = PixmapTab[activeScene];
+
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    //ellipse
+    QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(pen);
+    painter->drawEllipse(xb,yb,xe-xb,ye-yb);
+
+    // poignets
+    int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
+    int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
+    QPen penPoignet(Qt::red, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(penPoignet);
+    int largeur = PixmapTab[activeScene].width()/50;
+    painter->drawEllipse(xE-largeur/2,yE-largeur/2,largeur,largeur );
+    painter->drawEllipse(xB-largeur/2,yB-largeur/2,largeur,largeur );
+
+}
+
 void MainWindow::drawRectSelection(double xb, double yb, double xe, double ye){
 
     QPixmap tmp = PixmapTab[activeScene];
@@ -178,6 +224,7 @@ void MainWindow::drawRectSelection(double xb, double yb, double xe, double ye){
     painter->drawLine(xb,y1, xe , y1);
     painter->drawLine(xb,y2, xe , y2);
 
+    // poignets
     int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
     int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
     QPen penPoignet(Qt::red, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -211,25 +258,59 @@ void MainWindow::PoignetUpdate(){
 
 void MainWindow::ClickOnFrame(){
 
+    QPixmap tmp = PixmapTab[activeScene];
+    painter = new QPainter(&PixmapTab[activeScene]);
+
     if(rognageWindowOpen){
-
-        QPixmap tmp = PixmapTab[activeScene];
-        painter = new QPainter(&PixmapTab[activeScene]);
-
         if(!ui->PixFrame->SelectCreer)
             drawRectSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
         else if(ui->PixFrame->SelectCreer){
             drawRectSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
             PoignetUpdate();
         }
-
-        sceneTab[activeScene].clear();
-        sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
-
-        delete painter;
-        PixmapTab[activeScene] = tmp;
     }
+
+    if(Selection == true){
+        qDebug() << "selection activée";
+        if(SelecMode == 0){ // Triangle
+            qDebug() << "selection Triangle";
+            if(!ui->PixFrame->SelectCreer)
+                drawTriangleSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+            else if(ui->PixFrame->SelectCreer){
+                drawTriangleSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+                PoignetUpdate();
+            }
+        }
+        else if(SelecMode == 1){ // Ellipse
+            qDebug() << "selection Ellipse";
+            if(!ui->PixFrame->SelectCreer)
+                drawEllipseSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+            else if(ui->PixFrame->SelectCreer){
+                drawEllipseSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+                PoignetUpdate();
+            }
+        }
+        else if(SelecMode == 2){ // Rectangle
+            qDebug() << "selection Rectangle";
+            if(!ui->PixFrame->SelectCreer)
+                drawRectSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+            else if(ui->PixFrame->SelectCreer){
+                drawRectSelection(ui->PixFrame->Xbegin,ui->PixFrame->Ybegin, ui->PixFrame->Xend, ui->PixFrame->Yend);
+                PoignetUpdate();
+            }
+        }
+
+    }
+
+
+    sceneTab[activeScene].clear();
+    sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
+
+    delete painter;
+    PixmapTab[activeScene] = tmp;
+
 }
+
 
 void MainWindow::showTest(QGraphicsViewCustom ** t){
 
@@ -300,7 +381,8 @@ void MainWindow::on_actionImporter_triggered()
 // LabelExpl_img = label modèle
 {
     on_actionTout_supprimer_triggered(); // suppression des potentiels images présentes
-
+    ui->Layout_Explorer->setAlignment(Qt::AlignLeft);
+    ui->GraphicModeleExplorer->setAlignment(Qt::AlignLeft);
     QStringList  fileNames = QFileDialog::getOpenFileNames(this,
          tr("Open Image"), "/home/", tr("Image Files (*.png *.jpg *.bmp)")); // sélection des images
 
@@ -345,8 +427,10 @@ void MainWindow::on_actionImporter_triggered()
              ExplorerPics[i]->setMinimumSize(ui->GraphicModeleExplorer->minimumSize());
              ExplorerPics[i]->setSizePolicy(ui->GraphicModeleExplorer->sizePolicy());
         }
-        if(i == 0)
+        if(i == 0){
              ExplorerPics[i]->setStyleSheet("background: transparent; border: 1px solid blue");
+        }
+
 
         connect(ExplorerPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetExplorerClick()));
 
@@ -653,4 +737,34 @@ void MainWindow::closeEvent(QCloseEvent *event)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_Button_QuitSelectMode_clicked()
+{
+    Selection = false;
+    SelecMode = 2; // rectangle par defaut
+    ui->PixFrame->SelectCreer = false;
+    sceneTab[activeScene].clear();
+    sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
+}
+
+void MainWindow::on_Button_SelecRect_clicked()
+{
+    Selection = true;
+    SelecMode = 2;
+    qDebug() << "selection mode = " << SelecMode;
+}
+
+void MainWindow::on_Button_SelecEllipse_clicked()
+{
+    Selection = true;
+    SelecMode = 1;
+    qDebug() << "selection mode = " << SelecMode;
+}
+
+void MainWindow::on_Button_SelecTriangle_clicked()
+{
+    Selection = true;
+    SelecMode = 0;
+    qDebug() << "selection mode = " << SelecMode;
 }

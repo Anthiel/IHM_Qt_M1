@@ -380,27 +380,34 @@
                        <item>
                         <layout class="QHBoxLayout" name="horizontalLayout_2">
                          <item>
-                          <widget class="QPushButton" name="pushButton_2">
+                          <widget class="QPushButton" name="Button_SelecRect">
                            <property name="text">
                             <string>Rectangle</string>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_5">
+                          <widget class="QPushButton" name="Button_SelecEllipse">
                            <property name="text">
                             <string>Ellipse</string>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_4">
+                          <widget class="QPushButton" name="Button_SelecTriangle">
                            <property name="text">
                             <string>Triangle</string>
                            </property>
                           </widget>
                          </item>
                         </layout>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="Button_QuitSelectMode">
+                         <property name="text">
+                          <string>Quitter le mode sélection</string>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>

@@ -33,6 +33,8 @@ private:
      * Faux sinon.
      */
     bool sceneInit = 0;
+    bool Selection = false;
+    int SelecMode = 2;
     QGraphicsSceneCustom *sceneTab;
     QPixmap* PixmapTab;
     Historique* historiqueTab;
@@ -132,6 +134,16 @@ private slots:
     void closeEvent(QCloseEvent *event);
 
 
+
+
+    void on_Button_QuitSelectMode_clicked();
+
+    void on_Button_SelecRect_clicked();
+
+    void on_Button_SelecEllipse_clicked();
+
+    void on_Button_SelecTriangle_clicked();
+
 public slots :
     void GetExplorerClick();
     void ClickOnFrame();
@@ -157,6 +169,8 @@ private:
     void drawRectSelection(double xb, double yb,double xe, double ye);
     void updateSelectionPoint(int xb, int yb, int xe, int ye);
     void PoignetUpdate();
+    void drawTriangleSelection(double xb, double yb, double xe, double ye);
+    void drawEllipseSelection(double xb, double yb, double xe, double ye);
 
     /*!
      * \brief met a jour l'historique des modification
