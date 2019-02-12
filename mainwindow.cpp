@@ -93,9 +93,22 @@ void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenet
 
 void MainWindow::showEvent(QShowEvent *) {}
 
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    switch(event->key()) {
+            case (Qt::Key_Control):
+                selectionTouch = false;
+                break;
+    }
+}
+
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key()) {
+            case (Qt::Key_Control):
+                selectionTouch = true;
+                break;
             case (Qt::Key_Enter) :
                 if(rognageWindowOpen){
                     rognageGraphique();
@@ -140,11 +153,26 @@ void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom
 void MainWindow::GetExplorerClick(){
     QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
     if(activeScene == src->getID()) return;
+    int ID = src->getID();
+    if(selectionTouch){
+        SelectionMultiple.push_back(ID);
+    }
+    else{
+        for(int i = 0; i< SelectionMultiple.size(); i++){
+            ExplorerGraphicsView[SelectionMultiple.at(i)]->setStyleSheet("background: transparent; border: 0px");
+        }
 
-    ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
-    activeScene = src->getID();
-    ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 1px solid blue");
-
+        SelectionMultiple.clear();
+        SelectionMultiple.push_back(ID);
+    }
+    if(SelectionMultiple.size() == 1){
+        ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
+        activeScene = src->getID();
+        ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 2px solid blue");
+    }
+    else{
+        ExplorerGraphicsView[ID]->setStyleSheet("background: transparent; border: 2px solid blue");
+    }
     //refresh de la taille des images dans l'explorer
     for(int i=0; i< ImageCount;i++){
         ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(), Qt::KeepAspectRatio);
@@ -257,7 +285,7 @@ void MainWindow::PoignetUpdate(){
 
 
 void MainWindow::ClickOnFrame(){
-
+    if(initImport == false) return;
     QPixmap tmp = PixmapTab[activeScene];
     painter = new QPainter(&PixmapTab[activeScene]);
 
@@ -414,6 +442,8 @@ void MainWindow::on_actionImporter_triggered()
 
     SetMainPicture(&sceneTab[0], ui->PixFrame);
     SetMainPicture(&sceneTab[0], ui->carteMentale);
+    SelectionMultiple.clear();
+    SelectionMultiple.push_back(0);
 
     QPixmap PicI;
     ExplorerPics[0] = ui-> GraphicModeleExplorer;
@@ -428,7 +458,7 @@ void MainWindow::on_actionImporter_triggered()
              ExplorerPics[i]->setSizePolicy(ui->GraphicModeleExplorer->sizePolicy());
         }
         if(i == 0){
-             ExplorerPics[i]->setStyleSheet("background: transparent; border: 1px solid blue");
+             ExplorerPics[i]->setStyleSheet("background: transparent; border: 2px solid blue");
         }
 
 
@@ -445,7 +475,7 @@ void MainWindow::on_actionImporter_triggered()
         ExplorerPics[i]->setID(i);
         ExplorerPics[i]->setAlignment(Qt::AlignCenter);
     }
-
+    initImport = true;
     enableIfPic();
     delete [] ExplorerPics;
     ExplorerPics = nullptr;
@@ -468,7 +498,10 @@ void MainWindow::on_actionTout_supprimer_triggered()
         PixmapTab[i] = QPixmap();
         historiqueTab[i].~Historique();
     }
-    ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
+    for(int i = 0; i< SelectionMultiple.size(); i++){
+        ExplorerGraphicsView[SelectionMultiple.at(i)]->setStyleSheet("background: transparent; border: 0px");
+    }
+
     while(ui->Layout_Explorer->count()>1){
         ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
     }
@@ -478,6 +511,7 @@ void MainWindow::on_actionTout_supprimer_triggered()
 
     ImageCount = 0;
     sceneInit = 0;
+    initImport = false;
     enableIfPic(false);
     sceneTab = nullptr;
     PixmapTab = nullptr;

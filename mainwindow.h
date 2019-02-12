@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <vector>
+#include <iostream>
 #include "qGraphicsViewCustom.h"
 #include <QResizeEvent>
 #include "QGraphicsSceneCustom.h"
@@ -33,12 +35,17 @@ private:
      * Faux sinon.
      */
     bool sceneInit = 0;
+    bool initImport = false;
     bool Selection = false;
     int SelecMode = 2;
     QGraphicsSceneCustom *sceneTab;
     QPixmap* PixmapTab;
     Historique* historiqueTab;
     QGraphicsProxyWidget* proxyPixmapTab;
+
+    bool selectionTouch = false;
+    std::vector <int> SelectionMultiple;
+
     QGraphicsView* view;
     int angleRotate = 0;
     int spacing = 25;
@@ -165,6 +172,7 @@ private:
     bool event(QEvent *event);
     void showTest(QGraphicsViewCustom ** t);
     void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void rognageGraphique();
     void drawRectSelection(double xb, double yb,double xe, double ye);
     void updateSelectionPoint(int xb, int yb, int xe, int ye);
