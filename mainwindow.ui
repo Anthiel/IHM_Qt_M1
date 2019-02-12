@@ -60,7 +60,7 @@
              <x>0</x>
              <y>0</y>
              <width>1210</width>
-             <height>477</height>
+             <height>474</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -137,8 +137,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>243</width>
-                     <height>254</height>
+                     <width>276</width>
+                     <height>326</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -252,7 +252,7 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>595</width>
+                     <width>584</width>
                      <height>438</height>
                     </rect>
                    </property>
@@ -354,8 +354,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>298</width>
-                     <height>455</height>
+                     <width>322</width>
+                     <height>438</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -567,7 +567,7 @@
      <x>0</x>
      <y>0</y>
      <width>1234</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -603,6 +603,9 @@
     </property>
     <addaction name="actionAnnuler"/>
     <addaction name="actionRetablir"/>
+    <addaction name="actionZoomUp"/>
+    <addaction name="actionZoomDown"/>
+    <addaction name="actionZoomDefault"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuEdition"/>
@@ -698,6 +701,30 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionZoomUp">
+   <property name="text">
+    <string>Zoomer (+10%)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="actionZoomDown">
+   <property name="text">
+    <string>Dézoomer (-10%)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionZoomDefault">
+   <property name="text">
+    <string>Rétablir zoom (100%)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+0</string>
    </property>
   </action>
  </widget>

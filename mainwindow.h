@@ -133,6 +133,18 @@ private slots:
     void on_actionCouleurs_triggered();
 
 
+    /*!
+     * \brief Zoom +10%
+     */
+    void on_actionZoomUp_triggered();
+    /*!
+     * \brief Zoom -10%
+     */
+    void on_actionZoomDown_triggered();
+    /*!
+     * \brief Passe le zoom à 100% (image normale)
+     */
+    void on_actionZoomDefault_triggered();
 
     /*!
      * \brief Fenêtre "remininder".

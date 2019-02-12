@@ -45,7 +45,7 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     if (sceneInit)
     {
         QPoint num_pixels = event->angleDelta();
-        zoom(-num_pixels.y());
+        zoom(num_pixels.y());
     }
 }
 
@@ -138,9 +138,12 @@ void MainWindow::enableIfPic(bool enable)
     ui->actionRotation_90->setEnabled(enable);
     ui->actionRoation_90->setEnabled(enable);
     ui->actionCouleurs->setEnabled(enable);
+    ui->actionZoomUp->setEnabled(enable);
+    ui->actionZoomDown->setEnabled(enable);
+    ui->actionZoomDefault->setEnabled(enable);
 
-    ui->actionAnnuler->setEnabled(false);
-    ui->actionRetablir->setEnabled(false);
+    ui->actionAnnuler->setEnabled(enable);
+    ui->actionRetablir->setEnabled(enable);
 }
 
 void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom *PixFrame)
@@ -388,18 +391,36 @@ bool* MainWindow::selectByColor(QColor color, uint thr)
 
 void MainWindow::zoom(double z_ratio)
 {
-    double old_ratio = zoom_value;
 
-    if ((z_ratio > 0 && zoom_value < 1000.0) || (z_ratio < 0 && zoom_value > 25.0))
+    if ((z_ratio > 0 && zoom_value < 500.0) || (z_ratio < 0 && zoom_value > 50.0))
     {
         zoom_value += z_ratio/60;
         int id_pix = ui->PixFrame->getID();
-        QPixmap pix = PixmapTab[id_pix];
-//        PixmapTab[id_pix] = pix.scaled(pix.width()*zoom_value/old_ratio,pix.height()*zoom_value/old_ratio);
-//        sceneTab[id_pix].clear();
-//        sceneTab[id_pix].addPixmap(pix);
-//        ui->PixFrame->fitInView(sceneTab[id_pix].sceneRect(),Qt::KeepAspectRatio);
+        QPixmap pix = historiqueTab[ui->PixFrame->getID()].element;
+        PixmapTab[id_pix] = pix.scaled(pix.width()*zoom_value/100,pix.height()*zoom_value/100);
+        sceneTab[id_pix].clear();
+        sceneTab[id_pix].addPixmap(PixmapTab[id_pix]);
+        sceneTab[id_pix].setSceneRect(PixmapTab[id_pix].rect());
     }
+}
+
+void MainWindow::on_actionZoomUp_triggered()
+{
+    zoom(600.0);
+}
+void MainWindow::on_actionZoomDown_triggered()
+{
+    zoom(-600);
+}
+void MainWindow::on_actionZoomDefault_triggered()
+{
+    zoom_value = 100;
+    int id_pix = ui->PixFrame->getID();
+    QPixmap pix = historiqueTab[ui->PixFrame->getID()].element;
+    PixmapTab[id_pix] = pix.scaled(pix.width(),pix.height());
+    sceneTab[id_pix].clear();
+    sceneTab[id_pix].addPixmap(PixmapTab[id_pix]);
+    sceneTab[id_pix].setSceneRect(PixmapTab[id_pix].rect());
 }
 
 void MainWindow::on_actionImporter_triggered()
@@ -727,21 +748,7 @@ void MainWindow::on_actionCouleurs_triggered()
         QColor to_filter = cf.getFilterColor();
         int thr = cf.getThreshold();
         colorFilter(to_filter,thr,hue);
-        /*! @todo
-        // On récupère les couleurs de filtre et à filtrer + le seuillage de filtre
-        // selectByColor(QColor filtered, uint thr)
-        // On récupère la QImage pour faire les modifications
-        // On applique la modification aux pixels choisis sur la QImage
-        // On recharge la QPixmap
-        */
     }
-
-    /*!
-      @todo Nouvelle fonction pour coloriser (à utiliser pour la prévisu aussi)
-            Récupération de l'image au début pour rétablir si pas validé
-      */
-
-
     update_historique(&PixmapTab[ui->PixFrame->getID()]);
 }
 
