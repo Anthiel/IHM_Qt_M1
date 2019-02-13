@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/icones">
         <file alias="kanna.png">icones/kanna.png</file>
+        <file alias="rotation-90-left.png">icones/rotation-90-left.png</file>
+        <file alias="rotation-90-right.png">icones/rotation-90-right.png</file>
+        <file alias="zoom-moins.png">icones/zoom-moins.png</file>
+        <file alias="zoom-plus.png">icones/zoom-plus.png</file>
+        <file alias="selection-oval.png">icones/selection-oval.png</file>
+        <file alias="selection-rectangle.png">icones/selection-rectangle.png</file>
     </qresource>
 </RCC>

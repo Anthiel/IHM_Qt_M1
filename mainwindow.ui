@@ -57,9 +57,9 @@
           <widget class="QWidget" name="scrollAreaWidgetContents_2">
            <property name="geometry">
             <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>1210</width>
+             <x>-5</x>
+             <y>-34</y>
+             <width>1190</width>
              <height>474</height>
             </rect>
            </property>
@@ -137,8 +137,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>276</width>
-                     <height>326</height>
+                     <width>248</width>
+                     <height>312</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -252,8 +252,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>584</width>
-                     <height>438</height>
+                     <width>577</width>
+                     <height>427</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_3">
@@ -352,10 +352,10 @@
                   <widget class="QWidget" name="scrollAreaWidgetContents_5">
                    <property name="geometry">
                     <rect>
-                     <x>0</x>
+                     <x>-43</x>
                      <y>0</y>
-                     <width>322</width>
-                     <height>438</height>
+                     <width>368</width>
+                     <height>427</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -384,12 +384,20 @@
                            <property name="text">
                             <string>Rectangle</string>
                            </property>
+                           <property name="icon">
+                            <iconset resource="ressources.qrc">
+                             <normaloff>:/icones/selection-rectangle.png</normaloff>:/icones/selection-rectangle.png</iconset>
+                           </property>
                           </widget>
                          </item>
                          <item>
                           <widget class="QPushButton" name="button_SelecEllipse">
                            <property name="text">
                             <string>Ellipse</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="ressources.qrc">
+                             <normaloff>:/icones/selection-oval.png</normaloff>:/icones/selection-oval.png</iconset>
                            </property>
                           </widget>
                          </item>
@@ -443,12 +451,20 @@
                            <property name="text">
                             <string>Rotation 90°</string>
                            </property>
+                           <property name="icon">
+                            <iconset resource="ressources.qrc">
+                             <normaloff>:/icones/rotation-90-right.png</normaloff>:/icones/rotation-90-right.png</iconset>
+                           </property>
                           </widget>
                          </item>
                          <item>
                           <widget class="QPushButton" name="button_rotate_ah">
                            <property name="text">
                             <string>Rotation -90°</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="ressources.qrc">
+                             <normaloff>:/icones/rotation-90-left.png</normaloff>:/icones/rotation-90-left.png</iconset>
                            </property>
                           </widget>
                          </item>
@@ -475,12 +491,20 @@
                          <property name="text">
                           <string>Zoomer</string>
                          </property>
+                         <property name="icon">
+                          <iconset resource="ressources.qrc">
+                           <normaloff>:/icones/zoom-plus.png</normaloff>:/icones/zoom-plus.png</iconset>
+                         </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_4">
                          <property name="text">
                           <string>Dézoomer</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="ressources.qrc">
+                           <normaloff>:/icones/zoom-moins.png</normaloff>:/icones/zoom-moins.png</iconset>
                          </property>
                         </widget>
                        </item>
@@ -543,8 +567,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1212</width>
-           <height>108</height>
+           <width>1208</width>
+           <height>109</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -597,7 +621,7 @@
      <x>0</x>
      <y>0</y>
      <width>1234</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
