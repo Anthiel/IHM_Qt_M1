@@ -44,6 +44,7 @@ private:
     QGraphicsProxyWidget* proxyPixmapTab;
 
     bool selectionTouch = false;
+    bool selectionShiftTouch = false;
     std::vector <int> SelectionMultiple;
 
     QGraphicsView* view;

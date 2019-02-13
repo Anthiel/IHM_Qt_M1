@@ -99,6 +99,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
             case (Qt::Key_Control):
                 selectionTouch = false;
                 break;
+            case (Qt::Key_Shift):
+                selectionShiftTouch = false;
+                break;
     }
 }
 
@@ -108,6 +111,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     switch(event->key()) {
             case (Qt::Key_Control):
                 selectionTouch = true;
+                break;
+            case (Qt::Key_Shift):
+                selectionShiftTouch = true;
                 break;
             case (Qt::Key_Enter) :
                 if(rognageWindowOpen){
@@ -155,35 +161,44 @@ void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom
 
 void MainWindow::GetExplorerClick(){
     QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
-    if(activeScene == src->getID()) return;
+    //if(activeScene == src->getID()) return;
     int ID = src->getID();
-    if(selectionTouch){
+    int end = SelectionMultiple.back();
+    int begin = SelectionMultiple.front();
+
+    if(selectionTouch) // touche CTRL
         SelectionMultiple.push_back(ID);
+
+    else if(selectionShiftTouch){ // touche SHIFT
+        if(end < ID)
+            for(int i = end +1; i <= ID;i++)
+                 SelectionMultiple.push_back(i);
+        else
+            for(int i = ID; i <= begin;i++)
+                 SelectionMultiple.push_back(i);
     }
     else{
-        for(int i = 0; i< SelectionMultiple.size(); i++){
-            ExplorerGraphicsView[SelectionMultiple.at(i)]->setStyleSheet("background: transparent; border: 0px");
-        }
-
         SelectionMultiple.clear();
         SelectionMultiple.push_back(ID);
     }
-    if(SelectionMultiple.size() == 1){
-        ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 0px");
-        activeScene = src->getID();
-        ExplorerGraphicsView[activeScene]->setStyleSheet("background: transparent; border: 2px solid blue");
-    }
-    else{
-        ExplorerGraphicsView[ID]->setStyleSheet("background: transparent; border: 2px solid blue");
-    }
+
+    if(SelectionMultiple.size() == 1)
+        activeScene = ID;
+
+    std::sort(SelectionMultiple.begin(), SelectionMultiple.end());
+    SelectionMultiple.erase(std::unique(SelectionMultiple.begin(), SelectionMultiple.end()), SelectionMultiple.end());
+
+    for(int i = 0; i<ImageCount ;i++)
+        ExplorerGraphicsView[i]->setStyleSheet("background: transparent; border: 0px");
+    for(int i = 0; i< SelectionMultiple.size(); i++)
+        ExplorerGraphicsView[SelectionMultiple.at(i)]->setStyleSheet("background: transparent; border: 2px solid blue");
+
     //refresh de la taille des images dans l'explorer
-    for(int i=0; i< ImageCount;i++){
+    for(int i=0; i< ImageCount;i++)
         ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(), Qt::KeepAspectRatio);
-    }
 
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
     SetMainPicture(&sceneTab[activeScene],  ui->carteMentale);
-
 }
 
 void MainWindow::drawTriangleSelection(double xb, double yb, double xe, double ye){
