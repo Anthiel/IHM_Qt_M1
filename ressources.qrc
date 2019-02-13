@@ -1,11 +1,29 @@
 <RCC>
     <qresource prefix="/icones">
         <file alias="kanna.png">icones/kanna.png</file>
-        <file alias="rotation-90-left.png">icones/rotation-90-left.png</file>
-        <file alias="rotation-90-right.png">icones/rotation-90-right.png</file>
+        <file alias="importer.png">icones/importer.png</file>
+        <file alias="save.png">icones/save.png</file>
+
+        <file alias="exit.png">icones/exit.png</file>
+
+
+        <file alias="undo.png">icones/undo.png</file>
+        <file alias="redo.png">icones/redo.png</file>
         <file alias="zoom-moins.png">icones/zoom-moins.png</file>
         <file alias="zoom-plus.png">icones/zoom-plus.png</file>
+        <file alias="zoom.png">icones/zoom.png</file>
+
+
+        <file alias="clip.png">icones/clip.png</file>
+        <file alias="resize.png">icones/resize.png</file>
+        <file alias="rotation-90-left.png">icones/rotation-90-left.png</file>
+        <file alias="rotation-90-right.png">icones/rotation-90-right.png</file>
+        <file alias="rotation.png">icones/rotation.png</file>
+
+
         <file alias="selection-oval.png">icones/selection-oval.png</file>
         <file alias="selection-rectangle.png">icones/selection-rectangle.png</file>
+        <file alias="selection-triangle.png">icones/selection-triangle.png</file>
+
     </qresource>
 </RCC>

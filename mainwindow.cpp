@@ -57,8 +57,8 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 {
     if (sceneInit)
     {
-        QPoint num_pixels = event->angleDelta();
-        zoom(num_pixels.y());
+        //QPoint num_pixels = event->angleDelta();
+        //zoom(num_pixels.y());
     }
 }
 
@@ -172,6 +172,9 @@ void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom
     PixFrame->setScene(scene);
     PixFrame->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
     PixFrame->setID(activeScene);
+
+    ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
+    ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
 }
 
 void MainWindow::GetExplorerClick(){
@@ -533,6 +536,9 @@ void MainWindow::on_actionImporter_triggered()
     sceneInit = 1;
     zoom_value = 100.0;
 
+
+    ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
+    ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
 //    colorFilter(QColor(150,0,0),150*3,QColor(0,0,150));
 }
 

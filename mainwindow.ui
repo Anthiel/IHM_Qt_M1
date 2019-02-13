@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1234</width>
-    <height>658</height>
+    <width>1426</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Jean-Pascal</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -57,10 +57,10 @@
           <widget class="QWidget" name="scrollAreaWidgetContents_2">
            <property name="geometry">
             <rect>
-             <x>-5</x>
-             <y>-34</y>
-             <width>1190</width>
-             <height>474</height>
+             <x>0</x>
+             <y>0</y>
+             <width>1398</width>
+             <height>480</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -137,8 +137,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>248</width>
-                     <height>312</height>
+                     <width>329</width>
+                     <height>315</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -152,6 +152,10 @@
                         <widget class="QPushButton" name="button_import">
                          <property name="text">
                           <string>Importer ...</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="ressources.qrc">
+                           <normaloff>:/icones/importer.png</normaloff>:/icones/importer.png</iconset>
                          </property>
                         </widget>
                        </item>
@@ -252,8 +256,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>577</width>
-                     <height>427</height>
+                     <width>630</width>
+                     <height>433</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_3">
@@ -352,10 +356,10 @@
                   <widget class="QWidget" name="scrollAreaWidgetContents_5">
                    <property name="geometry">
                     <rect>
-                     <x>-43</x>
+                     <x>0</x>
                      <y>0</y>
-                     <width>368</width>
-                     <height>427</height>
+                     <width>372</width>
+                     <height>454</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -406,6 +410,10 @@
                            <property name="text">
                             <string>Triangle</string>
                            </property>
+                           <property name="icon">
+                            <iconset resource="ressources.qrc">
+                             <normaloff>:/icones/selection-triangle.png</normaloff>:/icones/selection-triangle.png</iconset>
+                           </property>
                           </widget>
                          </item>
                         </layout>
@@ -433,12 +441,20 @@
                            <property name="text">
                             <string>Redimensionner</string>
                            </property>
+                           <property name="icon">
+                            <iconset resource="ressources.qrc">
+                             <normaloff>:/icones/resize.png</normaloff>:/icones/resize.png</iconset>
+                           </property>
                           </widget>
                          </item>
                          <item>
                           <widget class="QPushButton" name="button_crop">
                            <property name="text">
                             <string>Rogner</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="ressources.qrc">
+                             <normaloff>:/icones/clip.png</normaloff>:/icones/clip.png</iconset>
                            </property>
                           </widget>
                          </item>
@@ -472,6 +488,10 @@
                           <widget class="QPushButton" name="button_rotate">
                            <property name="text">
                             <string>Rotation</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="ressources.qrc">
+                             <normaloff>:/icones/rotation.png</normaloff>:/icones/rotation.png</iconset>
                            </property>
                           </widget>
                          </item>
@@ -512,6 +532,10 @@
                         <widget class="QPushButton" name="pushButton_5">
                          <property name="text">
                           <string>Rétablir Zoom</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="ressources.qrc">
+                           <normaloff>:/icones/zoom.png</normaloff>:/icones/zoom.png</iconset>
                          </property>
                         </widget>
                        </item>
@@ -567,7 +591,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1208</width>
+           <width>1400</width>
            <height>109</height>
           </rect>
          </property>
@@ -620,7 +644,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1234</width>
+     <width>1426</width>
      <height>26</height>
     </rect>
    </property>
@@ -668,6 +692,10 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionImporter">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/importer.png</normaloff>:/icones/importer.png</iconset>
+   </property>
    <property name="text">
     <string>Importer ...</string>
    </property>
@@ -681,6 +709,10 @@
    </property>
   </action>
   <action name="actionRedimensionner">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/resize.png</normaloff>:/icones/resize.png</iconset>
+   </property>
    <property name="text">
     <string>Redimensionner...</string>
    </property>
@@ -691,13 +723,17 @@
   <action name="actionRogner">
    <property name="icon">
     <iconset resource="ressources.qrc">
-     <normaloff>:/icones/kanna.png</normaloff>:/icones/kanna.png</iconset>
+     <normaloff>:/icones/clip.png</normaloff>:/icones/clip.png</iconset>
    </property>
    <property name="text">
     <string>Rogner ...</string>
    </property>
   </action>
   <action name="actionExporter_l_image">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/save.png</normaloff>:/icones/save.png</iconset>
+   </property>
    <property name="text">
     <string>Exporter l'image ...</string>
    </property>
@@ -706,16 +742,28 @@
    </property>
   </action>
   <action name="actionRotation_90">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/rotation-90-right.png</normaloff>:/icones/rotation-90-right.png</iconset>
+   </property>
    <property name="text">
     <string>Rotation à 90°</string>
    </property>
   </action>
   <action name="actionRoation_90">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/rotation-90-left.png</normaloff>:/icones/rotation-90-left.png</iconset>
+   </property>
    <property name="text">
     <string>Roation à -90°</string>
    </property>
   </action>
   <action name="actionRotation">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/rotation.png</normaloff>:/icones/rotation.png</iconset>
+   </property>
    <property name="text">
     <string>Rotation ...</string>
    </property>
@@ -734,6 +782,10 @@
    </property>
   </action>
   <action name="actionAnnuler">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/undo.png</normaloff>:/icones/undo.png</iconset>
+   </property>
    <property name="text">
     <string>Annuler</string>
    </property>
@@ -742,6 +794,10 @@
    </property>
   </action>
   <action name="actionRetablir">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/redo.png</normaloff>:/icones/redo.png</iconset>
+   </property>
    <property name="text">
     <string>Rétablir</string>
    </property>
@@ -750,6 +806,10 @@
    </property>
   </action>
   <action name="actionQuitter">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/exit.png</normaloff>:/icones/exit.png</iconset>
+   </property>
    <property name="text">
     <string>Quitter</string>
    </property>
@@ -758,6 +818,10 @@
    </property>
   </action>
   <action name="actionZoomUp">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/zoom-plus.png</normaloff>:/icones/zoom-plus.png</iconset>
+   </property>
    <property name="text">
     <string>Zoomer (+10%)</string>
    </property>
@@ -766,6 +830,10 @@
    </property>
   </action>
   <action name="actionZoomDown">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/zoom-moins.png</normaloff>:/icones/zoom-moins.png</iconset>
+   </property>
    <property name="text">
     <string>Dézoomer (-10%)</string>
    </property>
@@ -774,6 +842,10 @@
    </property>
   </action>
   <action name="actionZoomDefault">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/zoom.png</normaloff>:/icones/zoom.png</iconset>
+   </property>
    <property name="text">
     <string>Rétablir zoom (100%)</string>
    </property>
