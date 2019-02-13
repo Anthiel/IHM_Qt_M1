@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/icones">
-        <file alias="kanna.png">icones/kanna.png</file>
         <file alias="importer.png">icones/importer.png</file>
         <file alias="delete.png">icones/delete.png</file>
         <file alias="save.png">icones/save.png</file>
