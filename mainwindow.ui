@@ -149,14 +149,14 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_3">
                        <item>
-                        <widget class="QPushButton" name="pushButton">
+                        <widget class="QPushButton" name="button_import">
                          <property name="text">
                           <string>Importer ...</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="pushButton_3">
+                        <widget class="QPushButton" name="button_delete_all">
                          <property name="text">
                           <string>Tout supprimer</string>
                          </property>
@@ -172,14 +172,14 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_4">
                        <item>
-                        <widget class="QPushButton" name="pushButton_6">
+                        <widget class="QPushButton" name="button_b_a_w">
                          <property name="text">
                           <string>Noir et Blanc</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="pushButton_7">
+                        <widget class="QPushButton" name="button_color_filter">
                          <property name="text">
                           <string>Couleur ...</string>
                          </property>
@@ -380,21 +380,21 @@
                        <item>
                         <layout class="QHBoxLayout" name="horizontalLayout_2">
                          <item>
-                          <widget class="QPushButton" name="Button_SelecRect">
+                          <widget class="QPushButton" name="button_SelecRect">
                            <property name="text">
                             <string>Rectangle</string>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="Button_SelecEllipse">
+                          <widget class="QPushButton" name="button_SelecEllipse">
                            <property name="text">
                             <string>Ellipse</string>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="Button_SelecTriangle">
+                          <widget class="QPushButton" name="button_SelecTriangle">
                            <property name="text">
                             <string>Triangle</string>
                            </property>
@@ -403,7 +403,7 @@
                         </layout>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="Button_QuitSelectMode">
+                        <widget class="QPushButton" name="button_QuitSelectMode">
                          <property name="text">
                           <string>Quitter le mode sélection</string>
                          </property>
@@ -421,14 +421,14 @@
                        <item>
                         <layout class="QHBoxLayout" name="horizontalLayout_6">
                          <item>
-                          <widget class="QPushButton" name="pushButton_10">
+                          <widget class="QPushButton" name="button_resize">
                            <property name="text">
                             <string>Redimensionner</string>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_11">
+                          <widget class="QPushButton" name="button_crop">
                            <property name="text">
                             <string>Rogner</string>
                            </property>
@@ -439,21 +439,21 @@
                        <item>
                         <layout class="QHBoxLayout" name="horizontalLayout_5">
                          <item>
-                          <widget class="QPushButton" name="pushButton_9">
+                          <widget class="QPushButton" name="button_rotate_h">
                            <property name="text">
                             <string>Rotation 90°</string>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_12">
+                          <widget class="QPushButton" name="button_rotate_ah">
                            <property name="text">
                             <string>Rotation -90°</string>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_8">
+                          <widget class="QPushButton" name="button_rotate">
                            <property name="text">
                             <string>Rotation</string>
                            </property>
