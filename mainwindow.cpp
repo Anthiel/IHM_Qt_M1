@@ -35,6 +35,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
     ui->carteMentale->setStyleSheet("background: transparent; border: 0px");
     connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(ClickOnFrame()));    
+    connect(ui->button_crop, SIGNAL(clicked()),this,SLOT(on_actionRogner_triggered()));
+    connect(ui->button_b_a_w, SIGNAL(clicked()), this, SLOT(on_actionNoir_et_Blanc_triggered()));
+    connect(ui->button_delete_all, SIGNAL(clicked()), this, SLOT(on_actionTout_supprimer_triggered()));
+    connect(ui->button_import, SIGNAL(clicked()), this, SLOT(on_actionImporter_triggered()));
+    connect(ui->button_resize, SIGNAL(clicked()), this, SLOT(on_actionRedimensionner_triggered()));
+    connect(ui->button_rotate, SIGNAL(clicked()), this, SLOT(on_actionRotation_triggered()));
+    connect(ui->button_rotate_h, SIGNAL(clicked()), this, SLOT(on_actionRotation_90_triggered()));
+    connect(ui->button_rotate_ah, SIGNAL(clicked()), this, SLOT(on_actionRoation_90_triggered()));
+    connect(ui->button_SelecRect, SIGNAL(clicked()), this, SLOT(on_Button_SelecRect_clicked()));
+    connect(ui->button_SelecEllipse, SIGNAL(clicked()), this, SLOT(on_Button_SelecEllipse_clicked()));
+    connect(ui->button_color_filter, SIGNAL(clicked()), this, SLOT(on_actionCouleurs_triggered()));
+    connect(ui->button_SelecTriangle, SIGNAL(clicked()), this, SLOT(on_Button_SelecTriangle_clicked()));
+    connect(ui->button_QuitSelectMode, SIGNAL(clicked()), this, SLOT(on_Button_QuitSelectMode_clicked()));
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 
