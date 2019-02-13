@@ -35,19 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
     ui->carteMentale->setStyleSheet("background: transparent; border: 0px");
     connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(ClickOnFrame()));    
-    connect(ui->button_crop, SIGNAL(clicked()),this,SLOT(on_actionRogner_triggered()));
-    connect(ui->button_b_a_w, SIGNAL(clicked()), this, SLOT(on_actionNoir_et_Blanc_triggered()));
-    connect(ui->button_delete_all, SIGNAL(clicked()), this, SLOT(on_actionTout_supprimer_triggered()));
-    connect(ui->button_import, SIGNAL(clicked()), this, SLOT(on_actionImporter_triggered()));
-    connect(ui->button_resize, SIGNAL(clicked()), this, SLOT(on_actionRedimensionner_triggered()));
-    connect(ui->button_rotate, SIGNAL(clicked()), this, SLOT(on_actionRotation_triggered()));
-    connect(ui->button_rotate_h, SIGNAL(clicked()), this, SLOT(on_actionRotation_90_triggered()));
-    connect(ui->button_rotate_ah, SIGNAL(clicked()), this, SLOT(on_actionRoation_90_triggered()));
-    connect(ui->button_SelecRect, SIGNAL(clicked()), this, SLOT(on_Button_SelecRect_clicked()));
-    connect(ui->button_SelecEllipse, SIGNAL(clicked()), this, SLOT(on_Button_SelecEllipse_clicked()));
-    connect(ui->button_color_filter, SIGNAL(clicked()), this, SLOT(on_actionCouleurs_triggered()));
-    connect(ui->button_SelecTriangle, SIGNAL(clicked()), this, SLOT(on_Button_SelecTriangle_clicked()));
-    connect(ui->button_QuitSelectMode, SIGNAL(clicked()), this, SLOT(on_Button_QuitSelectMode_clicked()));
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 
@@ -65,33 +52,35 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 
 void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
 {
-    bool* tab = selectByColor(to_select, thr*3);
-    int id_pix = ui->PixFrame->getID();
-    int largeur = PixmapTab[id_pix].size().rwidth(),
-        hauteur = PixmapTab[id_pix].size().rheight();
-    QImage im = PixmapTab[id_pix].toImage();
-    QImage al = im.alphaChannel(); // Alpha à part
+    for(int i = 0; i< SelectionMultiple.size(); i++){
+        bool* tab = selectByColor(to_select, thr*3);
+        int id_pix = SelectionMultiple.at(i);
+        int largeur = PixmapTab[id_pix].size().rwidth(),
+            hauteur = PixmapTab[id_pix].size().rheight();
+        QImage im = PixmapTab[id_pix].toImage();
+        QImage al = im.alphaChannel(); // Alpha à part
 
-    int hue = colorize.hue();
+        int hue = colorize.hue();
 
-    for (int x = 0 ; x < largeur ; x++)
-        for (int y = 0 ; y < hauteur ; y++)
-        {
-            int a = qAlpha(im.pixel(x,y));
-            if (a > 0 && tab[x*hauteur+y]) // Ne modifie que si non transparent
+        for (int x = 0 ; x < largeur ; x++)
+            for (int y = 0 ; y < hauteur ; y++)
             {
-                QColor color = im.pixel(x,y);
-                color.setHsv(hue,color.saturation(), color.value());
-                im.setPixelColor(x,y,color);
-                al.setPixel(x,y,a);
+                int a = qAlpha(im.pixel(x,y));
+                if (a > 0 && tab[x*hauteur+y]) // Ne modifie que si non transparent
+                {
+                    QColor color = im.pixel(x,y);
+                    color.setHsv(hue,color.saturation(), color.value());
+                    im.setPixelColor(x,y,color);
+                    al.setPixel(x,y,a);
+                }
             }
-        }
 
-    im.setAlphaChannel(al);
-    sceneTab[id_pix].clear();
-    sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
-    PixmapTab[id_pix] = QPixmap::fromImage(im);
-    delete tab;
+        im.setAlphaChannel(al);
+        sceneTab[id_pix].clear();
+        sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
+        PixmapTab[id_pix] = QPixmap::fromImage(im);
+        delete tab;
+    }
 }
 
 
@@ -696,75 +685,84 @@ void MainWindow::rognageGraphique(){
 void MainWindow::on_actionRotation_90_triggered()
 // rotation à 90° du pixmap
 {
-    int IDpix = ui->PixFrame->getID();
-    QTransform transform;
+    for(int i = 0; i< SelectionMultiple.size(); i++){ // faire les actions sur toutes les images sélectionnées
 
-    transform.rotate(90);
+        int IDpix = SelectionMultiple.at(i);
+        QTransform transform;
+        transform.rotate(90);
+        PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
+        sceneTab[IDpix].clear();
+        sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
+        sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+        ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
 
-    PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
-    sceneTab[IDpix].clear();
-    sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
-    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
-    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-
-    update_historique(&PixmapTab[ui->PixFrame->getID()]);
+        update_historique(&PixmapTab[IDpix]);
+    }
 }
 
 void MainWindow::on_actionRoation_90_triggered()
 // rotation à -90° du pixmap
 {
-    int IDpix = ui->PixFrame->getID();
-    QTransform transform;
+    for(int i = 0; i < SelectionMultiple.size(); i++){ // faire les actions sur toutes les images sélectionnées
 
-    transform.rotate(-90);
+        int IDpix = SelectionMultiple.at(i);
+        QTransform transform;
+        transform.rotate(-90);
+        PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
+        sceneTab[IDpix].clear();
+        sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
+        sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+        ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
 
-    PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
-    sceneTab[IDpix].clear();
-    sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
-    sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
-    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-
-    update_historique(&PixmapTab[ui->PixFrame->getID()]);
+        update_historique(&PixmapTab[IDpix]);
+    }
 }
 
 void MainWindow::on_actionRotation_triggered()
 {
     Rotate rotateWindow;    
-    rotateWindow.setInfo(&PixmapTab[activeScene], &sceneTab[activeScene], ui->PixFrame);
+    rotateWindow.setInfo(PixmapTab,sceneTab, ui->PixFrame, SelectionMultiple);
     if (rotateWindow.exec())
     {}
     angleRotate = rotateWindow.getAngle();
 
-    update_historique(&PixmapTab[ui->PixFrame->getID()]);
+    for(int i = 0; i < SelectionMultiple.size(); i++){
+        int IDpix = SelectionMultiple.at(i);
+        update_historique(&PixmapTab[IDpix]);
+    }
+
 }
 
 
 
 void MainWindow::on_actionNoir_et_Blanc_triggered()
 {
-    int id_pix = ui->PixFrame->getID();
-    int largeur = PixmapTab[id_pix].size().rwidth(),
-        hauteur = PixmapTab[id_pix].size().rheight();
-    QImage im = PixmapTab[id_pix].toImage();
-    QImage al = im.alphaChannel(); // Alpha à part
-    for (int x = 0 ; x < largeur ; x++)
-        for (int y = 0 ; y < hauteur ; y++)
-        {
-            int a = qAlpha(im.pixel(x,y));
-            if (a > 0) // Ne modifie que si non transparent
+    for(int i = 0; i < SelectionMultiple.size(); i++){ // faire les actions sur toutes les images sélectionnées
+
+        int id_pix = SelectionMultiple.at(i);
+        int largeur = PixmapTab[id_pix].size().rwidth(),
+            hauteur = PixmapTab[id_pix].size().rheight();
+        QImage im = PixmapTab[id_pix].toImage();
+        QImage al = im.alphaChannel(); // Alpha à part
+        for (int x = 0 ; x < largeur ; x++)
+            for (int y = 0 ; y < hauteur ; y++)
             {
-                int color = qGray(im.pixel(x,y));
-                im.setPixel(x,y, qRgb(color,color,color));
-                al.setPixel(x,y,a);
+                int a = qAlpha(im.pixel(x,y));
+                if (a > 0) // Ne modifie que si non transparent
+                {
+                    int color = qGray(im.pixel(x,y));
+                    im.setPixel(x,y, qRgb(color,color,color));
+                    al.setPixel(x,y,a);
+                }
             }
-        }
 
-    im.setAlphaChannel(al);
-    sceneTab[id_pix].clear();
-    sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
-    PixmapTab[id_pix] = QPixmap::fromImage(im);
+        im.setAlphaChannel(al);
+        sceneTab[id_pix].clear();
+        sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
+        PixmapTab[id_pix] = QPixmap::fromImage(im);
 
-    update_historique(&PixmapTab[ui->PixFrame->getID()]);
+        update_historique(&PixmapTab[ui->PixFrame->getID()]);
+    }
 }
 
 void MainWindow::on_actionCouleurs_triggered()

@@ -10,26 +10,29 @@ Rotate::Rotate(QWidget *parent) :
     setupUi(this);
 }
 
-void Rotate::setInfo(QPixmap *p, QGraphicsSceneCustom *scene, QGraphicsViewCustom *Frame){
-    pix = *p;
+void Rotate::setInfo(QPixmap *p, QGraphicsSceneCustom *scene, QGraphicsViewCustom *Frame,  std::vector <int> SelectionMultiple){
+    pix = p;
     this->Frame = Frame;
     this->scene = scene;
+    this->SelectionMultiple = SelectionMultiple;
 }
 
 
 void Rotate::on_buttonBox_accepted()
 {
     angle = RotateSlider->value();
-
-    QTransform transform;
-    nouveauAngle = (angle + scene->getAngle())%360;
-    transform.rotate(nouveauAngle);
-    scene->setAngle(nouveauAngle);
-    pix = pix.transformed(transform);
-    scene->clear();
-    scene->addPixmap(pix);
-    scene->setSceneRect(pix.rect());
-    Frame->fitInView(scene->sceneRect(),Qt::KeepAspectRatio);
+    for(int k = 0; k < SelectionMultiple.size(); k++){
+        int i = SelectionMultiple.at(k);
+        QTransform transform;
+        nouveauAngle = (angle + scene[i].getAngle())%360;
+        transform.rotate(nouveauAngle);
+        scene[i].setAngle(nouveauAngle);
+        pix[i] = pix[i].transformed(transform);
+        scene[i].clear();
+        scene[i].addPixmap(pix[i]);
+        scene[i].setSceneRect(pix[i].rect());
+        Frame->fitInView(scene[i].sceneRect(),Qt::KeepAspectRatio);
+    }
 }
 
 

@@ -11,16 +11,17 @@ class Rotate : public QDialog, private Ui::Rotate
     Q_OBJECT
 
 public:
-    QPixmap pix;
+    QPixmap *pix;
     QGraphicsViewCustom *Frame;
     QGraphicsSceneCustom *scene;
     QTransform transform;
     int angle = 0;
     int nouveauAngle;
+    std::vector <int> SelectionMultiple;
 
 public:
     explicit Rotate(QWidget *parent = nullptr);
-    void setInfo(QPixmap *p, QGraphicsSceneCustom *scene, QGraphicsViewCustom *Frame);
+    void setInfo(QPixmap *p, QGraphicsSceneCustom *scene, QGraphicsViewCustom *Frame,  std::vector <int> SelectionMultiple);
     int getAngle();
 
 
