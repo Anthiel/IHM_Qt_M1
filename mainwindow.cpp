@@ -57,8 +57,8 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 {
     if (sceneInit)
     {
-        //QPoint num_pixels = event->angleDelta();
-        //zoom(num_pixels.y());
+        QPoint num_pixels = event->angleDelta();
+        zoom(num_pixels.y());
     }
 }
 

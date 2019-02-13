@@ -164,6 +164,10 @@
                          <property name="text">
                           <string>Tout supprimer</string>
                          </property>
+                         <property name="icon">
+                          <iconset resource="ressources.qrc">
+                           <normaloff>:/icones/delete.png</normaloff>:/icones/delete.png</iconset>
+                         </property>
                         </widget>
                        </item>
                       </layout>
@@ -180,12 +184,20 @@
                          <property name="text">
                           <string>Noir et Blanc</string>
                          </property>
+                         <property name="icon">
+                          <iconset resource="ressources.qrc">
+                           <normaloff>:/icones/black-and-white.png</normaloff>:/icones/black-and-white.png</iconset>
+                         </property>
                         </widget>
                        </item>
                        <item>
                         <widget class="QPushButton" name="button_color_filter">
                          <property name="text">
                           <string>Couleur ...</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="ressources.qrc">
+                           <normaloff>:/icones/color-wheel.png</normaloff>:/icones/color-wheel.png</iconset>
                          </property>
                         </widget>
                        </item>
@@ -704,6 +716,10 @@
    </property>
   </action>
   <action name="actionTout_supprimer">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/delete.png</normaloff>:/icones/delete.png</iconset>
+   </property>
    <property name="text">
     <string>Tout supprimer</string>
    </property>
@@ -769,11 +785,19 @@
    </property>
   </action>
   <action name="actionNoir_et_Blanc">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/black-and-white.png</normaloff>:/icones/black-and-white.png</iconset>
+   </property>
    <property name="text">
     <string>Noir et Blanc</string>
    </property>
   </action>
   <action name="actionCouleurs">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/icones/color-wheel.png</normaloff>:/icones/color-wheel.png</iconset>
+   </property>
    <property name="text">
     <string>Couleurs ...</string>
    </property>

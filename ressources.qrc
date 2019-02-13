@@ -2,6 +2,7 @@
     <qresource prefix="/icones">
         <file alias="kanna.png">icones/kanna.png</file>
         <file alias="importer.png">icones/importer.png</file>
+        <file alias="delete.png">icones/delete.png</file>
         <file alias="save.png">icones/save.png</file>
 
         <file alias="exit.png">icones/exit.png</file>
@@ -19,6 +20,10 @@
         <file alias="rotation-90-left.png">icones/rotation-90-left.png</file>
         <file alias="rotation-90-right.png">icones/rotation-90-right.png</file>
         <file alias="rotation.png">icones/rotation.png</file>
+
+
+        <file alias="black-and-white.png">icones/black-and-white.png</file>
+        <file alias="color-wheel.png">icones/color-wheel.png</file>
 
 
         <file alias="selection-oval.png">icones/selection-oval.png</file>
