@@ -55,8 +55,8 @@ private:
     Historique* historiqueTab;
     QGraphicsProxyWidget* proxyPixmapTab;
 
-    bool selectionTouch = false;
-    bool selectionShiftTouch = false;
+    bool CTRLtouch = false;
+    bool SHIFTtouch = false;
     std::vector <int> SelectionMultiple;
 
     QGraphicsView* view;
@@ -71,6 +71,7 @@ private:
     bool rognageWindowOpen = false;
     QGraphicsRectItem* itemRognage;
     QPainter *painter;
+    QPainter *painterCarteMentale;
     double zoom_value;
 
 
@@ -204,6 +205,7 @@ private:
     void PoignetUpdate();
     void drawTriangleSelection(double xb, double yb, double xe, double ye);
     void drawEllipseSelection(double xb, double yb, double xe, double ye);
+    void drawCarteMentale(double xb, double yb, double xe, double ye);
 
     /*!
      * \brief met a jour l'historique des modification

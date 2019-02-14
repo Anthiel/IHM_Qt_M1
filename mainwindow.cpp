@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
     ui->carteMentale->setStyleSheet("background: transparent; border: 0px");
+
     connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(ClickOnFrame()));    
     connect(ui->button_crop, SIGNAL(clicked()),this,SLOT(on_actionRogner_triggered()));
     connect(ui->button_b_a_w, SIGNAL(clicked()), this, SLOT(on_actionNoir_et_Blanc_triggered()));
@@ -55,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    if (sceneInit)
+    if (sceneInit && CTRLtouch)
     {
         QPoint num_pixels = event->angleDelta();
         zoom(num_pixels.y());
@@ -102,7 +103,9 @@ void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenet
     if(sceneInit){
         QMainWindow::resizeEvent(event);
         ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
-        ui->carteMentale->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
+        ui->carteMentale->fitInView(sceneTabCarteMentale[activeScene].sceneRect(),Qt::KeepAspectRatio);
+        on_actionZoomDefault_triggered();
+        drawCarteMentale(0, 0, PixmapTabCarteMentale[activeScene].width(), PixmapTabCarteMentale[activeScene].height());
     }
 }
 
@@ -112,10 +115,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     switch(event->key()) {
             case (Qt::Key_Control):
-                selectionTouch = false;
+                CTRLtouch = false;
                 break;
             case (Qt::Key_Shift):
-                selectionShiftTouch = false;
+                SHIFTtouch = false;
                 break;
     }
 }
@@ -125,10 +128,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key()) {
             case (Qt::Key_Control):
-                selectionTouch = true;
+                CTRLtouch = true;
                 break;
             case (Qt::Key_Shift):
-                selectionShiftTouch = true;
+                SHIFTtouch = true;
                 break;
             case (Qt::Key_Enter) :
                 if(rognageWindowOpen){
@@ -184,10 +187,10 @@ void MainWindow::GetExplorerClick(){
     int end = SelectionMultiple.back();
     int begin = SelectionMultiple.front();
 
-    if(selectionTouch) // touche CTRL
+    if(CTRLtouch) // touche CTRL
         SelectionMultiple.push_back(ID);
 
-    else if(selectionShiftTouch){ // touche SHIFT
+    else if(SHIFTtouch){ // touche SHIFT
         if(end < ID)
             for(int i = end +1; i <= ID;i++)
                  SelectionMultiple.push_back(i);
@@ -215,8 +218,29 @@ void MainWindow::GetExplorerClick(){
     for(int i=0; i< ImageCount;i++)
         ExplorerGraphicsView[i]->fitInView(sceneTabExplorer[i].sceneRect(), Qt::KeepAspectRatio);
 
+    on_actionZoomDefault_triggered();
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
     SetMainPicture(&sceneTabCarteMentale[activeScene],  ui->carteMentale);
+    drawCarteMentale(0, 0, PixmapTabCarteMentale[ID].width(), PixmapTabCarteMentale[ID].height());
+}
+
+void MainWindow::drawCarteMentale(double xb, double yb, double xe, double ye){
+
+    QPixmap tmp = PixmapTabCarteMentale[activeScene];
+    painterCarteMentale = new QPainter(&PixmapTabCarteMentale[activeScene]);
+
+    painterCarteMentale->setRenderHint(QPainter::Antialiasing);
+
+    //rectangle
+    QPen pen(Qt::white, PixmapTabCarteMentale[activeScene].width()/50, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painterCarteMentale->setPen(pen);
+    painterCarteMentale->drawRect(xb,yb,xe-xb,ye-yb);
+
+    sceneTabCarteMentale[activeScene].clear();
+    sceneTabCarteMentale[activeScene].addPixmap(PixmapTabCarteMentale[activeScene]);
+
+    delete painterCarteMentale;
+    PixmapTabCarteMentale[activeScene] = tmp;
 }
 
 void MainWindow::drawTriangleSelection(double xb, double yb, double xe, double ye){
@@ -382,10 +406,10 @@ void MainWindow::showTest(QGraphicsViewCustom ** t){
 
 bool MainWindow::event(QEvent *event)
 {
-    if(event->type() == QEvent::Paint)
+    /*if(event->type() == QEvent::Paint)
         if(sceneInit == 1)
             for(int i = 0; i<ImageCount ; i++)
-                 ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+                 ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);*/
     return QWidget::event(event);
 }
 
@@ -429,11 +453,15 @@ void MainWindow::zoom(double z_ratio)
         zoom_value += z_ratio/60;
         int id_pix = ui->PixFrame->getID();
         QPixmap pix = historiqueTab[ui->PixFrame->getID()].element;
-        PixmapTab[id_pix] = pix.scaled(pix.width()*zoom_value/100,pix.height()*zoom_value/100);
+        PixmapTab[id_pix] = pix.scaled(pix.width()*zoom_value/100, pix.height()*zoom_value/100);
         sceneTab[id_pix].clear();
         sceneTab[id_pix].addPixmap(PixmapTab[id_pix]);
         sceneTab[id_pix].setSceneRect(PixmapTab[id_pix].rect());
-    }
+         drawCarteMentale(0, 0, PixmapTabCarteMentale[id_pix].width()/zoom_value*100, PixmapTabCarteMentale[id_pix].height()/zoom_value*100);
+        qDebug() << "Zoom : " << pix.width()*zoom_value/100 << pix.height()*zoom_value/100;
+        qDebug() << "\t taille graphicsView " << ui->PixFrame->width() <<  ui->PixFrame->height();
+        qDebug() << "\t zoom : " << zoom_value;
+    }    
 }
 
 void MainWindow::on_actionZoomUp_triggered()
@@ -453,6 +481,7 @@ void MainWindow::on_actionZoomDefault_triggered()
     sceneTab[id_pix].clear();
     sceneTab[id_pix].addPixmap(PixmapTab[id_pix]);
     sceneTab[id_pix].setSceneRect(PixmapTab[id_pix].rect());
+    ui->PixFrame->fitInView(sceneTab[id_pix].sceneRect(),Qt::KeepAspectRatio);
 }
 
 void MainWindow::on_actionImporter_triggered()
@@ -555,6 +584,7 @@ void MainWindow::on_actionImporter_triggered()
 
     ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
     ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
+    drawCarteMentale(0, 0, PixmapTabCarteMentale[activeScene].width(), PixmapTabCarteMentale[activeScene].height());
 //    colorFilter(QColor(150,0,0),150*3,QColor(0,0,150));
 }
 
