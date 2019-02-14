@@ -38,8 +38,20 @@ private:
     bool initImport = false;
     bool Selection = false;
     int SelecMode = 2;
+
+    //Frame Principale
     QGraphicsSceneCustom *sceneTab;
-    QPixmap* PixmapTab;
+    QPixmap *PixmapTab;
+
+    //Frame Explorer
+    QGraphicsSceneCustom *sceneTabExplorer;
+    QPixmap *PixmapTabExplorer;
+
+    //Frame CarteMentale
+    QGraphicsSceneCustom *sceneTabCarteMentale;
+    QPixmap *PixmapTabCarteMentale;
+
+
     Historique* historiqueTab;
     QGraphicsProxyWidget* proxyPixmapTab;
 

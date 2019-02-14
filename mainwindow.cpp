@@ -213,10 +213,10 @@ void MainWindow::GetExplorerClick(){
 
     //refresh de la taille des images dans l'explorer
     for(int i=0; i< ImageCount;i++)
-        ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(), Qt::KeepAspectRatio);
+        ExplorerGraphicsView[i]->fitInView(sceneTabExplorer[i].sceneRect(), Qt::KeepAspectRatio);
 
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
-    SetMainPicture(&sceneTab[activeScene],  ui->carteMentale);
+    SetMainPicture(&sceneTabCarteMentale[activeScene],  ui->carteMentale);
 }
 
 void MainWindow::drawTriangleSelection(double xb, double yb, double xe, double ye){
@@ -424,7 +424,6 @@ bool* MainWindow::selectByColor(QColor color, uint thr)
 
 void MainWindow::zoom(double z_ratio)
 {
-
     if ((z_ratio > 0 && zoom_value < 500.0) || (z_ratio < 0 && zoom_value > 50.0))
     {
         zoom_value += z_ratio/60;
@@ -476,7 +475,13 @@ void MainWindow::on_actionImporter_triggered()
     //initialisation des scènes
 
     sceneTab = new QGraphicsSceneCustom[uint(ImageCount)];
+    sceneTabExplorer = new QGraphicsSceneCustom[uint(ImageCount)];
+    sceneTabCarteMentale = new QGraphicsSceneCustom[uint(ImageCount)];
+
     PixmapTab = new QPixmap[uint(ImageCount)];
+    PixmapTabExplorer = new QPixmap[uint(ImageCount)];
+    PixmapTabCarteMentale = new QPixmap[uint(ImageCount)];
+
     historiqueTab = new Historique[uint(ImageCount)];
     activeScene = 0;
 
@@ -486,16 +491,27 @@ void MainWindow::on_actionImporter_triggered()
     for(int i=0; i<ImageCount; i++){
         imageObject->load(fileNames.at(i));
         image = QPixmap::fromImage(*imageObject);
+
         sceneTab[i].addPixmap(image);
         sceneTab[i].setSceneRect(image.rect());
+
+        sceneTabExplorer[i].addPixmap(image);
+        sceneTabExplorer[i].setSceneRect(image.rect());
+
+        sceneTabCarteMentale[i].addPixmap(image);
+        sceneTabCarteMentale[i].setSceneRect(image.rect());
+
         PixmapTab[i] = image;
+        PixmapTabExplorer[i] = image;
+        PixmapTabCarteMentale[i] = image;
+
         historiqueTab[i].on_image_added(&PixmapTab[i]);
      }
     QGraphicsViewCustom **ExplorerPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
     // chargement de l'image dans le Viewer
 
     SetMainPicture(&sceneTab[0], ui->PixFrame);
-    SetMainPicture(&sceneTab[0], ui->carteMentale);
+    SetMainPicture(&sceneTabCarteMentale[0], ui->carteMentale);
     SelectionMultiple.clear();
     SelectionMultiple.push_back(0);
 
@@ -522,10 +538,10 @@ void MainWindow::on_actionImporter_triggered()
         ExplorerGraphicsView[i] = ExplorerPics[i]; // copie de l'adresse du label dans la variable globale
                                       //(indispensable pour la suppression)
         if(i>0) ui->Layout_Explorer->addWidget(ExplorerPics[i], Qt::AlignLeft);  // ajout du label dans le layout
-        ExplorerPics[i]->setScene(&sceneTab[i]);
+        ExplorerPics[i]->setScene(&sceneTabExplorer[i]);
 
         // chargement de l'image dans un label de l'exploreur
-        ExplorerPics[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+        ExplorerPics[i]->fitInView(sceneTabExplorer[i].sceneRect(),Qt::KeepAspectRatio);
         ExplorerPics[i]->setID(i);
         ExplorerPics[i]->setAlignment(Qt::AlignCenter);
     }
@@ -552,7 +568,12 @@ void MainWindow::on_actionTout_supprimer_triggered()
 
     for(int i=0; i<ImageCount;i++){
         sceneTab[i].clear();
+        sceneTabExplorer[i].clear();
+        sceneTabCarteMentale[i].clear();
+
         PixmapTab[i] = QPixmap();
+        PixmapTabExplorer[i] = QPixmap();
+        PixmapTabCarteMentale[i] = QPixmap();
         historiqueTab[i].~Historique();
     }
     for(int i = 0; i< SelectionMultiple.size(); i++){
@@ -571,7 +592,11 @@ void MainWindow::on_actionTout_supprimer_triggered()
     initImport = false;
     enableIfPic(false);
     sceneTab = nullptr;
+    sceneTabExplorer = nullptr;
+    sceneTabCarteMentale = nullptr;
     PixmapTab = nullptr;
+    PixmapTabExplorer = nullptr;
+    PixmapTabCarteMentale = nullptr;
     historiqueTab = nullptr;
 }
 
@@ -709,11 +734,24 @@ void MainWindow::on_actionRotation_90_triggered()
         int IDpix = SelectionMultiple.at(i);
         QTransform transform;
         transform.rotate(90);
+
         PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
         sceneTab[IDpix].clear();
         sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
         sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
         ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+
+        PixmapTabExplorer[IDpix] = PixmapTabExplorer[IDpix].transformed(transform);
+        sceneTabExplorer[IDpix].clear();
+        sceneTabExplorer[IDpix].addPixmap(PixmapTabExplorer[IDpix]);
+        sceneTabExplorer[IDpix].setSceneRect(PixmapTabExplorer[IDpix].rect());
+        ExplorerGraphicsView[IDpix]->fitInView(sceneTabExplorer[IDpix].sceneRect(),Qt::KeepAspectRatio);
+
+        PixmapTabCarteMentale[IDpix] = PixmapTabCarteMentale[IDpix].transformed(transform);
+        sceneTabCarteMentale[IDpix].clear();
+        sceneTabCarteMentale[IDpix].addPixmap(PixmapTabCarteMentale[IDpix]);
+        sceneTabCarteMentale[IDpix].setSceneRect(PixmapTabCarteMentale[IDpix].rect());
+        ui->carteMentale->fitInView(sceneTabCarteMentale[IDpix].sceneRect(),Qt::KeepAspectRatio);
 
         update_historique(&PixmapTab[IDpix]);
     }
@@ -726,12 +764,25 @@ void MainWindow::on_actionRoation_90_triggered()
 
         int IDpix = SelectionMultiple.at(i);
         QTransform transform;
-        transform.rotate(-90);
+        transform.rotate(-90);        
+
         PixmapTab[IDpix] = PixmapTab[IDpix].transformed(transform);
         sceneTab[IDpix].clear();
         sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
         sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
         ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+
+        PixmapTabExplorer[IDpix] = PixmapTabExplorer[IDpix].transformed(transform);
+        sceneTabExplorer[IDpix].clear();
+        sceneTabExplorer[IDpix].addPixmap(PixmapTabExplorer[IDpix]);
+        sceneTabExplorer[IDpix].setSceneRect(PixmapTabExplorer[IDpix].rect());
+        ExplorerGraphicsView[IDpix]->fitInView(sceneTabExplorer[IDpix].sceneRect(),Qt::KeepAspectRatio);
+
+        PixmapTabCarteMentale[IDpix] = PixmapTabCarteMentale[IDpix].transformed(transform);
+        sceneTabCarteMentale[IDpix].clear();
+        sceneTabCarteMentale[IDpix].addPixmap(PixmapTabCarteMentale[IDpix]);
+        sceneTabCarteMentale[IDpix].setSceneRect(PixmapTabCarteMentale[IDpix].rect());
+        ui->carteMentale->fitInView(sceneTabCarteMentale[IDpix].sceneRect(),Qt::KeepAspectRatio);
 
         update_historique(&PixmapTab[IDpix]);
     }
