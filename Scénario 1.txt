@@ -67,14 +67,14 @@ appuyer sur la touche 'entrer' pour valider le rognage
 
 on peux aussi utiliser la touche Ctrl plus la molette de la souris.
 
-on peux se déplacer dans l'image a l'aide des scrollbar sur le coté de l'image et la carte mental nous indique là où nous somme
+on peux se déplacer dans l'image a l'aide des scrollbar sur le coté de l'image et la carte mentale nous indique là où nous sommes
 
 9) Changer une teinte de Couleur:
 	- cliquer sur le bouton 'Couleur', 
 	- ou le menu déroulant 'filtre' puis 'Couleur',
 	- ou utiliser le raccourci clavier : 'Ctrl + U'.
 
-dans la fenêtre contextuelle, chosir la couleur a modifier en cliquant sur 'couleur du filtre' modifier la valeur du  seuillage (0-255) et choisir la nouvel teinte en cliquant sur 'nouvelle teinte'
+dans la fenêtre contextuelle, choisir la couleur a modifier en cliquant sur 'couleur du filtre' modifier la valeur du seuillage (0-255) et choisir la nouvel teinte en cliquant sur 'nouvelle teinte'
 appuyer sur ok pour valider le choix
 
 10) Appliquer le filtre Noir et Blanc:
@@ -83,16 +83,16 @@ appuyer sur ok pour valider le choix
 	- ou utiliser le raccourci clavier : 'Ctrl + N'.
 
 11) Sauvegarder:
-	- ou le menu déroulant 'fichier' puis 'Exporter l'image,
+	- ou le menu déroulant 'fichier' puis 'Exporter l'image',
 	- ou utiliser le raccourci clavier conventionnel: 'Ctrl + S'.
 
-choisisser un emplacement , un nom et une extention pour enregister vortre nouvelle image
+choisisser un emplacement , un nom et une extension pour enregister votre nouvelle image
 
 
-12) faire des sélection:
-	cliquer sur les boutons 'Rectangle', 'Elipse' et 'triangle' pour effectuer des séléction avec diférentes forme n'oubliez pas de cliquer sur 'Quitter le mode de séléction' quand vous avec fini
+12) faire des sélections:
+	cliquer sur les boutons 'Rectangle', 'Ellipse' et 'triangle' pour effectuer des sélections avec différentes formes. N'oubliez pas de cliquer sur 'Quitter le mode de sélection' quand vous avez fini
 
-	faire une phrase pour dire qu'on peux pas encore effectuer des action seulement sur les selection
+	faire une phrase pour dire qu'on peut pas encore effectuer des actions seulement sur les selections
 
 
 13) quitter le logiciel
@@ -100,4 +100,4 @@ choisisser un emplacement , un nom et une extention pour enregister vortre nouve
 	- ou le menu déroulant 'fichier' puis 'Quitter',
 	- ou utiliser le raccourci clavier : 'Ctrl + "Q"'.
 
-(on notera le message qui nous prose d'enregistrer notre travail avant de quitter)
+(on notera le message qui nous propose d'enregistrer notre travail avant de quitter)
