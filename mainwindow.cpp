@@ -53,6 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->PixFrame->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(VerticalScrollBarChanged(int)));
     connect(ui->PixFrame->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(HorizontalScrollBarChanged(int)));
 
+    connect(ui->button_zoom_up, SIGNAL(clicked()),this,SLOT(on_actionZoomUp_triggered()));
+    connect(ui->button_zoom_down, SIGNAL(clicked()),this,SLOT(on_actionZoomDown_triggered()));
+    connect(ui->button_zoom_default, SIGNAL(clicked()),this,SLOT(on_actionZoomDefault_triggered()));
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 

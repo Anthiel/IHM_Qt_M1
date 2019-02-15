@@ -59,8 +59,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1398</width>
-             <height>480</height>
+             <width>1402</width>
+             <height>493</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -138,7 +138,7 @@
                      <x>0</x>
                      <y>0</y>
                      <width>322</width>
-                     <height>315</height>
+                     <height>335</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -271,8 +271,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>617</width>
-                     <height>433</height>
+                     <width>631</width>
+                     <height>457</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_3">
@@ -373,8 +373,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>392</width>
-                     <height>454</height>
+                     <width>397</width>
+                     <height>471</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -553,7 +553,7 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="button_default">
+                        <widget class="QPushButton" name="button_zoom_default">
                          <property name="text">
                           <string>Rétablir Zoom</string>
                          </property>
@@ -615,8 +615,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1400</width>
-           <height>109</height>
+           <width>1404</width>
+           <height>108</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -669,7 +669,7 @@
      <x>0</x>
      <y>0</y>
      <width>1426</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
