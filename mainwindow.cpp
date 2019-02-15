@@ -729,10 +729,25 @@ void MainWindow::on_actionAnnuler_triggered(){
     int IDpix = ui->PixFrame->getID();
     historiqueTab[IDpix].on_actionUndo_triggered();
     PixmapTab[IDpix]=historiqueTab[ui->PixFrame->getID()].element;
+    PixmapTabExplorer[IDpix]=historiqueTab[ui->PixFrame->getID()].element;
+    PixmapTabCarteMentale[IDpix]=historiqueTab[ui->PixFrame->getID()].element;
 
     sceneTab[IDpix].clear();
     sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+
+    sceneTabExplorer[IDpix].clear();
+    sceneTabExplorer[IDpix].addPixmap(PixmapTabExplorer[IDpix]);
+    sceneTabExplorer[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+
+    sceneTabCarteMentale[IDpix].clear();
+    sceneTabCarteMentale[IDpix].addPixmap(PixmapTabCarteMentale[IDpix]);
+    sceneTabCarteMentale[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTabExplorer[activeScene].sceneRect(), Qt::KeepAspectRatio);
+    ui->carteMentale->fitInView(sceneTabCarteMentale[activeScene].sceneRect(),Qt::KeepAspectRatio);
+
     ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
     ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
 }
@@ -741,10 +756,25 @@ void MainWindow::on_actionRetablir_triggered(){
     int IDpix = ui->PixFrame->getID();
     historiqueTab[IDpix].on_actionRedo_triggered();
     PixmapTab[IDpix]=historiqueTab[ui->PixFrame->getID()].element;
+    PixmapTabExplorer[IDpix]=historiqueTab[ui->PixFrame->getID()].element;
+    PixmapTabCarteMentale[IDpix]=historiqueTab[ui->PixFrame->getID()].element;
 
     sceneTab[IDpix].clear();
     sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+
+    sceneTabExplorer[IDpix].clear();
+    sceneTabExplorer[IDpix].addPixmap(PixmapTabExplorer[IDpix]);
+    sceneTabExplorer[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+
+    sceneTabCarteMentale[IDpix].clear();
+    sceneTabCarteMentale[IDpix].addPixmap(PixmapTabCarteMentale[IDpix]);
+    sceneTabCarteMentale[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+
+    ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTabExplorer[activeScene].sceneRect(), Qt::KeepAspectRatio);
+    ui->carteMentale->fitInView(sceneTabCarteMentale[activeScene].sceneRect(),Qt::KeepAspectRatio);
+
     ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
     ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
 }
@@ -813,6 +843,7 @@ void MainWindow::on_actionRogner_triggered()
         sceneTabCarteMentale[IDpix].clear();
         sceneTabCarteMentale[IDpix].addPixmap(PixmapTabCarteMentale[IDpix]);
     }
+
 
     //qDebug() << "clip fermé, valeur openWindow" << w_clip.openWindow;
     if(w_clip.openWindow == true){
