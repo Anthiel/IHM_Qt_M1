@@ -59,8 +59,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1398</width>
-             <height>480</height>
+             <width>1402</width>
+             <height>496</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -149,8 +149,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>322</width>
-                     <height>315</height>
+                     <width>318</width>
+                     <height>289</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -162,6 +162,9 @@
                       <layout class="QHBoxLayout" name="horizontalLayout_3">
                        <item>
                         <widget class="QPushButton" name="button_import">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ouvre une fenêtre pour &lt;span style=&quot; font-weight:600;&quot;&gt;importer une ou plusieurs images&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="text">
                           <string>Importer ...</string>
                          </property>
@@ -173,6 +176,9 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="button_delete_all">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Enleve&lt;/span&gt; toutes les images importées du logiciel. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ne supprime pas les images&lt;/span&gt; du disque.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="text">
                           <string>Tout supprimer</string>
                          </property>
@@ -286,8 +292,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>617</width>
-                     <height>433</height>
+                     <width>629</width>
+                     <height>457</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_3">
@@ -388,8 +394,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>392</width>
-                     <height>454</height>
+                     <width>398</width>
+                     <height>474</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -415,6 +421,9 @@
                         <layout class="QHBoxLayout" name="horizontalLayout_2">
                          <item>
                           <widget class="QPushButton" name="button_SelecRect">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Créer une sélection &lt;span style=&quot; font-weight:600;&quot;&gt;rectangulaire&lt;/span&gt;. Cliquer et bouger la souris pour créer le rectangle sur l'image.&lt;/p&gt;&lt;p&gt;Une fois créer, le rectangle peut être modifié avec les&lt;span style=&quot; font-weight:600;&quot;&gt; poignets rouges.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="text">
                             <string>Rectangle</string>
                            </property>
@@ -426,6 +435,9 @@
                          </item>
                          <item>
                           <widget class="QPushButton" name="button_SelecEllipse">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Créer une sélection &lt;span style=&quot; font-weight:600;&quot;&gt;Elliptique&lt;/span&gt;. Cliquer et bouger la souris pour créer l'ellipse sur l'image.&lt;/p&gt;&lt;p&gt;Une fois créer, l'ellipse peut être modifiée avec les&lt;span style=&quot; font-weight:600;&quot;&gt; poignets rouges.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="text">
                             <string>Ellipse</string>
                            </property>
@@ -437,6 +449,9 @@
                          </item>
                          <item>
                           <widget class="QPushButton" name="button_SelecTriangle">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Créer une sélection &lt;span style=&quot; font-weight:600;&quot;&gt;triangulaire&lt;/span&gt;. Cliquer et bouger la souris pour créer le triangle sur l'image.&lt;/p&gt;&lt;p&gt;Une fois créer, le triangle peut être modifié avec les&lt;span style=&quot; font-weight:600;&quot;&gt; poignets rouges.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="text">
                             <string>Triangle</string>
                            </property>
@@ -450,6 +465,9 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="button_QuitSelectMode">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permet de quitter le mode sélection. &lt;span style=&quot; font-weight:600;&quot;&gt;Efface la sélection sur l'image.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="text">
                           <string>Quitter le mode sélection</string>
                          </property>
@@ -468,6 +486,9 @@
                         <layout class="QHBoxLayout" name="horizontalLayout_6">
                          <item>
                           <widget class="QPushButton" name="button_resize">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permet de &lt;span style=&quot; font-weight:600;&quot;&gt;redimensionner&lt;/span&gt; l'image courante.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="text">
                             <string>Redimensionner</string>
                            </property>
@@ -479,6 +500,9 @@
                          </item>
                          <item>
                           <widget class="QPushButton" name="button_crop">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permet de &lt;span style=&quot; font-weight:600;&quot;&gt;rogner&lt;/span&gt; l'image courante.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="text">
                             <string>Rogner</string>
                            </property>
@@ -639,8 +663,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1400</width>
-           <height>109</height>
+           <width>1404</width>
+           <height>108</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -693,7 +717,7 @@
      <x>0</x>
      <y>0</y>
      <width>1426</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
