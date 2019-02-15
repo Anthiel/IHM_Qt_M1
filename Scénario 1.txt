@@ -92,8 +92,7 @@ choisisser un emplacement , un nom et une extension pour enregister votre nouvel
 12) faire des sélections:
 	cliquer sur les boutons 'Rectangle', 'Ellipse' et 'triangle' pour effectuer des sélections avec différentes formes. N'oubliez pas de cliquer sur 'Quitter le mode de sélection' quand vous avez fini
 
-	faire une phrase pour dire qu'on peut pas encore effectuer des actions seulement sur les selections
-
+	note : les sélections sont tracées, mais nous ne pouvons pas encore faire d'action dans ces sélections.
 
 13) quitter le logiciel
 	- quitter l'application avec la croix rouge
