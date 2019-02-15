@@ -59,8 +59,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1402</width>
-             <height>496</height>
+             <width>1398</width>
+             <height>480</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -137,8 +137,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>334</width>
-                     <height>289</height>
+                     <width>322</width>
+                     <height>315</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -271,8 +271,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>660</width>
-                     <height>457</height>
+                     <width>617</width>
+                     <height>433</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_3">
@@ -373,8 +373,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>351</width>
-                     <height>474</height>
+                     <width>392</width>
+                     <height>454</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -531,7 +531,7 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_7">
                        <item>
-                        <widget class="QPushButton" name="pushButton_2">
+                        <widget class="QPushButton" name="button_zoom_up">
                          <property name="text">
                           <string>Zoomer</string>
                          </property>
@@ -542,7 +542,7 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="pushButton_4">
+                        <widget class="QPushButton" name="button_zoom_down">
                          <property name="text">
                           <string>Dézoomer</string>
                          </property>
@@ -553,7 +553,7 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="pushButton_5">
+                        <widget class="QPushButton" name="button_default">
                          <property name="text">
                           <string>Rétablir Zoom</string>
                          </property>
@@ -615,8 +615,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1404</width>
-           <height>108</height>
+           <width>1400</width>
+           <height>109</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -669,7 +669,7 @@
      <x>0</x>
      <y>0</y>
      <width>1426</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
