@@ -795,12 +795,21 @@ void MainWindow::on_actionRogner_triggered()
         int x0=w_clip.getX0();
         int y0=w_clip.getY0();
         qDebug() << __FUNCTION__ << "clip to" <<x0 << y0<<largeur<<hauteur;
-        sceneTab[IDpix].clear();
-        sceneTab[IDpix].addPixmap(PixmapTab[IDpix].copy(x0,y0,largeur,hauteur));
-        PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
 
+        sceneTab[IDpix].clear();
+        PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
+        sceneTab[IDpix].addPixmap(PixmapTab[IDpix]);
         update_historique(&PixmapTab[ui->PixFrame->getID()]);
+
+        PixmapTabExplorer[IDpix] = PixmapTabExplorer[IDpix].copy(x0,y0,largeur,hauteur);
+        sceneTabExplorer[IDpix].clear();
+        sceneTabExplorer[IDpix].addPixmap(PixmapTabExplorer[IDpix]);
+
+        PixmapTabCarteMentale[IDpix] = PixmapTabCarteMentale[IDpix].copy(x0,y0,largeur,hauteur);
+        sceneTabCarteMentale[IDpix].clear();
+        sceneTabCarteMentale[IDpix].addPixmap(PixmapTabCarteMentale[IDpix]);
     }
+
     qDebug() << "clip fermé, valeur openWindow" << w_clip.openWindow;
     if(w_clip.openWindow == true){
         rognageWindowOpen = true;
@@ -808,8 +817,12 @@ void MainWindow::on_actionRogner_triggered()
     }
 
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    sceneTabExplorer[IDpix].setSceneRect(PixmapTabExplorer[IDpix].rect());
+
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-    ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTabExplorer[activeScene].sceneRect(), Qt::KeepAspectRatio);
+    ui->carteMentale->fitInView(sceneTabCarteMentale[activeScene].sceneRect(),Qt::KeepAspectRatio);
+
     qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
 }
 
@@ -820,11 +833,24 @@ void MainWindow::rognageGraphique(){
     xe = ui->PixFrame->Xend;
     ye = ui->PixFrame->Yend;
     qDebug() << __FUNCTION__ << "clip to" <<xb << yb << xe << ye;
+
     sceneTab[activeScene].clear();
     sceneTab[activeScene].addPixmap(PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb));
     PixmapTab[activeScene] = PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb);
     sceneTab[activeScene].setSceneRect(PixmapTab[activeScene].rect());
+
+    sceneTabExplorer[activeScene].clear();
+    sceneTabExplorer[activeScene].addPixmap(PixmapTabExplorer[activeScene].copy(xb,yb,xe-xb,ye-yb));
+    PixmapTabExplorer[activeScene] = PixmapTabExplorer[activeScene].copy(xb,yb,xe-xb,ye-yb);
+    sceneTabExplorer[activeScene].setSceneRect(PixmapTabExplorer[activeScene].rect());
+
+    sceneTabCarteMentale[activeScene].clear();
+    sceneTabCarteMentale[activeScene].addPixmap(PixmapTabCarteMentale[activeScene].copy(xb,yb,xe-xb,ye-yb));
+    PixmapTabCarteMentale[activeScene] = PixmapTabCarteMentale[activeScene].copy(xb,yb,xe-xb,ye-yb);
+    sceneTabCarteMentale[activeScene].setSceneRect(PixmapTabCarteMentale[activeScene].rect());
+
     ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
+    ui->carteMentale->fitInView(sceneTabCarteMentale[activeScene].sceneRect(),Qt::KeepAspectRatio);
     ExplorerGraphicsView[activeScene]->fitInView(sceneTab[activeScene].sceneRect(), Qt::KeepAspectRatio);
 
     update_historique(&PixmapTab[ui->PixFrame->getID()]);
