@@ -190,6 +190,9 @@
                       <layout class="QHBoxLayout" name="horizontalLayout_4">
                        <item>
                         <widget class="QPushButton" name="button_b_a_w">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Applique un filtre noir et blanc à l'image&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + N&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="text">
                           <string>Noir et Blanc</string>
                          </property>
@@ -497,6 +500,9 @@
                         <layout class="QHBoxLayout" name="horizontalLayout_5">
                          <item>
                           <widget class="QPushButton" name="button_rotate_h">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tourne l'image de &lt;span style=&quot; font-weight:600;&quot;&gt;90° &lt;/span&gt;dans le sens horaire&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + R&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="text">
                             <string>Rotation 90°</string>
                            </property>
@@ -508,6 +514,9 @@
                          </item>
                          <item>
                           <widget class="QPushButton" name="button_rotate_ah">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tourne l'image de &lt;span style=&quot; font-weight:600;&quot;&gt;90° &lt;/span&gt;dans le sens anti-horaire&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + Alt + R&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="text">
                             <string>Rotation -90°</string>
                            </property>
@@ -519,6 +528,9 @@
                          </item>
                          <item>
                           <widget class="QPushButton" name="button_rotate">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permet de choisir un angle précis de rotation &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;R&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="text">
                             <string>Rotation</string>
                            </property>
@@ -765,9 +777,6 @@
    <property name="text">
     <string>Redimensionner...</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
-   </property>
   </action>
   <action name="actionRogner">
    <property name="icon">
@@ -798,6 +807,9 @@
    <property name="text">
     <string>Rotation à 90°</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="actionRoation_90">
    <property name="icon">
@@ -807,6 +819,9 @@
    <property name="text">
     <string>Roation à -90°</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+R</string>
+   </property>
   </action>
   <action name="actionRotation">
    <property name="icon">
@@ -815,6 +830,9 @@
    </property>
    <property name="text">
     <string>Rotation ...</string>
+   </property>
+   <property name="shortcut">
+    <string>R</string>
    </property>
   </action>
   <action name="actionNoir_et_Blanc">
