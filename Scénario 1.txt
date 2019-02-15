@@ -89,7 +89,13 @@ appuyer sur ok pour valider le choix
 choisisser un emplacement , un nom et une extention pour enregister vortre nouvelle image
 
 
-12) quitter le logiciel
+12) faire des sélection:
+	cliquer sur les boutons 'Rectangle', 'Elipse' et 'triangle' pour effectuer des séléction avec diférentes forme n'oubliez pas de cliquer sur 'Quitter le mode de séléction' quand vous avec fini
+
+	faire une phrase pour dire qu'on peux pas encore effectuer des action seulement sur les selection
+
+
+13) quitter le logiciel
 	- quitter l'application avec la croix rouge
 	- ou le menu déroulant 'fichier' puis 'Quitter',
 	- ou utiliser le raccourci clavier : 'Ctrl + "Q"'.
