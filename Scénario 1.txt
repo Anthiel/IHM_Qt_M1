@@ -1,0 +1,64 @@
+1) importer une image:
+	- cliquer sur le bouton 'importer',
+	- ou le menu déroulant 'fichier' puis 'importer', 
+	- ou utiliser le raccourci clavier : 'Ctrl + O'.
+
+ouvrir le dossier 'scénario 1' et sélectionner l'image 'une vis.jpg'.
+(l'image devrait s'afficher au centre du logiciel, une mignature en bas (dans la liste des photos ouverts) ainsi que la carte mentale.)
+
+
+3) faire pivoter l'image de 90°:
+	- cliquer sur les boutons 'Rotation 90°' et 'Rotation -90°', 
+	- ou le menu déroulant 'image' puis 'Rotation 90°' et 'Rotation -90°',
+	- ou utiliser le raccourci clavier : 'Ctrl + R' et 'Ctrl + Alt + R'.
+
+
+4) faire pivoter l'image d'un angle précis:
+	- cliquer sur le bouton 'Rotation', 
+	- ou le menu déroulant 'image' puis 'Rotation',
+	- ou utiliser le raccourci clavier : 'R'.
+
+choisir un angle de rotation dans la fenêtre contextuelle avec le slider ou en modifiant la valeur dans la spin box et appuyer sur ok pour valider le choix
+
+
+5) Annuler , Rétablir :
+	- cliquer sur le menu déroulant 'édition' puis 'Annuler' et 'Rétablir',
+	- ou utiliser les raccourcis clavier conventionnel : 'Ctrl + z' et 'Ctrl + y'
+
+(attention cependant on ne peut annuler que les 9 dernières actions, et effectuer une action après avoir annulé empêche de répéter les actions annulées.)
+
+
+6) Redimensionner:
+	- cliquer sur le bouton 'Redimensionner', 
+	- ou le menu déroulant 'image' puis 'Redimensionner',
+	- ou utiliser le raccourci clavier : 'Ctrl + T'.
+
+dans la fenêtre contextuelle, cocher la case 'garder le ratio' si c'est ce que vous voulez et choisissez le nombre de pixel en largeur et hauteur en modifiant les valeurs dans les spin box.
+(le ratio est calculé au moment au l'on coche la case 'garder le ratio' et les valeurs de pixel en largeur et hauteur sont réajustées en fonction des modifications)
+appuyer sur ok pour valider le choix
+
+
+7) Rogner avec des valeurs:
+	- cliquer sur le bouton 'Rogner', 
+	- ou le menu déroulant 'image' puis 'Rogner',
+	- ou utiliser le raccourci clavier : 'Ctrl + P'.
+
+dans la fenêtre contextuelle, modifier les valeurs dans les spin box
+(il existe un approche visuelle du problème que l'on verra juste après)
+(x0 y0 correspondent au point haut gauche de la sélection)
+(xf yf correspondent au point bas droit de la sélection)
+(la largeur et la hauteur sont recalculées en fonction de x0 y0 xf yf , xf et yf sont réajustés si l'on modifie largeur et hauteur)
+appuyer sur ok pour valider le choix
+
+
+8) Rogner avec un visuel (feedback):
+	- cliquer sur le bouton 'Rogner', 
+	- ou le menu déroulant 'image' puis 'Rogner',
+	- ou utiliser le raccourci clavier : 'Ctrl + P'.
+
+dans la fenêtre contextuelle, cliquer sur le bouton Mode Graphique
+séléctionner une zone en cliquant sur l'image (la sélection devrait apparaitre par dessus l'image)
+appuyer sur la touche 'entrer' pour valider le rognage
+
+
+x)	cliquer sur le bouton 'Tout supprimer', ou le menu déroulant 'fichier' puis 'Tout supprimer', ou utiliser le raccourci clavier : Ctrl + D
