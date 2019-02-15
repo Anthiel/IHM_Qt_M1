@@ -59,8 +59,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1402</width>
-             <height>493</height>
+             <width>1398</width>
+             <height>480</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -129,6 +129,18 @@
                 </item>
                 <item>
                  <widget class="QScrollArea" name="scrollArea_2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>280</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="baseSize">
+                   <size>
+                    <width>280</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="widgetResizable">
                    <bool>true</bool>
                   </property>
@@ -138,7 +150,7 @@
                      <x>0</x>
                      <y>0</y>
                      <width>322</width>
-                     <height>335</height>
+                     <height>315</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -195,6 +207,9 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="button_color_filter">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change une teinte avec seuillage&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + U&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="text">
                           <string>Couleur ...</string>
                          </property>
@@ -271,8 +286,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>631</width>
-                     <height>457</height>
+                     <width>617</width>
+                     <height>433</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_3">
@@ -361,7 +376,7 @@
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>300</width>
+                    <width>370</width>
                     <height>0</height>
                    </size>
                   </property>
@@ -373,8 +388,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>397</width>
-                     <height>471</height>
+                     <width>392</width>
+                     <height>454</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -532,6 +547,9 @@
                       <layout class="QHBoxLayout" name="horizontalLayout_7">
                        <item>
                         <widget class="QPushButton" name="button_zoom_up">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Augmente le zoom de &lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;(10%)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + '+'&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="text">
                           <string>Zoomer</string>
                          </property>
@@ -543,6 +561,9 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="button_zoom_down">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Diminue le zoom de &lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;(-10%)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + '-'&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="text">
                           <string>Dézoomer</string>
                          </property>
@@ -554,6 +575,9 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="button_zoom_default">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rétablis le Zoom&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + '0'&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="text">
                           <string>Rétablir Zoom</string>
                          </property>
@@ -615,8 +639,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1404</width>
-           <height>108</height>
+           <width>1400</width>
+           <height>109</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -669,7 +693,7 @@
      <x>0</x>
      <y>0</y>
      <width>1426</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -810,6 +834,12 @@
    <property name="text">
     <string>Noir et Blanc</string>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Applique un filtre noir et blanc à l'image&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionCouleurs">
    <property name="icon">
@@ -820,7 +850,10 @@
     <string>Couleurs ...</string>
    </property>
    <property name="toolTip">
-    <string>Filtre couleurs</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change une teinte avec seuillage&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
    </property>
   </action>
   <action name="actionAnnuler">

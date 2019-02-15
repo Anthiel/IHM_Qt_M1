@@ -220,6 +220,22 @@ void MainWindow::enableIfPic(bool enable)
     ui->actionZoomUp->setEnabled(enable);
     ui->actionZoomDown->setEnabled(enable);
     ui->actionZoomDefault->setEnabled(enable);
+    ui->button_crop->setEnabled(enable);
+    ui->button_b_a_w->setEnabled(enable);
+    ui->button_resize->setEnabled(enable);
+    ui->button_rotate->setEnabled(enable);
+    ui->button_zoom_up->setEnabled(enable);
+    ui->button_rotate_h->setEnabled(enable);
+    ui->button_SelecRect->setEnabled(enable);
+    ui->button_rotate_ah->setEnabled(enable);
+    ui->button_zoom_down->setEnabled(enable);
+    ui->button_delete_all->setEnabled(enable);
+    ui->button_SelecEllipse->setEnabled(enable);
+    ui->button_color_filter->setEnabled(enable);
+    ui->button_zoom_default->setEnabled(enable);
+    ui->button_SelecTriangle->setEnabled(enable);
+    ui->button_QuitSelectMode->setEnabled(enable);
+
 
     ui->actionAnnuler->setEnabled(enable);
     ui->actionRetablir->setEnabled(enable);
