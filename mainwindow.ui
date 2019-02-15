@@ -783,6 +783,9 @@
    <property name="text">
     <string>Rogner ...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
   </action>
   <action name="actionExporter_l_image">
    <property name="icon">
