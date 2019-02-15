@@ -7,13 +7,13 @@ ouvrir le dossier 'scénario 1' et sélectionner l'image 'une vis.jpg'.
 (l'image devrait s'afficher au centre du logiciel, une mignature en bas (dans la liste des photos ouverts) ainsi que la carte mentale.)
 
 
-3) faire pivoter l'image de 90°:
+2) faire pivoter l'image de 90°:
 	- cliquer sur les boutons 'Rotation 90°' et 'Rotation -90°', 
 	- ou le menu déroulant 'image' puis 'Rotation 90°' et 'Rotation -90°',
-	- ou utiliser le raccourci clavier : 'Ctrl + R' et 'Ctrl + Alt + R'.
+	- ou utiliser les raccourcis clavier : 'Ctrl + R' et 'Ctrl + Alt + R'.
 
 
-4) faire pivoter l'image d'un angle précis:
+3) faire pivoter l'image d'un angle précis:
 	- cliquer sur le bouton 'Rotation', 
 	- ou le menu déroulant 'image' puis 'Rotation',
 	- ou utiliser le raccourci clavier : 'R'.
@@ -21,14 +21,14 @@ ouvrir le dossier 'scénario 1' et sélectionner l'image 'une vis.jpg'.
 choisir un angle de rotation dans la fenêtre contextuelle avec le slider ou en modifiant la valeur dans la spin box et appuyer sur ok pour valider le choix
 
 
-5) Annuler , Rétablir :
+4) Annuler , Rétablir :
 	- cliquer sur le menu déroulant 'édition' puis 'Annuler' et 'Rétablir',
 	- ou utiliser les raccourcis clavier conventionnel : 'Ctrl + z' et 'Ctrl + y'
 
 (attention cependant on ne peut annuler que les 9 dernières actions, et effectuer une action après avoir annulé empêche de répéter les actions annulées.)
 
 
-6) Redimensionner:
+5) Redimensionner:
 	- cliquer sur le bouton 'Redimensionner', 
 	- ou le menu déroulant 'image' puis 'Redimensionner',
 	- ou utiliser le raccourci clavier : 'Ctrl + T'.
@@ -38,20 +38,20 @@ dans la fenêtre contextuelle, cocher la case 'garder le ratio' si c'est ce que 
 appuyer sur ok pour valider le choix
 
 
-7) Rogner avec des valeurs:
+6) Rogner avec des valeurs:
 	- cliquer sur le bouton 'Rogner', 
 	- ou le menu déroulant 'image' puis 'Rogner',
 	- ou utiliser le raccourci clavier : 'Ctrl + P'.
 
 dans la fenêtre contextuelle, modifier les valeurs dans les spin box
-(il existe un approche visuelle du problème que l'on verra juste après)
+(il existe une approche visuelle du problème que l'on verra juste après)
 (x0 y0 correspondent au point haut gauche de la sélection)
 (xf yf correspondent au point bas droit de la sélection)
 (la largeur et la hauteur sont recalculées en fonction de x0 y0 xf yf , xf et yf sont réajustés si l'on modifie largeur et hauteur)
 appuyer sur ok pour valider le choix
 
 
-8) Rogner avec un visuel (feedback):
+7) Rogner avec un visuel (feedback):
 	- cliquer sur le bouton 'Rogner', 
 	- ou le menu déroulant 'image' puis 'Rogner',
 	- ou utiliser le raccourci clavier : 'Ctrl + P'.
@@ -60,5 +60,38 @@ dans la fenêtre contextuelle, cliquer sur le bouton Mode Graphique
 séléctionner une zone en cliquant sur l'image (la sélection devrait apparaitre par dessus l'image)
 appuyer sur la touche 'entrer' pour valider le rognage
 
+8) Zoomer, Dézoomer, Rétablir le zoom:
+	- cliquer sur les boutons 'Zoomer', 'Dézoomer' et 'Rétablir le zoom', 
+	- ou le menu déroulant 'édition' puis 'Zoomer', 'Dézoomer' et 'Rétablir le zoom',
+	- ou utiliser les raccourcis clavier : 'Ctrl + "+"', 'Ctrl + "-"' et 'Ctrl + 0'.
 
-x)	cliquer sur le bouton 'Tout supprimer', ou le menu déroulant 'fichier' puis 'Tout supprimer', ou utiliser le raccourci clavier : Ctrl + D
+on peux aussi utiliser la touche Ctrl plus la molette de la souris.
+
+on peux se déplacer dans l'image a l'aide des scrollbar sur le coté de l'image et la carte mental nous indique là où nous somme
+
+9) Changer une teinte de Couleur:
+	- cliquer sur le bouton 'Couleur', 
+	- ou le menu déroulant 'filtre' puis 'Couleur',
+	- ou utiliser le raccourci clavier : 'Ctrl + U'.
+
+dans la fenêtre contextuelle, chosir la couleur a modifier en cliquant sur 'couleur du filtre' modifier la valeur du  seuillage (0-255) et choisir la nouvel teinte en cliquant sur 'nouvelle teinte'
+appuyer sur ok pour valider le choix
+
+10) Appliquer le filtre Noir et Blanc:
+	- cliquer sur le bouton 'Noir et Blanc', 
+	- ou le menu déroulant 'filtre' puis 'noir et blanc',
+	- ou utiliser le raccourci clavier : 'Ctrl + N'.
+
+11) Sauvegarder:
+	- ou le menu déroulant 'fichier' puis 'Exporter l'image,
+	- ou utiliser le raccourci clavier conventionnel: 'Ctrl + S'.
+
+choisisser un emplacement , un nom et une extention pour enregister vortre nouvelle image
+
+
+12) quitter le logiciel
+	- quitter l'application avec la croix rouge
+	- ou le menu déroulant 'fichier' puis 'Quitter',
+	- ou utiliser le raccourci clavier : 'Ctrl + "Q"'.
+
+(on notera le message qui nous prose d'enregistrer notre travail avant de quitter)

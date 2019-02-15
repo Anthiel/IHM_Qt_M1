@@ -59,8 +59,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1402</width>
-             <height>496</height>
+             <width>1398</width>
+             <height>480</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -149,8 +149,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>318</width>
-                     <height>289</height>
+                     <width>322</width>
+                     <height>315</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -163,7 +163,7 @@
                        <item>
                         <widget class="QPushButton" name="button_import">
                          <property name="toolTip">
-                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ouvre une fenêtre pour &lt;span style=&quot; font-weight:600;&quot;&gt;importer une ou plusieurs images&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ouvre une fenêtre pour &lt;span style=&quot; font-weight:600;&quot;&gt;importer une ou plusieurs images&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CTRL + O&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="text">
                           <string>Importer ...</string>
@@ -177,7 +177,7 @@
                        <item>
                         <widget class="QPushButton" name="button_delete_all">
                          <property name="toolTip">
-                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Enleve&lt;/span&gt; toutes les images importées du logiciel. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ne supprime pas les images&lt;/span&gt; du disque.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Enleve&lt;/span&gt; toutes les images importées du logiciel. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ne supprime pas les images&lt;/span&gt; du disque.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + D&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="text">
                           <string>Tout supprimer</string>
@@ -292,8 +292,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>629</width>
-                     <height>457</height>
+                     <width>617</width>
+                     <height>433</height>
                     </rect>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_3">
@@ -394,8 +394,8 @@
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>398</width>
-                     <height>474</height>
+                     <width>392</width>
+                     <height>454</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -487,7 +487,7 @@
                          <item>
                           <widget class="QPushButton" name="button_resize">
                            <property name="toolTip">
-                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permet de &lt;span style=&quot; font-weight:600;&quot;&gt;redimensionner&lt;/span&gt; l'image courante.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permet de &lt;span style=&quot; font-weight:600;&quot;&gt;redimensionner&lt;/span&gt; l'image courante.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + T&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                            </property>
                            <property name="text">
                             <string>Redimensionner</string>
@@ -501,7 +501,7 @@
                          <item>
                           <widget class="QPushButton" name="button_crop">
                            <property name="toolTip">
-                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permet de &lt;span style=&quot; font-weight:600;&quot;&gt;rogner&lt;/span&gt; l'image courante.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Permet de &lt;span style=&quot; font-weight:600;&quot;&gt;rogner&lt;/span&gt; l'image courante.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + P&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                            </property>
                            <property name="text">
                             <string>Rogner</string>
@@ -663,8 +663,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>1404</width>
-           <height>108</height>
+           <width>1400</width>
+           <height>109</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -717,7 +717,7 @@
      <x>0</x>
      <y>0</y>
      <width>1426</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
