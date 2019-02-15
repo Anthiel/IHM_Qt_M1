@@ -14,6 +14,15 @@ public:
     QPixmap *pix;
     QGraphicsViewCustom *Frame;
     QGraphicsSceneCustom *scene;
+
+    QPixmap *pixExp;
+    QGraphicsViewCustom *FrameExp;
+    QGraphicsSceneCustom *sceneExp;
+
+    QPixmap *pixCM;
+    QGraphicsViewCustom *FrameCM;
+    QGraphicsSceneCustom *sceneCM;
+
     QTransform transform;
     int angle = 0;
     int nouveauAngle;
@@ -21,7 +30,9 @@ public:
 
 public:
     explicit Rotate(QWidget *parent = nullptr);
-    void setInfo(QPixmap *p, QGraphicsSceneCustom *scene, QGraphicsViewCustom *Frame,  std::vector <int> SelectionMultiple);
+    void setInfo(QPixmap *p, QGraphicsSceneCustom *scene, QGraphicsViewCustom *Frame,  std::vector <int> SelectionMultiple,
+                 QPixmap *pExp, QGraphicsSceneCustom *sceneExp, QGraphicsViewCustom *FrameExp,
+                 QPixmap *pCarteM, QGraphicsSceneCustom *sceneCarteM, QGraphicsViewCustom *FrameCarteM);
     int getAngle();
 
 

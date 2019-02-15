@@ -137,6 +137,14 @@ void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
         sceneTab[id_pix].clear();
         sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
         PixmapTab[id_pix] = QPixmap::fromImage(im);
+
+        sceneTabExplorer[id_pix].clear();
+        sceneTabExplorer[id_pix].addPixmap(QPixmap::fromImage(im));
+        PixmapTabExplorer[id_pix] = QPixmap::fromImage(im);
+
+        sceneTabCarteMentale[id_pix].clear();
+        sceneTabCarteMentale[id_pix].addPixmap(QPixmap::fromImage(im));
+        PixmapTabCarteMentale[id_pix] = QPixmap::fromImage(im);
         delete tab;
     }
 }
@@ -924,7 +932,9 @@ void MainWindow::on_actionRoation_90_triggered()
 void MainWindow::on_actionRotation_triggered()
 {
     Rotate rotateWindow;    
-    rotateWindow.setInfo(PixmapTab,sceneTab, ui->PixFrame, SelectionMultiple);
+    rotateWindow.setInfo(PixmapTab,sceneTab, ui->PixFrame, SelectionMultiple,
+                         PixmapTabExplorer, sceneTabExplorer, ExplorerGraphicsView[activeScene],
+                         PixmapTabCarteMentale, sceneTabCarteMentale, ui->carteMentale);
     if (rotateWindow.exec())
     {}
     angleRotate = rotateWindow.getAngle();
@@ -933,6 +943,8 @@ void MainWindow::on_actionRotation_triggered()
         int IDpix = SelectionMultiple.at(i);
         update_historique(&PixmapTab[IDpix]);
     }
+    for(int i=0; i< ImageCount;i++)
+        ExplorerGraphicsView[i]->fitInView(sceneTabExplorer[i].sceneRect(), Qt::KeepAspectRatio);
 
 }
 
@@ -963,6 +975,14 @@ void MainWindow::on_actionNoir_et_Blanc_triggered()
         sceneTab[id_pix].clear();
         sceneTab[id_pix].addPixmap(QPixmap::fromImage(im));
         PixmapTab[id_pix] = QPixmap::fromImage(im);
+
+        sceneTabExplorer[id_pix].clear();
+        sceneTabExplorer[id_pix].addPixmap(QPixmap::fromImage(im));
+        PixmapTabExplorer[id_pix] = QPixmap::fromImage(im);
+
+        sceneTabCarteMentale[id_pix].clear();
+        sceneTabCarteMentale[id_pix].addPixmap(QPixmap::fromImage(im));
+        PixmapTabCarteMentale[id_pix] = QPixmap::fromImage(im);
 
         update_historique(&PixmapTab[ui->PixFrame->getID()]);
     }
