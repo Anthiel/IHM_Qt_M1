@@ -802,12 +802,24 @@ void MainWindow::on_actionRedimensionner_triggered()
         sceneTab[IDpix].clear();
         sceneTab[IDpix].addPixmap(PixmapTab[IDpix].scaled(largeur,hauteur));
         PixmapTab[IDpix] = PixmapTab[IDpix].scaled(largeur,hauteur);
+        PixmapTabExplorer[IDpix]=PixmapTab[IDpix].scaled(largeur,hauteur);
+        PixmapTabCarteMentale[IDpix]=PixmapTab[IDpix].scaled(largeur,hauteur);
+
+        sceneTabExplorer[IDpix].clear();
+        sceneTabExplorer[IDpix].addPixmap(PixmapTabExplorer[IDpix]);
+
+        sceneTabCarteMentale[IDpix].clear();
+        sceneTabCarteMentale[IDpix].addPixmap(PixmapTabCarteMentale[IDpix]);
 
         update_historique(&PixmapTab[ui->PixFrame->getID()]);
     }
 
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    sceneTabExplorer[IDpix].setSceneRect(PixmapTab[IDpix].rect());
+    sceneTabCarteMentale[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
+    ExplorerGraphicsView[activeScene]->fitInView(sceneTabExplorer[activeScene].sceneRect(), Qt::KeepAspectRatio);
+    ui->carteMentale->fitInView(sceneTabCarteMentale[activeScene].sceneRect(),Qt::KeepAspectRatio);
     //qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
 }
 

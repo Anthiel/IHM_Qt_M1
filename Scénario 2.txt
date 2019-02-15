@@ -6,8 +6,19 @@
 ouvrir le dossier 'scénario 2' et sélectionner les images 'montagne1.jpg', 'montagne2.jpg', 'montagne3.png', 'montagne4.jpg'.
 (l'image devrai s'afficher au centre du logiciel, une mignature en bas (dans la liste des photos ouverts) ainsi que la carte mental.)
 
-2) sélectionner plusieur images dans l'application avec 'Ctrl' ou 'Maj' enfoncer en cliquant sur les mignatures dans le bandeau
+
+2) sélectionners plusieur images dans l'application avec 'Ctrl' ou 'Maj' enfoncer en cliquant sur les mignatures dans le bandeau en bas
 
 
-x)  
-	cliquer sur le bouton 'Tout supprimer', ou le menu déroulant 'fichier' puis 'Tout supprimer', ou utiliser le raccourci clavier : Ctrl + D
+3) effectuer quelques action comme des Rotation 90° ou appliquer des filtres sur plusieur images en même temps
+
+
+4) Exporter l'image permet d'enregister la photo active
+
+
+x)  supprimer les images courantes de la mémoire du logiciel:
+	- cliquer sur le bouton 'Tout supprimer', 
+	- ou le menu déroulant 'fichier' puis 'Tout supprimer',
+	- ou utiliser le raccourci clavier : Ctrl + D
+
+Quitter l'application
