@@ -77,6 +77,9 @@ on peux se déplacer dans l'image a l'aide des scrollbar sur le coté de l'image
 dans la fenêtre contextuelle, choisir la couleur a modifier en cliquant sur 'couleur du filtre' modifier la valeur du seuillage (0-255) et choisir la nouvel teinte en cliquant sur 'nouvelle teinte'
 appuyer sur ok pour valider le choix
 
+(par exemple garder le blanc (#ffffff) pour Couleur du filtre, choisir un seuil de 100 , et choisir une couleur bien visible pour la nouvelle teinte )
+
+
 10) Appliquer le filtre Noir et Blanc:
 	- cliquer sur le bouton 'Noir et Blanc', 
 	- ou le menu déroulant 'filtre' puis 'noir et blanc',
@@ -90,7 +93,7 @@ choisisser un emplacement , un nom et une extension pour enregister votre nouvel
 
 
 12) faire des sélections:
-	cliquer sur les boutons 'Rectangle', 'Ellipse' et 'triangle' pour effectuer des sélections avec différentes formes. N'oubliez pas de cliquer sur 'Quitter le mode de sélection' quand vous avez fini
+	cliquer sur les boutons 'Rectangle', 'Ellipse' et 'triangle' pour effectuer des sélections avec différentes formes en cliquant sur l'image. N'oubliez pas de cliquer sur 'Quitter le mode de sélection' quand vous avez fini
 
 	note : les sélections sont tracées, mais nous ne pouvons pas encore faire d'action dans ces sélections.
 
