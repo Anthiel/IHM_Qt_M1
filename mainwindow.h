@@ -55,8 +55,8 @@ private:
     Historique* historiqueTab;
     QGraphicsProxyWidget* proxyPixmapTab;
 
-    bool selectionTouch = false;
-    bool selectionShiftTouch = false;
+    bool CTRLtouch = false;
+    bool SHIFTtouch = false;
     std::vector <int> SelectionMultiple;
 
     QGraphicsView* view;
@@ -71,10 +71,26 @@ private:
     bool rognageWindowOpen = false;
     QGraphicsRectItem* itemRognage;
     QPainter *painter;
+
+    QPainter *painterCarteMentale;
+    int CarteMentaleXb, CarteMentaleYb;
+    int CarteMentaleXe, CarteMentaleYe;
+
     double zoom_value;
 
 
 private slots:
+    /*!
+     * \brief valeur du scrollBar Horizontal du pixframe.
+     */
+
+    void HorizontalScrollBarChanged(int value);
+
+    /*!
+     * \brief valeur du scrollBar Vertical du pixframe.
+     */
+
+    void VerticalScrollBarChanged(int value);
 
     /*!
      * \brief Fonction d'import d'images.
@@ -204,6 +220,8 @@ private:
     void PoignetUpdate();
     void drawTriangleSelection(double xb, double yb, double xe, double ye);
     void drawEllipseSelection(double xb, double yb, double xe, double ye);
+    void drawCarteMentale(double xb, double yb, double xe, double ye);
+    void CarteMentale();
 
     /*!
      * \brief met a jour l'historique des modification

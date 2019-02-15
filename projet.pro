@@ -33,7 +33,8 @@ SOURCES += \
         rotate.cpp \
         QGraphicsSceneCustom.cpp \
         colorfilter.cpp \
-        historique.cpp
+        historique.cpp \
+    qscrollareacustom.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
         rotate.h \
         QGraphicsSceneCustom.h \
         colorfilter.h \
-        historique.h
+        historique.h \
+    qscrollareacustom.h
 
 FORMS += \
         mainwindow.ui \

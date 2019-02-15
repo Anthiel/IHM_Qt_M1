@@ -11,6 +11,7 @@
 #include <QResizeEvent>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QScrollBar>
 #include <math.h>
 
 #include "mainwindow.h"
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->PixFrame->setStyleSheet("background: transparent; border: 0px");
     ui->carteMentale->setStyleSheet("background: transparent; border: 0px");
+
     connect(ui->PixFrame, SIGNAL(mousePressed(const QPoint&)),this, SLOT(ClickOnFrame()));    
     connect(ui->button_crop, SIGNAL(clicked()),this,SLOT(on_actionRogner_triggered()));
     connect(ui->button_b_a_w, SIGNAL(clicked()), this, SLOT(on_actionNoir_et_Blanc_triggered()));
@@ -48,17 +50,57 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->button_color_filter, SIGNAL(clicked()), this, SLOT(on_actionCouleurs_triggered()));
     connect(ui->button_SelecTriangle, SIGNAL(clicked()), this, SLOT(on_Button_SelecTriangle_clicked()));
     connect(ui->button_QuitSelectMode, SIGNAL(clicked()), this, SLOT(on_Button_QuitSelectMode_clicked()));
+    connect(ui->PixFrame->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(VerticalScrollBarChanged(int)));
+    connect(ui->PixFrame->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(HorizontalScrollBarChanged(int)));
+
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
 
 }
 
+void MainWindow::CarteMentale(){
+
+    auto *vertical = ui->PixFrame->verticalScrollBar();
+    auto *horizontal = ui->PixFrame->horizontalScrollBar();
+
+    int taille_maxV = vertical->maximum() + vertical->pageStep();
+    int taille_maxH = horizontal->maximum() + horizontal->pageStep();
+
+    int yb = vertical->value();
+    int ye = vertical->value() + vertical->pageStep();
+    int xb = horizontal->value();
+    int xe = horizontal->value() + horizontal->pageStep();
+
+    yb = yb*PixmapTabCarteMentale[activeScene].height()/taille_maxV;
+    ye = ye*PixmapTabCarteMentale[activeScene].height()/taille_maxV;
+    xb = xb*PixmapTabCarteMentale[activeScene].width()/taille_maxH;
+    xe = xe*PixmapTabCarteMentale[activeScene].width()/taille_maxH;
+
+    CarteMentaleYb = yb;
+    CarteMentaleYe = ye;
+    CarteMentaleXb = xb;
+    CarteMentaleXe = xe;
+    qDebug() << "Xb : " << CarteMentaleXb << "Yb : " << CarteMentaleYb << " Xe : " << CarteMentaleXe << "Ye : " << CarteMentaleYe;
+    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
+}
+
+void MainWindow::VerticalScrollBarChanged(int value){
+   CarteMentale();
+}
+
+void MainWindow::HorizontalScrollBarChanged(int value){
+   CarteMentale();
+}
+
+
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    if (sceneInit)
+    if (sceneInit && CTRLtouch)
     {
         QPoint num_pixels = event->angleDelta();
         zoom(num_pixels.y());
+        CarteMentale();
+        drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
     }
 }
 
@@ -100,9 +142,14 @@ void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
 void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenetre change
 {
     if(sceneInit){
+
         QMainWindow::resizeEvent(event);
+
         ui->PixFrame->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
-        ui->carteMentale->fitInView(sceneTab[activeScene].sceneRect(),Qt::KeepAspectRatio);
+        ui->carteMentale->fitInView(sceneTabCarteMentale[activeScene].sceneRect(),Qt::KeepAspectRatio);
+        on_actionZoomDefault_triggered();
+        drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
+        qDebug() << ui->scrollArea->verticalScrollBar()->value();
     }
 }
 
@@ -112,10 +159,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     switch(event->key()) {
             case (Qt::Key_Control):
-                selectionTouch = false;
+                CTRLtouch = false;
                 break;
             case (Qt::Key_Shift):
-                selectionShiftTouch = false;
+                SHIFTtouch = false;
                 break;
     }
 }
@@ -125,10 +172,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key()) {
             case (Qt::Key_Control):
-                selectionTouch = true;
+                CTRLtouch = true;
                 break;
             case (Qt::Key_Shift):
-                selectionShiftTouch = true;
+                SHIFTtouch = true;
                 break;
             case (Qt::Key_Enter) :
                 if(rognageWindowOpen){
@@ -184,10 +231,10 @@ void MainWindow::GetExplorerClick(){
     int end = SelectionMultiple.back();
     int begin = SelectionMultiple.front();
 
-    if(selectionTouch) // touche CTRL
+    if(CTRLtouch) // touche CTRL
         SelectionMultiple.push_back(ID);
 
-    else if(selectionShiftTouch){ // touche SHIFT
+    else if(SHIFTtouch){ // touche SHIFT
         if(end < ID)
             for(int i = end +1; i <= ID;i++)
                  SelectionMultiple.push_back(i);
@@ -215,8 +262,37 @@ void MainWindow::GetExplorerClick(){
     for(int i=0; i< ImageCount;i++)
         ExplorerGraphicsView[i]->fitInView(sceneTabExplorer[i].sceneRect(), Qt::KeepAspectRatio);
 
+    on_actionZoomDefault_triggered();
     SetMainPicture(&sceneTab[activeScene],  ui->PixFrame);
     SetMainPicture(&sceneTabCarteMentale[activeScene],  ui->carteMentale);
+
+    CarteMentaleXb = 0, CarteMentaleYb = 0;
+    CarteMentaleXe = PixmapTab[activeScene].width(), CarteMentaleYe =  PixmapTab[activeScene].height();
+    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);}
+
+void MainWindow::drawCarteMentale(double xb, double yb, double xe, double ye){
+
+    QPixmap tmp = PixmapTabCarteMentale[activeScene];
+    painterCarteMentale = new QPainter(&PixmapTabCarteMentale[activeScene]);
+
+    painterCarteMentale->setRenderHint(QPainter::Antialiasing);
+
+    //rectangle
+    QPen pen(Qt::white, PixmapTabCarteMentale[activeScene].width()/50, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painterCarteMentale->setPen(pen);
+    painterCarteMentale->drawRect(xb,yb,xe-xb,ye-yb);
+
+
+    QPen pen1(Qt::black, PixmapTabCarteMentale[activeScene].width()/200, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painterCarteMentale->setPen(pen1);
+    painterCarteMentale->drawRect(xb,yb,xe-xb,ye-yb);
+
+
+    sceneTabCarteMentale[activeScene].clear();
+    sceneTabCarteMentale[activeScene].addPixmap(PixmapTabCarteMentale[activeScene]);
+
+    delete painterCarteMentale;
+    PixmapTabCarteMentale[activeScene] = tmp;
 }
 
 void MainWindow::drawTriangleSelection(double xb, double yb, double xe, double ye){
@@ -232,6 +308,14 @@ void MainWindow::drawTriangleSelection(double xb, double yb, double xe, double y
     painter->drawLine(x1+(x2-x1)/2,y1,x1,y2);
     painter->drawLine(x1,y2,x2,y2);
     painter->drawLine(x2,y2,x1+(x2-x1)/2,y1);
+
+
+    QPen pen1(Qt::black, PixmapTab[activeScene].width()/300, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(pen1);
+    painter->drawLine(x1+(x2-x1)/2,y1,x1,y2);
+    painter->drawLine(x1,y2,x2,y2);
+    painter->drawLine(x2,y2,x1+(x2-x1)/2,y1);
+
 
     // poignets
     int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
@@ -254,6 +338,11 @@ void MainWindow::drawEllipseSelection(double xb, double yb, double xe, double ye
     painter->setPen(pen);
     painter->drawEllipse(xb,yb,xe-xb,ye-yb);
 
+
+    QPen pen1(Qt::black, PixmapTab[activeScene].width()/300, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(pen1);
+    painter->drawEllipse(xb,yb,xe-xb,ye-yb);
+
     // poignets
     int xB = ui->PixFrame->Xbegin; int yB = ui->PixFrame->Ybegin;
     int xE = ui->PixFrame->Xend; int yE = ui->PixFrame->Yend;
@@ -274,6 +363,10 @@ void MainWindow::drawRectSelection(double xb, double yb, double xe, double ye){
     //rectangle
     QPen pen(Qt::white, PixmapTab[activeScene].width()/100, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     painter->setPen(pen);
+    painter->drawRect(xb,yb,xe-xb,ye-yb);
+
+    QPen pen1(Qt::black, PixmapTab[activeScene].width()/300, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter->setPen(pen1);
     painter->drawRect(xb,yb,xe-xb,ye-yb);
 
     // Règle des tiers
@@ -382,10 +475,10 @@ void MainWindow::showTest(QGraphicsViewCustom ** t){
 
 bool MainWindow::event(QEvent *event)
 {
-    if(event->type() == QEvent::Paint)
+    /*if(event->type() == QEvent::Paint)
         if(sceneInit == 1)
             for(int i = 0; i<ImageCount ; i++)
-                 ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);
+                 ExplorerGraphicsView[i]->fitInView(sceneTab[i].sceneRect(),Qt::KeepAspectRatio);*/
     return QWidget::event(event);
 }
 
@@ -429,20 +522,26 @@ void MainWindow::zoom(double z_ratio)
         zoom_value += z_ratio/60;
         int id_pix = ui->PixFrame->getID();
         QPixmap pix = historiqueTab[ui->PixFrame->getID()].element;
-        PixmapTab[id_pix] = pix.scaled(pix.width()*zoom_value/100,pix.height()*zoom_value/100);
+        PixmapTab[id_pix] = pix.scaled(pix.width()*zoom_value/100, pix.height()*zoom_value/100);
         sceneTab[id_pix].clear();
         sceneTab[id_pix].addPixmap(PixmapTab[id_pix]);
         sceneTab[id_pix].setSceneRect(PixmapTab[id_pix].rect());
+        qDebug() << "Zoom : " << pix.width()*zoom_value/100 << pix.height()*zoom_value/100;
+        qDebug() << "\t taille graphicsView " << ui->PixFrame->width() <<  ui->PixFrame->height();
+        qDebug() << "\t zoom : " << zoom_value;
     }
+    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
 }
 
 void MainWindow::on_actionZoomUp_triggered()
 {
     zoom(600.0);
+    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
 }
 void MainWindow::on_actionZoomDown_triggered()
 {
     zoom(-600);
+    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
 }
 void MainWindow::on_actionZoomDefault_triggered()
 {
@@ -453,6 +552,8 @@ void MainWindow::on_actionZoomDefault_triggered()
     sceneTab[id_pix].clear();
     sceneTab[id_pix].addPixmap(PixmapTab[id_pix]);
     sceneTab[id_pix].setSceneRect(PixmapTab[id_pix].rect());
+    ui->PixFrame->fitInView(sceneTab[id_pix].sceneRect(),Qt::KeepAspectRatio);
+    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
 }
 
 void MainWindow::on_actionImporter_triggered()
@@ -506,7 +607,7 @@ void MainWindow::on_actionImporter_triggered()
         PixmapTabCarteMentale[i] = image;
 
         historiqueTab[i].on_image_added(&PixmapTab[i]);
-     }
+    }
     QGraphicsViewCustom **ExplorerPics  = new QGraphicsViewCustom*[uint(ImageCount)]; // création du tableau contenant les labels pour les images de 0+1 à i
     // chargement de l'image dans le Viewer
 
@@ -552,9 +653,12 @@ void MainWindow::on_actionImporter_triggered()
     sceneInit = 1;
     zoom_value = 100.0;
 
+    CarteMentaleXb = 0, CarteMentaleYb = 0;
+    CarteMentaleXe = PixmapTab[activeScene].width(), CarteMentaleYe =  PixmapTab[activeScene].height();
 
     ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
     ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
+    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
 //    colorFilter(QColor(150,0,0),150*3,QColor(0,0,150));
 }
 
