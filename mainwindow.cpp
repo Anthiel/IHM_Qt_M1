@@ -109,6 +109,7 @@ void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
     for(int i = 0; i< SelectionMultiple.size(); i++){
         bool* tab = selectByColor(to_select, thr*3);
         int id_pix = SelectionMultiple.at(i);
+        ui->PixFrame->setID(id_pix);
         int largeur = PixmapTab[id_pix].size().rwidth(),
             hauteur = PixmapTab[id_pix].size().rheight();
         QImage im = PixmapTab[id_pix].toImage();
@@ -245,7 +246,6 @@ void MainWindow::GetExplorerClick(){
     int ID = src->getID();
     int end = SelectionMultiple.back();
     int begin = SelectionMultiple.front();
-
     if(CTRLtouch) // touche CTRL
         SelectionMultiple.push_back(ID);
 
@@ -909,6 +909,8 @@ void MainWindow::on_actionRotation_90_triggered()
     for(int i = 0; i< SelectionMultiple.size(); i++){ // faire les actions sur toutes les images sélectionnées
 
         int IDpix = SelectionMultiple.at(i);
+
+        ui->PixFrame->setID(IDpix);
         QTransform transform;
         transform.rotate(90);
 
@@ -940,6 +942,7 @@ void MainWindow::on_actionRoation_90_triggered()
     for(int i = 0; i < SelectionMultiple.size(); i++){ // faire les actions sur toutes les images sélectionnées
 
         int IDpix = SelectionMultiple.at(i);
+        ui->PixFrame->setID(IDpix);
         QTransform transform;
         transform.rotate(-90);        
 
@@ -977,6 +980,7 @@ void MainWindow::on_actionRotation_triggered()
 
     for(int i = 0; i < SelectionMultiple.size(); i++){
         int IDpix = SelectionMultiple.at(i);
+        ui->PixFrame->setID(IDpix);
         update_historique(&PixmapTab[IDpix]);
     }
     for(int i=0; i< ImageCount;i++)
@@ -991,6 +995,7 @@ void MainWindow::on_actionNoir_et_Blanc_triggered()
     for(int i = 0; i < SelectionMultiple.size(); i++){ // faire les actions sur toutes les images sélectionnées
 
         int id_pix = SelectionMultiple.at(i);
+        ui->PixFrame->setID(id_pix);
         int largeur = PixmapTab[id_pix].size().rwidth(),
             hauteur = PixmapTab[id_pix].size().rheight();
         QImage im = PixmapTab[id_pix].toImage();
