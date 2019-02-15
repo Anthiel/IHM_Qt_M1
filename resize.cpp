@@ -36,7 +36,7 @@ void Resize::changeLargeur()
         ratio=true;
     }
     largeur = l;
-    qDebug() << __FUNCTION__ << l;
+    //qDebug() << __FUNCTION__ << l;
 }
 
 void Resize::changeHauteur()
@@ -52,7 +52,7 @@ void Resize::changeHauteur()
         ratio=true;
     }
     hauteur = h;
-    qDebug() << __FUNCTION__ << h;
+    //qDebug() << __FUNCTION__ << h;
 }
 
 void Resize::calculRatio()

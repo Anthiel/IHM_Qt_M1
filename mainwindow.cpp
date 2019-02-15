@@ -58,7 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->button_zoom_default, SIGNAL(clicked()),this,SLOT(on_actionZoomDefault_triggered()));
     ui->GraphicModeleExplorer->setStyleSheet("background: transparent; border: 0px");
     enableIfPic(false);
-
 }
 
 void MainWindow::CarteMentale(){
@@ -83,7 +82,6 @@ void MainWindow::CarteMentale(){
     CarteMentaleYe = ye;
     CarteMentaleXb = xb;
     CarteMentaleXe = xe;
-    qDebug() << "Xb : " << CarteMentaleXb << "Yb : " << CarteMentaleYb << " Xe : " << CarteMentaleXe << "Ye : " << CarteMentaleYe;
     drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
 }
 
@@ -95,7 +93,6 @@ void MainWindow::HorizontalScrollBarChanged(int value){
    CarteMentale();
 }
 
-
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
     if (sceneInit && CTRLtouch)
@@ -106,7 +103,6 @@ void MainWindow::wheelEvent(QWheelEvent *event)
         drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
     }
 }
-
 
 void MainWindow::colorFilter(QColor to_select, int thr, QColor colorize)
 {
@@ -164,8 +160,6 @@ void MainWindow::resizeEvent(QResizeEvent* event) // quand la taille de la fenet
     }
 }
 
-void MainWindow::showEvent(QShowEvent *) {}
-
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     switch(event->key()) {
@@ -177,7 +171,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
                 break;
     }
 }
-
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
@@ -201,10 +194,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 }
                 break;
     }
-
 }
-
-
 
 void MainWindow::enableIfPic(bool enable)
 {
@@ -236,7 +226,6 @@ void MainWindow::enableIfPic(bool enable)
     ui->button_SelecTriangle->setEnabled(enable);
     ui->button_QuitSelectMode->setEnabled(enable);
 
-
     ui->actionAnnuler->setEnabled(enable);
     ui->actionRetablir->setEnabled(enable);
 }
@@ -253,7 +242,6 @@ void MainWindow::SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom
 
 void MainWindow::GetExplorerClick(){
     QGraphicsViewCustom *src = qobject_cast<QGraphicsViewCustom *>(sender());
-    //if(activeScene == src->getID()) return;
     int ID = src->getID();
     int end = SelectionMultiple.back();
     int begin = SelectionMultiple.front();
@@ -295,7 +283,8 @@ void MainWindow::GetExplorerClick(){
 
     CarteMentaleXb = 0, CarteMentaleYb = 0;
     CarteMentaleXe = PixmapTab[activeScene].width(), CarteMentaleYe =  PixmapTab[activeScene].height();
-    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);}
+    drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
+}
 
 void MainWindow::drawCarteMentale(double xb, double yb, double xe, double ye){
 
@@ -378,7 +367,6 @@ void MainWindow::drawEllipseSelection(double xb, double yb, double xe, double ye
     int largeur = PixmapTab[activeScene].width()/50;
     painter->drawEllipse(xE-largeur/2,yE-largeur/2,largeur,largeur );
     painter->drawEllipse(xB-largeur/2,yB-largeur/2,largeur,largeur );
-
 }
 
 void MainWindow::drawRectSelection(double xb, double yb, double xe, double ye){
@@ -416,7 +404,6 @@ void MainWindow::drawRectSelection(double xb, double yb, double xe, double ye){
     int largeur = PixmapTab[activeScene].width()/50;
     painter->drawEllipse(xE-largeur/2,yE-largeur/2,largeur,largeur );
     painter->drawEllipse(xB-largeur/2,yB-largeur/2,largeur,largeur );
-
 }
 
 void MainWindow::updateSelectionPoint(int xb, int yb, int xe, int ye){
@@ -436,12 +423,13 @@ void MainWindow::PoignetUpdate(){
         updateSelectionPoint(xB, yB, x, y);
     else
         updateSelectionPoint(x, y, xE, yE);
-
 }
 
 
 void MainWindow::ClickOnFrame(){
+
     if(initImport == false) return;
+
     QPixmap tmp = PixmapTab[activeScene];
     painter = new QPainter(&PixmapTab[activeScene]);
 
@@ -483,21 +471,13 @@ void MainWindow::ClickOnFrame(){
                 PoignetUpdate();
             }
         }
-
     }
-
 
     sceneTab[activeScene].clear();
     sceneTab[activeScene].addPixmap(PixmapTab[activeScene]);
 
     delete painter;
     PixmapTab[activeScene] = tmp;
-
-}
-
-
-void MainWindow::showTest(QGraphicsViewCustom ** t){
-
 }
 
 bool MainWindow::event(QEvent *event)
@@ -553,9 +533,9 @@ void MainWindow::zoom(double z_ratio)
         sceneTab[id_pix].clear();
         sceneTab[id_pix].addPixmap(PixmapTab[id_pix]);
         sceneTab[id_pix].setSceneRect(PixmapTab[id_pix].rect());
-        qDebug() << "Zoom : " << pix.width()*zoom_value/100 << pix.height()*zoom_value/100;
-        qDebug() << "\t taille graphicsView " << ui->PixFrame->width() <<  ui->PixFrame->height();
-        qDebug() << "\t zoom : " << zoom_value;
+        //qDebug() << "Zoom : " << pix.width()*zoom_value/100 << pix.height()*zoom_value/100;
+        //qDebug() << "\t taille graphicsView " << ui->PixFrame->width() <<  ui->PixFrame->height();
+        //qDebug() << "\t zoom : " << zoom_value;
     }
     drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
 }
@@ -659,7 +639,6 @@ void MainWindow::on_actionImporter_triggered()
              ExplorerPics[i]->setStyleSheet("background: transparent; border: 2px solid blue");
         }
 
-
         connect(ExplorerPics[i], SIGNAL(mousePressed(const QPoint&)),this, SLOT(GetExplorerClick()));
 
         if(i>0)ui->Layout_Explorer->addSpacing(spacing); // séparateur
@@ -673,6 +652,7 @@ void MainWindow::on_actionImporter_triggered()
         ExplorerPics[i]->setID(i);
         ExplorerPics[i]->setAlignment(Qt::AlignCenter);
     }
+
     initImport = true;
     enableIfPic();
     delete [] ExplorerPics;
@@ -686,7 +666,6 @@ void MainWindow::on_actionImporter_triggered()
     ui->actionAnnuler->setEnabled(historiqueTab[ui->PixFrame->getID()].can_undo);
     ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
     drawCarteMentale(CarteMentaleXb, CarteMentaleYb, CarteMentaleXe,  CarteMentaleYe);
-//    colorFilter(QColor(150,0,0),150*3,QColor(0,0,150));
 }
 
 
@@ -714,7 +693,6 @@ void MainWindow::on_actionTout_supprimer_triggered()
     while(ui->Layout_Explorer->count()>1){
         ui->Layout_Explorer->removeWidget(ui->Layout_Explorer->itemAt(1)->widget());
     }
-   // ui->Layout_Explorer->addItem(new QSpacerItem(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding));
     for(int i = 0; i<ImageCount;i++)
         ExplorerGraphicsView[i] = nullptr;
 
@@ -736,7 +714,8 @@ void MainWindow::on_actionExporter_l_image_triggered()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                "/home/",
                                tr("Images (*.png *.bmp *.jpg)", "Images(*.jpg)"));
-     //On veut savoir le nombre d'images présentes
+
+    //On veut savoir le nombre d'images présentes
     if(fileName.count() <= 0) return;
 
     QFile file(fileName);
@@ -777,12 +756,10 @@ void MainWindow::update_historique(QPixmap *modification){
     ui->actionRetablir->setEnabled(historiqueTab[ui->PixFrame->getID()].can_redo);
 }
 
-
-
 void MainWindow::on_actionRedimensionner_triggered()
 {
     int IDpix = ui->PixFrame->getID();
-    qDebug() << __FUNCTION__ << "Old size" << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
+    //qDebug() << __FUNCTION__ << "Old size" << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
     int largeur = PixmapTab[IDpix].size().rwidth(),
         hauteur = PixmapTab[IDpix].size().rheight();
     Resize w_resize;
@@ -801,13 +778,13 @@ void MainWindow::on_actionRedimensionner_triggered()
 
     sceneTab[IDpix].setSceneRect(PixmapTab[IDpix].rect());
     ui->PixFrame->fitInView(sceneTab[IDpix].sceneRect(),Qt::KeepAspectRatio);
-    qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
+    //qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
 }
 
 void MainWindow::on_actionRogner_triggered()
 {
     int IDpix = ui->PixFrame->getID();
-    qDebug() << __FUNCTION__ << "Old size"  << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
+    //qDebug() << __FUNCTION__ << "Old size"  << PixmapTab[IDpix].size().rwidth() <<  PixmapTab[IDpix].size().rheight();
 
     int largeur = PixmapTab[IDpix].size().rwidth(),
         hauteur = PixmapTab[IDpix].size().rheight();
@@ -821,7 +798,7 @@ void MainWindow::on_actionRogner_triggered()
         hauteur = w_clip.getHauteur();
         int x0=w_clip.getX0();
         int y0=w_clip.getY0();
-        qDebug() << __FUNCTION__ << "clip to" <<x0 << y0<<largeur<<hauteur;
+        //qDebug() << __FUNCTION__ << "clip to" <<x0 << y0<<largeur<<hauteur;
 
         sceneTab[IDpix].clear();
         PixmapTab[IDpix] = PixmapTab[IDpix].copy(x0,y0,largeur,hauteur);
@@ -837,7 +814,7 @@ void MainWindow::on_actionRogner_triggered()
         sceneTabCarteMentale[IDpix].addPixmap(PixmapTabCarteMentale[IDpix]);
     }
 
-    qDebug() << "clip fermé, valeur openWindow" << w_clip.openWindow;
+    //qDebug() << "clip fermé, valeur openWindow" << w_clip.openWindow;
     if(w_clip.openWindow == true){
         rognageWindowOpen = true;
         w_clip.openWindow = false;
@@ -850,7 +827,7 @@ void MainWindow::on_actionRogner_triggered()
     ExplorerGraphicsView[activeScene]->fitInView(sceneTabExplorer[activeScene].sceneRect(), Qt::KeepAspectRatio);
     ui->carteMentale->fitInView(sceneTabCarteMentale[activeScene].sceneRect(),Qt::KeepAspectRatio);
 
-    qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
+    //qDebug() << __FUNCTION__ << "New size" << PixmapTab[IDpix].size().rwidth() << PixmapTab[IDpix].size().rheight();
 }
 
 void MainWindow::rognageGraphique(){
@@ -859,7 +836,7 @@ void MainWindow::rognageGraphique(){
     yb = ui->PixFrame->Ybegin;
     xe = ui->PixFrame->Xend;
     ye = ui->PixFrame->Yend;
-    qDebug() << __FUNCTION__ << "clip to" <<xb << yb << xe << ye;
+    //qDebug() << __FUNCTION__ << "clip to" <<xb << yb << xe << ye;
 
     sceneTab[activeScene].clear();
     sceneTab[activeScene].addPixmap(PixmapTab[activeScene].copy(xb,yb,xe-xb,ye-yb));
@@ -1018,7 +995,6 @@ void MainWindow::on_actionCouleurs_triggered()
 }
 
 
-
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (ImageCount > 0)
@@ -1058,19 +1034,19 @@ void MainWindow::on_Button_SelecRect_clicked()
 {
     Selection = true;
     SelecMode = 2;
-    qDebug() << "selection mode = " << SelecMode;
+    //qDebug() << "selection mode = " << SelecMode;
 }
 
 void MainWindow::on_Button_SelecEllipse_clicked()
 {
     Selection = true;
     SelecMode = 1;
-    qDebug() << "selection mode = " << SelecMode;
+    //qDebug() << "selection mode = " << SelecMode;
 }
 
 void MainWindow::on_Button_SelecTriangle_clicked()
 {
     Selection = true;
     SelecMode = 0;
-    qDebug() << "selection mode = " << SelecMode;
+    //qDebug() << "selection mode = " << SelecMode;
 }

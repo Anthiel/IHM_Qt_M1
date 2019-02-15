@@ -205,13 +205,10 @@ private:
      * \param enable (true dégrise et false grise)
      */
     void enableIfPic(bool enable = true);
-    //void SetMainPicture(const QPixmap *pixmap, QLabel *label);
     void SetMainPicture(QGraphicsSceneCustom *scene, QGraphicsViewCustom *PixFrame);
     void resizeEvent(QResizeEvent* event);
-    void showEvent(QShowEvent *);
     void changeEvent(QEvent *e);
     bool event(QEvent *event);
-    void showTest(QGraphicsViewCustom ** t);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void rognageGraphique();

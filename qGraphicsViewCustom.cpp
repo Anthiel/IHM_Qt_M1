@@ -8,7 +8,6 @@ QGraphicsViewCustom::QGraphicsViewCustom(QWidget *parent):
 
 }
 
-
 void QGraphicsViewCustom::mousePressEvent( QMouseEvent* ev )
 {
     const QPoint p = ev->pos();
@@ -32,7 +31,6 @@ void QGraphicsViewCustom::mouseMoveEvent( QMouseEvent* ev )
     if(!SelectCreer)
         Xend = f.x(), Yend = f.y();
     emit mousePressed( p );
-
 }
 
 void QGraphicsViewCustom::mouseReleaseEvent( QMouseEvent* ev )
@@ -46,7 +44,6 @@ void QGraphicsViewCustom::mouseReleaseEvent( QMouseEvent* ev )
     SelectCreer = true;
     emit mousePressed( p );
 }
-
 
 void QGraphicsViewCustom::setID(int i){
     ID = i;

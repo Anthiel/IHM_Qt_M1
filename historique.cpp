@@ -28,7 +28,7 @@ void Historique::set_actual_element(){
 }
 
 void Historique::on_actionUndo_triggered(){
-    qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
+    //qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
     if(can_undo){
         actual_element--;
         if (actual_element<0){
@@ -39,12 +39,12 @@ void Historique::on_actionUndo_triggered(){
         }
         can_redo=true;
         set_actual_element();
-        qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
+        //qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
     }
 }
 
 void Historique::on_actionRedo_triggered(){
-    qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
+    //qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
     if(can_redo){
         actual_element++;
         if(actual_element>=tabSize){
@@ -55,18 +55,18 @@ void Historique::on_actionRedo_triggered(){
         }
         can_undo=true;
         set_actual_element();
-        qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
+        //qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
     }
 }
 
 void Historique::on_newModification_added(QPixmap *modification){
-    qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
+    //qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
     actual_element=(actual_element+1)%tabSize;
     last_element=actual_element;
     if(actual_element==first_element){
         first_element=(first_element+1)%tabSize;
     }
-    qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
+    //qDebug() << __FUNCTION__ << first_element << actual_element << last_element;
     can_redo=false;
     can_undo=true;
     elements[actual_element] = *modification;

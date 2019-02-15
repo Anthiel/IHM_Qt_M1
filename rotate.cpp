@@ -66,11 +66,11 @@ int Rotate::getAngle(){
 
 void Rotate::on_buttonBox_rejected()
 {
-    qDebug() << "rejeted";
+    //qDebug() << "rejeted";
 }
 
 void Rotate::on_RotateSlider_valueChanged(int value)
 {
     angle = value;
-    qDebug() << "changement de valeur" << angle;
+    //qDebug() << "changement de valeur" << angle;
 }
